@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/bg_home_footer"
+        android:iconTint="@color/white"
+        android:title="@string/home" />
+    <!-- <item
+         android:title="@string/movie"
+         android:icon="@drawable/icon_movie"/>
+     <item
+         android:title="@string/live"
+         android:icon="@drawable/icon_tv"/>-->
+    <item
+        android:icon="@drawable/bg_more_gold"
+        android:title="CP Gold" />
+    <item
+        android:iconTint="@color/white"
+        android:icon="@drawable/bg_more_watchlist"
+        android:title="@string/watch_list" />
+
+    <item
+        android:icon="@drawable/bg_download_footer"
+        android:iconTint="@color/white"
+        android:title="@string/download" />
+    <!-- <item
+         android:icon="@drawable/ic_download"
+         android:title="@string/gold_cine_prime" />-->
+</menu>

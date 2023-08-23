@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+<!--    <com.potyvideo.library.AndExoPlayerView-->
+<!--        android:id="@+id/andExoPlayerView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:andexo_play_when_ready="true"-->
+<!--        app:andexo_resize_mode="Fit"-->
+<!--        app:andexo_show_controller="true"-->
+<!--        app:andexo_show_full_screen="true" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/des_back_iv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginHorizontal="10dp"-->
+<!--        android:layout_marginVertical="10dp"-->
+<!--        android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--        android:clickable="true"-->
+<!--        android:focusable="true"-->
+<!--        android:padding="5dp"-->
+<!--        android:scaleType="fitXY"-->
+<!--        android:src="@drawable/ic_action_back_arrow" />-->
+
+
+</RelativeLayout>

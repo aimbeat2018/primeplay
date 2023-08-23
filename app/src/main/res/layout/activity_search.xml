@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="ott.primeplay.SearchActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/app_bar_layout" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:scrollingCache="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/spacing_mlarge"
+            android:paddingTop="@dimen/spacing_mlarge"
+            android:paddingRight="@dimen/spacing_mlarge"
+            android:paddingBottom="@dimen/spacing_mlarge">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:orientation="horizontal"
+                android:background="@drawable/edit_text_round_bg">
+
+                <EditText
+                    android:id="@+id/search_text"
+                    style="@style/EditText.Flat.Grey"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:hint="Search  Web Series,Movies &amp; Videos"
+                    android:layout_weight="1"
+                    android:minHeight="40dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:id="@+id/img_search"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/ic_search_grey"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="Type"
+                android:textSize="16sp" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                app:flexWrap="wrap"
+                app:justifyContent="flex_start">
+
+
+                <Button
+                    android:id="@+id/btn_flex_1"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="btToggleClick"
+                    android:text="@string/movie"
+                    android:textSize="12sp"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/btn_flex_2"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="btToggleClick"
+                    android:text="@string/tv_series"
+                    android:textSize="12sp"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/btn_flex_3"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="btToggleClick"
+                    android:text="@string/live_tv"
+                    android:textAllCaps="false"
+                    android:visibility="gone" />
+
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+            <RelativeLayout
+                android:id="@+id/genre_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/genreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/genre"
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/genre_spinner"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/edit_text_round_bg_overlay_light"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_white_24dp"
+                    android:focusable="false"
+                    android:paddingLeft="@dimen/spacing_middle"
+                    android:paddingRight="@dimen/spacing_middle"
+                    android:text="@string/all_genres"
+                    android:textColor="@android:color/white" />
+            </RelativeLayout>
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:scrollbars="vertical"
+                android:scrollingCache="true" />
+
+            
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/view_more"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="View More"
+                android:layout_gravity="right"
+                android:textSize="18dp"
+                android:textAllCaps="false"
+                android:textColor="@color/red" />
+
+
+
+            <RelativeLayout
+
+                android:id="@+id/country_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/countrytv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:text="@string/lang"
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/country_spinner"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/edit_text_round_bg_overlay_light"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_white_24dp"
+                    android:focusable="false"
+                    android:paddingLeft="@dimen/spacing_middle"
+                    android:paddingRight="@dimen/spacing_middle"
+                    android:text="@string/all_language"
+                    android:textColor="@android:color/white" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/tv_category_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/tv_category"
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/tv_category_spinner"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/edit_text_round_bg_overlay_light"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_white_24dp"
+                    android:focusable="false"
+                    android:paddingLeft="@dimen/spacing_middle"
+                    android:paddingRight="@dimen/spacing_middle"
+                    android:text="@string/all_categories"
+                    android:textColor="@android:color/white" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/yearRangeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/rangeTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:text="@string/year_range"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/range_picker_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ott.primeplay.widget.RangeSeekBar
+                    android:id="@+id/range_seek_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:bar_color="@color/grey_20"
+                    app:bar_highlight_color="@color/colorPrimary"
+                    app:data_type="_long"
+                    app:left_thumb_color="@color/colorPrimary"
+                    app:left_thumb_color_pressed="@color/colorPrimaryDark"
+                    app:right_thumb_color="@color/colorPrimary"
+                    app:right_thumb_color_pressed="@color/colorPrimaryDark" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/year_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/year_range_start"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/year_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/year_range_end"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_mlarge"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/clear_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rect_grey_outline"
+                    android:backgroundTint="@color/colorAccent"
+                    android:text="@string/cancel"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false" />
+
+                <View
+                    android:layout_width="@dimen/spacing_middle"
+                    android:layout_height="0dp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/search_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_rect_grey_outline"
+                    android:backgroundTint="@color/colorAccent"
+                    android:text="@string/search"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_recentaly"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:text="Recentally Searched"
+                    android:textSize="16dp"
+                    android:textColor="@color/white"
+                    android:textAllCaps="true" />
+
+                <View
+                    android:layout_width="@dimen/spacing_middle"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    android:visibility="invisible"
+                    android:id="@+id/tv_clearall"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="CLEAR ALL"
+                    android:gravity="end"
+                    android:textSize="16dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/red" />
+
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewhistory"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+
+
+            <!--  <androidx.recyclerview.widget.RecyclerView
+                  android:id="@+id/recyclerViewhistory"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="5dp"
+                  android:scrollbars="vertical"
+                  android:scrollingCache="true" />
+  -->
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

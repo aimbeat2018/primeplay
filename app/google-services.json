@@ -1,0 +1,96 @@
+{
+  "project_info": {
+    "project_number": "818551861070",
+    "firebase_url": "https://primeplay-9b531-default-rtdb.firebaseio.com",
+    "project_id": "primeplay-9b531",
+    "storage_bucket": "primeplay-9b531.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818551861070:android:e74f868f2173c27dd6381f",
+        "android_client_info": {
+          "package_name": "ott.primeplay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818551861070-20hbkhb81ds42d8cbchjn8ca4la4718c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ott.primeplay",
+            "certificate_hash": "86a04e547e0fea770b3258faed0b4273e88693d9"
+          }
+        },
+        {
+          "client_id": "818551861070-b6e6i28qkkll4vnf5k6br0u0i3jhpikr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ott.primeplay",
+            "certificate_hash": "517325cd9be6987307be377bfead4f9c20b5643b"
+          }
+        },
+        {
+          "client_id": "818551861070-d973np2u013jn6n8okhgqqdturvkv1oj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ott.primeplay",
+            "certificate_hash": "eb64b989120154c95bd383c765071912e06f80b4"
+          }
+        },
+        {
+          "client_id": "818551861070-ej6vf1r7u0i1h6m4bjl9kaln5na5mail.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ott.primeplay",
+            "certificate_hash": "565d0b839b5b3a8d02a9f792b871e8f17f12dea1"
+          }
+        },
+        {
+          "client_id": "818551861070-f13vqto41hfelk5ju16nda51pvp24kab.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ott.primeplay",
+            "certificate_hash": "532404527a0948a8c4e955cd7b689119aaee30fc"
+          }
+        },
+        {
+          "client_id": "818551861070-ofrgo8mb5ofl9q39boue9blobh0l0u66.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ott.primeplay",
+            "certificate_hash": "2bf7f618aaba17248369918893042440ff39671b"
+          }
+        },
+        {
+          "client_id": "818551861070-9nqho6iosk1e5stpearokoa22b05iudi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP9CEDAP0o89BOyj0-_3RTRWvEGxa2tBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818551861070-7bbgu61en6c1sok3f6j580u84a3jae9j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "818551861070-f56loo729mnegmmhgf3mq0575b5l44sm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.primeplay",
+                "app_store_id": "1644092897"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ctx=".MainActivity">
+    <!--    android:id="@+id/drawer_layout"-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+    <!-- <com.google.android.material.navigation.NavigationView
+         android:id="@+id/nav_view"
+         android:layout_width="wrap_content"
+         android:layout_height="match_parent"
+         android:layout_gravity="start"
+         android:fitsSystemWindows="true">
+
+         <androidx.core.widget.NestedScrollView
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:orientation="vertical">
+
+                 <LinearLayout
+                     android:id="@+id/nav_head_layout"
+                     android:layout_width="match_parent"
+                     android:layout_height="130dp"
+                     android:background="@drawable/bg_gradient_nav_bg"
+                     android:gravity="bottom"
+                     android:orientation="vertical">
+
+                     <ImageView
+                         android:layout_width="110dp"
+                         android:layout_height="80dp"
+                         android:layout_gravity="center"
+                         android:padding="5dp"
+                         android:src="@drawable/logo" />
+
+                     <TextView
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_marginStart="10dp"
+                         android:layout_marginBottom="10dp"
+                         android:gravity="center_horizontal"
+                         android:text="@string/app_title"
+                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                         android:textColor="@color/white"
+                         android:textSize="18sp" />
+
+                 </LinearLayout>
+                 &lt;!&ndash;<include layout="@layout/navigation_header" />&ndash;&gt;
+
+                 <View
+                     android:layout_width="match_parent"
+                     android:layout_height="1px"
+                     android:background="@color/grey_transparent" />
+
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:id="@+id/recyclerView"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:nestedScrollingEnabled="false" />
+
+                 <View
+                     android:layout_width="match_parent"
+                     android:layout_height="1px"
+                     android:background="@color/grey_transparent" />
+
+                 <RelativeLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="8dp"
+                     android:gravity="center_vertical"
+                     android:padding="10dp">
+
+                     <ImageView
+                         android:id="@+id/image"
+                         android:layout_width="20dp"
+                         android:layout_height="20dp"
+                         android:layout_marginStart="15dp"
+                         android:gravity="center_vertical"
+                         app:srcCompat="@drawable/ic_brightness_3_black_24dp" />
+
+                     <TextView
+                         android:id="@+id/name"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginStart="20dp"
+                         android:layout_toEndOf="@+id/image"
+                         android:gravity="start"
+                         android:text="@string/dark_mode"
+                         android:textColor="@color/default_text"
+                         android:textSize="12sp"
+                         android:textStyle="bold" />
+
+                     <Switch
+                         android:id="@+id/theme_switch"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_alignParentEnd="true"
+                         android:gravity="center_vertical" />
+
+
+                 </RelativeLayout>
+
+             </LinearLayout>
+
+         </androidx.core.widget.NestedScrollView>
+
+     </com.google.android.material.navigation.NavigationView>-->
+
+
+</LinearLayout>
