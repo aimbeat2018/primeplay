@@ -204,6 +204,7 @@ public class LoginActivity extends AppCompatActivity {
 
         card_facebook.setOnClickListener(v -> facebookSignIn());
 
+
         googleAuthButton.setOnClickListener(v -> googleSignIn());
 
         deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -485,7 +486,7 @@ public class LoginActivity extends AppCompatActivity {
             }
     );
 
-    ActivityResultLauncher<Intent> facebookAuthResultListener = registerForActivityResult(
+    ActivityResultLauncher<Intent>  facebookAuthResultListener = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -535,6 +536,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
     );
+
 
     ActivityResultLauncher<Intent> googleAuthResultListener = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -758,7 +760,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void changeDevice() {
@@ -828,6 +829,7 @@ public class LoginActivity extends AppCompatActivity {
             mobile = etEmail.getText().toString();
             email = "";
         }
+
 
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
         LoginApi api = retrofit.create(LoginApi.class);
@@ -1124,6 +1126,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+
     private void sendFacebookDataToServer(String username, String photoUrl, String email) {
         progressBar.setVisibility(View.VISIBLE);
         if (email == null) {
@@ -1189,6 +1192,7 @@ public class LoginActivity extends AppCompatActivity {
                             email = "";
                         }
 
+
                         Constant.googleEmail = email;
                         Constant.googleName = username;
 
@@ -1202,11 +1206,13 @@ public class LoginActivity extends AppCompatActivity {
 
                         }
 
+
                         progressBar.setVisibility(View.GONE);
                     }
 
                 }
             }
+
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {

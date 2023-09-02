@@ -35,7 +35,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
             price;
     CardView card_paytm,
             card_payuMoney,
-            card_cashfree, card_razorpay, card_gpay;
+            card_cashfree, card_razorpay, card_gpay,card_autoupi;
     ImageView close_iv;
     private Package aPackage;
     CleverTapAPI clevertapPaymentStartedInstance,clevertapscreenviewd;
@@ -63,6 +63,9 @@ public class FinalPaymentActivity extends AppCompatActivity {
         card_cashfree = findViewById(R.id.card_cashfree);
         card_razorpay = findViewById(R.id.card_razorpay);
         card_gpay = findViewById(R.id.card_gpay);
+        card_autoupi = findViewById(R.id.card_autoupi);
+
+
 
         package_name.setText(aPackage.getName());
         package_validity.setText(aPackage.getDay() + " Days");
@@ -70,7 +73,55 @@ public class FinalPaymentActivity extends AppCompatActivity {
         price.setText("\u20B9 " + aPackage.getPrice());
     }
 
+
     public void onClick() {
+/*
+
+        card_autoupi.setOnClickListener(view -> {
+
+            Intent intent = new Intent(FinalPaymentActivity.this, AutoPaymentUpi.class);
+
+            intent.putExtra("package", aPackage);
+            intent.putExtra("currency", "currency");
+            intent.putExtra("from", "cashfree");
+
+            HashMap<String, Object> paymentstartedAction= new HashMap<String, Object>();
+            paymentstartedAction.put("payment mode","Cash Free");
+            paymentstartedAction.put("Selected Plan",aPackage.getName());
+            paymentstartedAction.put("Amount",aPackage.getPrice());
+            paymentstartedAction.put("Days",aPackage.getDay());
+
+            startActivity(intent);
+
+        });
+*/
+
+
+        card_cashfree.setOnClickListener(view -> {
+            Intent intent = new Intent(FinalPaymentActivity.this, CashFreePaymentActivity.class);
+            intent.putExtra("package", aPackage);
+            intent.putExtra("currency", "currency");
+            intent.putExtra("from", "cashfree");
+
+            HashMap<String, Object> paymentstartedAction= new HashMap<String, Object>();
+            paymentstartedAction.put("payment mode","Cash Free");
+            paymentstartedAction.put("Selected Plan",aPackage.getName());
+            paymentstartedAction.put("Amount",aPackage.getPrice());
+            paymentstartedAction.put("Days",aPackage.getDay());
+
+
+            clevertapPaymentStartedInstance.pushEvent("Payment Started", paymentstartedAction);
+
+            HashMap<String, Object> screenViewedAction = new HashMap<String, Object>();
+            screenViewedAction.put("Screen Name", "cashFreePayment");
+            clevertapscreenviewd.pushEvent("Screen Viewed", screenViewedAction);
+
+
+            startActivity(intent);
+
+        });
+
+
         card_payuMoney.setOnClickListener(view -> {
             Intent intent = new Intent(FinalPaymentActivity.this, RazorPayActivity.class);
             intent.putExtra("package", aPackage);
@@ -88,29 +139,6 @@ public class FinalPaymentActivity extends AppCompatActivity {
 
         });
 
-        card_cashfree.setOnClickListener(view -> {
-            Intent intent = new Intent(FinalPaymentActivity.this, CashFreePaymentActivity.class);
-            intent.putExtra("package", aPackage);
-            intent.putExtra("currency", "currency");
-            intent.putExtra("from", "cashfree");
-
-
-            HashMap<String, Object> paymentstartedAction= new HashMap<String, Object>();
-            paymentstartedAction.put("payment mode","Cash Free");
-            paymentstartedAction.put("Selected Plan",aPackage.getName());
-            paymentstartedAction.put("Amount",aPackage.getPrice());
-            paymentstartedAction.put("Days",aPackage.getDay());
-            clevertapPaymentStartedInstance.pushEvent("Payment Started", paymentstartedAction);
-
-
-            HashMap<String, Object> screenViewedAction = new HashMap<String, Object>();
-            screenViewedAction.put("Screen Name", "cashFreePayment");
-            clevertapscreenviewd.pushEvent("Screen Viewed", screenViewedAction);
-
-
-            startActivity(intent);
-
-        });
 
         card_gpay.setOnClickListener(new View.OnClickListener() {
             @Override

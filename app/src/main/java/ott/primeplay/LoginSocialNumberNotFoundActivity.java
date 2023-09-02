@@ -185,6 +185,8 @@ public class LoginSocialNumberNotFoundActivity extends AppCompatActivity {
 
         });
 
+        
+
         tvSignUp.setOnClickListener(v -> startActivity(new Intent(LoginSocialNumberNotFoundActivity.this, SignUpActivity.class)));
 
         card_google.setOnClickListener(v -> googleSignIn());

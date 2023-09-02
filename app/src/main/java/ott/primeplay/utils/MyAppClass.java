@@ -113,7 +113,6 @@ public class MyAppClass extends Application {
 //        MultiDex.install(this);
     }
 
-
     @Override
     public void onCreate() {
 
@@ -123,7 +122,6 @@ public class MyAppClass extends Application {
         mContext = this;
         userAgent = Util.getUserAgent(this, "prime play");
         FacebookSdk.sdkInitialize(mContext);
-
 
         // Initialize the Branch objectfc
         Branch.getAutoInstance(this);
@@ -165,7 +163,6 @@ public class MyAppClass extends Application {
         if (userId != null && !userId.equals("")) {
             updateActiveStatus(userId);
         }
-
 
         // Initialize the Audience Network SDK
 //        AudienceNetworkAds.initialize(this);

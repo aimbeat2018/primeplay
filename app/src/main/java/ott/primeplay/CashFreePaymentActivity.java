@@ -135,7 +135,6 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
         // getToken(order_id, "1");
 
         clevertapChergedInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
-
     }
 
     @Override
@@ -155,6 +154,7 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
 
         new Handler().postDelayed(() -> finish(), 1000);
     }
+
 
     public void doDropCheckoutPayment() {
         if (order_id.equals("ORDER_ID") || TextUtils.isEmpty(order_id)) {
@@ -198,7 +198,6 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
             exception.printStackTrace();
         }
     }
-
 
 /*    public void getToken(final String orderId, final String amount) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "https://primeplay.co.in/webworld_backoffice/rest-api/v130/cashfree"*/
@@ -382,7 +381,6 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
     }
 
 
-
     public void saveChargeData(String token, String from) {
         progressBar.setVisibility(View.VISIBLE);
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
@@ -449,7 +447,7 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
 
                             //Appflayer
                             AppsFlyerLib.getInstance().logEvent(getApplicationContext(),
-                                    "Charged" , paymentAction);
+                                    "Charged", paymentAction);
 
                         }
                     } catch (Exception e) {

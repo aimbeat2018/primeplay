@@ -19,10 +19,10 @@
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
-
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
         tools:node="remove" />
+
 
     <queries>
         <intent>
@@ -37,7 +37,9 @@
         <package android:name="com.google.android.apps.nbu.paisa.user" />
     </queries>
 
-
+    <queries>
+        <package android:name="com.snapchat.android" />
+    </queries>
     <application
         android:name=".utils.MyAppClass"
         android:allowBackup="false"
@@ -52,14 +54,22 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:usesCleartextTraffic,android:theme,android:allowBackup">
         <activity
+            android:name=".AutoPaymentUpi"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".reels.ReelsListActivity"
             android:exported="false">
-            <!--            <action android:name="android.intent.action.VIEW"/>-->
-            <!--            <category android:name="android.intent.category.DEFAULT"/>-->
-            <!--            <category android:name="android.intent.category.BROWSABLE"/>-->
-            <!--            <data-->
-            <!--                android:host="primeplay.page.link"-->
-            <!--                android:scheme="https"/>-->
+
+            <!-- <action android:name="android.intent.action.VIEW"/> -->
+            <!-- <category android:name="android.intent.category.DEFAULT"/> -->
+            <!-- <category android:name="android.intent.category.BROWSABLE"/> -->
+            <!-- <data -->
+            <!-- android:host="primeplay.page.link" -->
+            <!-- android:scheme="https"/> -->
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -102,7 +112,6 @@
             android:name=".LoginViaMobileActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".OtpActivity"
             android:exported="false"
@@ -119,8 +128,6 @@
             android:name=".more.ApplyPromoCodeActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
-
         <activity
             android:name=".more.HelpActivity"
             android:exported="false"
@@ -129,14 +136,10 @@
             android:name=".more.MyTransactionActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".MoreActivity"
             android:exported="false"
-            android:screenOrientation="portrait">
-
-        </activity>
-
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".RazorPayActivity"
             android:screenOrientation="portrait" />
@@ -185,6 +188,10 @@
             android:name="com.razorpay.ApiKey"
             android:value="rzp_live_eHkQKgddhVS9ub"/>
         -->
+
+<!--snapchat-->
+        <meta-data android:name="com.snap.kit.clientId"
+            android:value="9bb58d92-9eb6-485c-859d-9aa6854e04fe" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -205,11 +212,7 @@
         <activity
             android:name=".TermsActivity"
             android:screenOrientation="fullSensor"
-            android:theme="@style/AppTheme.Nobar">
-
-
-        </activity>
-
+            android:theme="@style/AppTheme.Nobar"></activity>
         <activity
             android:name=".ReplyActivity"
             android:label="@string/title_activity_reply"
@@ -245,8 +248,7 @@
             android:label="@string/title_activity_details"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"></activity>
-
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".GoldDetailsActivity"
             android:configChanges="screenLayout|screenSize|orientation"
@@ -254,18 +256,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" /> <!-- android:configChanges="screenLayout|screenSize|orientation" -->
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Nobar"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Nobar" />
-
         <activity
             android:name=".SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -273,9 +272,9 @@
             android:launchMode="singleTask"
             android:noHistory="true"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -284,6 +283,7 @@
                 <data
                     android:host="open"
                     android:scheme="ott.primeplay" />
+
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -300,31 +300,26 @@
                 <data
                     android:host="primeplay.app.link"
                     android:scheme="https" />
-                <!--                <data-->
-                <!--                    android:host="primeplay.test-app.link"-->
-                <!--                    android:scheme="https" />-->
+                <!-- <data -->
+                <!-- android:host="primeplay.test-app.link" -->
+                <!-- android:scheme="https" /> -->
                 <data
                     android:host="primeplay-alternate.app.link"
                     android:scheme="https" />
-                <!--                <data-->
-                <!--                    android:host="primeplay-alternate.test-app.link"-->
-                <!--                    android:scheme="https" />-->
+                <!-- <data -->
+                <!-- android:host="primeplay-alternate.test-app.link" -->
+                <!-- android:scheme="https" /> -->
             </intent-filter>
-        </activity>
-
-
-        <!-- Branch init -->
+        </activity> <!-- Branch init -->
         <meta-data
             android:name="io.branch.sdk.BranchKey"
-            android:value="key_live_dugmRJVBQCu3M55tr663UcliwBnOBKte" />
-        <!--        <meta-data-->
-        <!--            android:name="io.branch.sdk.BranchKey.test"-->
-        <!--            android:value="key_test_htkeKSJuGtD0L26zt30XKhpdzBhTFNDy" />-->
+            android:value="key_live_dugmRJVBQCu3M55tr663UcliwBnOBKte" /> <!-- <meta-data -->
+        <!-- android:name="io.branch.sdk.BranchKey.test" -->
+        <!-- android:value="key_test_htkeKSJuGtD0L26zt30XKhpdzBhTFNDy" /> -->
         <!-- Branch testing (TestMode "true" to simulate fresh installs on dev environment) -->
         <meta-data
             android:name="io.branch.sdk.TestMode"
             android:value="false" />
-
 
         <activity
             android:name=".ItemMovieActivity"
@@ -359,43 +354,26 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ppapplogo" />
-
-        <!--        Test mode-->
+            android:resource="@drawable/ppapplogo" /> <!-- Test mode -->
         <meta-data
             android:name="CLEVERTAP_ACCOUNT_ID"
             android:value="W6K-K4K-786Z" />
-        <!--
-         //   android:value="TEST-Z6K-K4K-786Z" />
--->
-
-
+        <!--          //   android:value="TEST-Z6K-K4K-786Z" /> -->
         <meta-data
             android:name="CLEVERTAP_TOKEN"
             android:value="343-360" />
-
-        <!--
-            android:value="TEST-343-361" />
--->
-
+        <!--             android:value="TEST-343-361" /> -->
         <meta-data
             android:name="CLEVERTAP_REGION"
             android:value="in1" />
-
-        <!--
-       clevertap pull notofication and enable toggle button of pull notofication on clevertap dashbord-setting-setup-push notification
--->
+        <!--        clevertap pull notofication and enable toggle button of pull notofication on clevertap dashbord-setting-setup-push notification -->
         <meta-data
             android:name="CLEVERTAP_BACKGROUND_SYNC"
             android:value="1" />
-
-        <!--
-        clevertap Exclude in-app from Android Activity
--->
+        <!--         clevertap Exclude in-app from Android Activity -->
         <meta-data
             android:name="CLEVERTAP_INAPP_EXCLUDE"
             android:value="SplashScreenActivity" />
-
         <!--
  Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.
@@ -413,7 +391,6 @@
             </intent-filter>
         </service>
 
-
         <receiver
             android:name=".firebaseservice.BootReceiver"
             android:enabled="true"
@@ -422,8 +399,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver> <!-- Google pay -->
-
-
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />

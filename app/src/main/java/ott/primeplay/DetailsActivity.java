@@ -475,6 +475,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
             return;
         }
 
+
         db = new DatabaseHelper(DetailsActivity.this);
 
         mAudioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
@@ -488,7 +489,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         initViews();
-
 
         if (isDark) {
             tvTopLayout.setBackgroundColor(getResources().getColor(R.color.black_window_light));
@@ -539,8 +539,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                 }
             }
         });
-
-
 
 
         categoryType = getIntent().getStringExtra("vType");
