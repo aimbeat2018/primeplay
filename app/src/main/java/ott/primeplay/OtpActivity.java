@@ -71,7 +71,7 @@ public class OtpActivity extends AppCompatActivity {
     private PhoneAuthProvider.ForceResendingToken verificationToken;
     OtpView otp_view, otp_viewIndia;
     String userEnterOtp = "";
-    CleverTapAPI clevertapDefaultInstance,clevertapscreenviewd;
+    CleverTapAPI clevertapDefaultInstance, clevertapscreenviewd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,7 @@ public class OtpActivity extends AppCompatActivity {
         deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         txt_otp.setText("Enter OTP sent on your registered mobile number");
 
-        Log.d("OTP:", intentOtp);
+//        Log.d("OTP:", intentOtp);
 
         if (!countryCode.contains("91")) {
             otp_view.setVisibility(View.VISIBLE);
@@ -482,7 +482,6 @@ public class OtpActivity extends AppCompatActivity {
         });
 
     }
-
 
 
     public void addUserToCleverTap(String name, String id, String email, String mobile) {

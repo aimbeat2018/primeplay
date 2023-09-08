@@ -76,9 +76,9 @@ public class SignUpActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     String strDob = "";
     String deviceId = "";
-    String firebaseToken = "", mobileStr = "", countryCode = "";
+    String firebaseToken = "", mobileStr = "", countryCode = "91";
     TextView tv_login, txtcountryCode;
-    CleverTapAPI clevertapDefaultInstance,clevertapnewRegisterInstance;
+    CleverTapAPI clevertapDefaultInstance, clevertapnewRegisterInstance;
 //    String mobile = "";
 
 
@@ -121,6 +121,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         mobileStr = getIntent().getStringExtra("mobile");
         countryCode = getIntent().getStringExtra("countryCode");
+
+        if (countryCode == null || countryCode.equals("")) {
+            countryCode = "91";
+        }
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Please wait");
@@ -190,7 +194,7 @@ public class SignUpActivity extends AppCompatActivity {
                             Log.e("AppConstants", "onComplete: new Token got: " + firebaseToken);
 
                             //clevertap
-                            clevertapDefaultInstance.pushFcmRegistrationId(firebaseToken,true);
+                            clevertapDefaultInstance.pushFcmRegistrationId(firebaseToken, true);
                             String email = etEmail.getText().toString();
                             String pass = etPass.getText().toString();
                             String name = etName.getText().toString();
@@ -280,28 +284,27 @@ public class SignUpActivity extends AppCompatActivity {
     }*/
 
     public void addUserToCleverTap(String name, String id, String email, String mobile) {
-      HashMap<String, Object> profileUpdate = new HashMap<String, Object>();
-       profileUpdate.put("Name", name);    // String
-      profileUpdate.put("Identity", id);      // String or number
-       profileUpdate.put("Email", email); // Email address of the user
-      profileUpdate.put("Phone", mobile);   // Phone (with the country code, starting with +)
-      // profileUpdate.put("Gender", "M");             // Can be either M or F
-      // profileUpdate.put("DOB", new Date());         // Date of Birth. Set the Date object to the appropriate value first
+        HashMap<String, Object> profileUpdate = new HashMap<String, Object>();
+        profileUpdate.put("Name", name);    // String
+        profileUpdate.put("Identity", id);      // String or number
+        profileUpdate.put("Email", email); // Email address of the user
+        profileUpdate.put("Phone", mobile);   // Phone (with the country code, starting with +)
+        // profileUpdate.put("Gender", "M");             // Can be either M or F
+        // profileUpdate.put("DOB", new Date());         // Date of Birth. Set the Date object to the appropriate value first
 // optional fields. controls whether the user will be sent email, push etc.
-       profileUpdate.put("MSG-email", true);        // Disable email notifications
-       profileUpdate.put("MSG-push", true);          // Enable push notifications
-       profileUpdate.put("MSG-sms", true);          // Disable SMS notifications
+        profileUpdate.put("MSG-email", true);        // Disable email notifications
+        profileUpdate.put("MSG-push", true);          // Enable push notifications
+        profileUpdate.put("MSG-sms", true);          // Disable SMS notifications
         profileUpdate.put("MSG-whatsapp", true);      // Enable WhatsApp notifications
-     // ArrayList<String> stuff = new ArrayList<String>();
-     //  stuff.add("bag");
-      // stuff.add("shoes");
-      //  profileUpdate.put("MyStuff", stuff);                        //ArrayList of Strings
-      //  String[] otherStuff = {"Jeans", "Perfume"};
-     //  profileUpdate.put("MyStuff", otherStuff);                   //String Array
+        // ArrayList<String> stuff = new ArrayList<String>();
+        //  stuff.add("bag");
+        // stuff.add("shoes");
+        //  profileUpdate.put("MyStuff", stuff);                        //ArrayList of Strings
+        //  String[] otherStuff = {"Jeans", "Perfume"};
+        //  profileUpdate.put("MyStuff", otherStuff);                   //String Array
 
 
-
-       clevertapDefaultInstance.onUserLogin(profileUpdate);
+        clevertapDefaultInstance.onUserLogin(profileUpdate);
 
         HashMap<String, Object> newregisteruseraction = new HashMap<String, Object>();
         newregisteruseraction.put("Name", name);    // String
@@ -333,18 +336,17 @@ public class SignUpActivity extends AppCompatActivity {
 
                     String ccode = user.getCountry_code();
                     if (ccode == null) {
-                       addUserToCleverTap(user.getName(), user.getUserId(), user.getEmail(), "+91" + user.getPhone());
-                       addUserToAppsflyer(user.getName(), user.getUserId(), user.getEmail(), "+91" + user.getPhone());
-                   } else {
+                        addUserToCleverTap(user.getName(), user.getUserId(), user.getEmail(), "+91" + user.getPhone());
+                        addUserToAppsflyer(user.getName(), user.getUserId(), user.getEmail(), "+91" + user.getPhone());
+                    } else {
                         if (user.getPhone().contains(ccode)) {
                             addUserToCleverTap(user.getName(), user.getUserId(), user.getEmail(), user.getPhone());
                             addUserToAppsflyer(user.getName(), user.getUserId(), user.getEmail(), user.getPhone());
-                        }
-                       else {
+                        } else {
                             addUserToCleverTap(user.getName(), user.getUserId(), user.getEmail(), ccode + user.getPhone());
                             addUserToAppsflyer(user.getName(), user.getUserId(), user.getEmail(), ccode + user.getPhone());
                         }
-                  }
+                    }
 
                 } else if (user.getStatus().equals("error")) {
                     new ToastMsg(SignUpActivity.this).toastIconError(user.getData());
@@ -374,7 +376,7 @@ public class SignUpActivity extends AppCompatActivity {
         aFnewregisteruseraction.put("Device Type", "Android");
 
         AppsFlyerLib.getInstance().logEvent(getApplicationContext(),
-                "New Register user" , aFnewregisteruseraction);
+                "New Register user", aFnewregisteruseraction);
 
     }
 
