@@ -475,7 +475,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(USER_COLUMN_EMAIL, user.getEmail());
         contentValues.put(USER_COLUMN_PHONE, user.getPhone());
         contentValues.put(USER_COLUMN_STATUS, user.getStatus());
-        contentValues.put(USER_COLUMN_PROFILE_IMAGE_URL,"");
+        contentValues.put(USER_COLUMN_PROFILE_IMAGE_URL, "");
         contentValues.put(USER_COLUMN_USER_ID, user.getUserId());
 
         long id = db.insert(USER_TABLE_NAME, null, contentValues);

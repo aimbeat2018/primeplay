@@ -237,8 +237,6 @@
                 </androidx.cardview.widget.CardView>
 
 
-
-
                 <androidx.cardview.widget.CardView
 
                     android:id="@+id/card_autoupi"
@@ -280,7 +278,6 @@
                             android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
 
 
                 <androidx.cardview.widget.CardView
@@ -406,6 +403,88 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_oneupi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/black">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="@color/black"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/oneupi" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/amazon"
+                            android:text="OneUPI"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_stripe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/black">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="@color/black"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/stripe" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/amazon"
+                            android:text="stripe"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+
             </LinearLayout>
         </LinearLayout>
 
@@ -417,24 +496,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
         android:layout_marginVertical="8dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginStart="10dp"
             android:layout_gravity="center"
+            android:layout_marginStart="10dp"
             android:src="@drawable/fui_ic_phone_white_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/amazon"
-            android:text="Support : "
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
+            android:fontFamily="@font/amazon"
+            android:text="Support : "
             android:textColor="@color/white"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -442,10 +521,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/amazon"
             android:layout_gravity="center"
-            android:text="8447030345"
             android:layout_marginStart="5dp"
+            android:fontFamily="@font/amazon"
+            android:text="8447030345"
             android:textColor="@color/paypalColor"
             android:textSize="12sp"
             android:textStyle="bold" />

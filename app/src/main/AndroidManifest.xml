@@ -23,7 +23,6 @@
         android:name="com.google.android.gms.permission.AD_ID"
         tools:node="remove" />
 
-
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -36,10 +35,10 @@
         <package android:name="com.android.chrome" />
         <package android:name="com.google.android.apps.nbu.paisa.user" />
     </queries>
-
     <queries>
         <package android:name="com.snapchat.android" />
     </queries>
+
     <application
         android:name=".utils.MyAppClass"
         android:allowBackup="false"
@@ -53,6 +52,13 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:usesCleartextTraffic,android:theme,android:allowBackup">
+        <activity
+            android:name=".OneUPIPaymentActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".AutoPaymentUpi"
             android:exported="false">
@@ -139,7 +145,7 @@
         <activity
             android:name=".MoreActivity"
             android:exported="false"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RazorPayActivity"
             android:screenOrientation="portrait" />
@@ -188,10 +194,11 @@
             android:name="com.razorpay.ApiKey"
             android:value="rzp_live_eHkQKgddhVS9ub"/>
         -->
-
-<!--snapchat-->
-        <meta-data android:name="com.snap.kit.clientId"
+        <!-- snapchat -->
+        <meta-data
+            android:name="com.snap.kit.clientId"
             android:value="9bb58d92-9eb6-485c-859d-9aa6854e04fe" />
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -212,7 +219,7 @@
         <activity
             android:name=".TermsActivity"
             android:screenOrientation="fullSensor"
-            android:theme="@style/AppTheme.Nobar"></activity>
+            android:theme="@style/AppTheme.Nobar" />
         <activity
             android:name=".ReplyActivity"
             android:label="@string/title_activity_reply"
@@ -350,27 +357,24 @@
             android:name=".DownloadActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Nobar" />
-        <activity android:name=".reelsvideo.Home" />
+
+        <!--        <activity android:name=".reelsvideo.Home" />-->
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ppapplogo" /> <!-- Test mode -->
         <meta-data
             android:name="CLEVERTAP_ACCOUNT_ID"
-            android:value="W6K-K4K-786Z" />
-        <!--          //   android:value="TEST-Z6K-K4K-786Z" /> -->
+            android:value="W6K-K4K-786Z" /> <!-- //   android:value="TEST-Z6K-K4K-786Z" /> -->
         <meta-data
             android:name="CLEVERTAP_TOKEN"
-            android:value="343-360" />
-        <!--             android:value="TEST-343-361" /> -->
+            android:value="343-360" /> <!-- android:value="TEST-343-361" /> -->
         <meta-data
             android:name="CLEVERTAP_REGION"
-            android:value="in1" />
-        <!--        clevertap pull notofication and enable toggle button of pull notofication on clevertap dashbord-setting-setup-push notification -->
+            android:value="in1" /> <!-- clevertap pull notofication and enable toggle button of pull notofication on clevertap dashbord-setting-setup-push notification -->
         <meta-data
             android:name="CLEVERTAP_BACKGROUND_SYNC"
-            android:value="1" />
-        <!--         clevertap Exclude in-app from Android Activity -->
+            android:value="1" /> <!-- clevertap Exclude in-app from Android Activity -->
         <meta-data
             android:name="CLEVERTAP_INAPP_EXCLUDE"
             android:value="SplashScreenActivity" />

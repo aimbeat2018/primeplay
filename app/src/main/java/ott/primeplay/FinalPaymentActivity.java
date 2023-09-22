@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.clevertap.android.sdk.CleverTapAPI;
+import com.stripe.android.paymentsheet.PaymentSheet;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,10 +36,14 @@ public class FinalPaymentActivity extends AppCompatActivity {
             price;
     CardView card_paytm,
             card_payuMoney,
-            card_cashfree, card_razorpay, card_gpay,card_autoupi;
+            card_cashfree, card_razorpay, card_gpay, card_autoupi, card_oneupi, card_stripe;
     ImageView close_iv;
     private Package aPackage;
-    CleverTapAPI clevertapPaymentStartedInstance,clevertapscreenviewd;
+    PaymentSheet paymentSheet;
+    String paymentIntentClientSecret;
+    PaymentSheet.CustomerConfiguration customerConfig;
+
+    CleverTapAPI clevertapPaymentStartedInstance, clevertapscreenviewd;
 
 
     @Override
@@ -48,7 +53,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
         aPackage = (Package) getIntent().getSerializableExtra("package");
         init();
         onClick();
-        clevertapPaymentStartedInstance= CleverTapAPI.getDefaultInstance(getApplicationContext());
+        clevertapPaymentStartedInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
         clevertapscreenviewd = CleverTapAPI.getDefaultInstance(getApplicationContext());
 
     }
@@ -64,7 +69,8 @@ public class FinalPaymentActivity extends AppCompatActivity {
         card_razorpay = findViewById(R.id.card_razorpay);
         card_gpay = findViewById(R.id.card_gpay);
         card_autoupi = findViewById(R.id.card_autoupi);
-
+        card_oneupi = findViewById(R.id.card_oneupi);
+        card_stripe = findViewById(R.id.card_stripe);
 
 
         package_name.setText(aPackage.getName());
@@ -103,11 +109,11 @@ public class FinalPaymentActivity extends AppCompatActivity {
             intent.putExtra("currency", "currency");
             intent.putExtra("from", "cashfree");
 
-            HashMap<String, Object> paymentstartedAction= new HashMap<String, Object>();
-            paymentstartedAction.put("payment mode","Cash Free");
-            paymentstartedAction.put("Selected Plan",aPackage.getName());
-            paymentstartedAction.put("Amount",aPackage.getPrice());
-            paymentstartedAction.put("Days",aPackage.getDay());
+            HashMap<String, Object> paymentstartedAction = new HashMap<String, Object>();
+            paymentstartedAction.put("payment mode", "Cash Free");
+            paymentstartedAction.put("Selected Plan", aPackage.getName());
+            paymentstartedAction.put("Amount", aPackage.getPrice());
+            paymentstartedAction.put("Days", aPackage.getDay());
 
 
             clevertapPaymentStartedInstance.pushEvent("Payment Started", paymentstartedAction);
@@ -136,6 +142,27 @@ public class FinalPaymentActivity extends AppCompatActivity {
             intent.putExtra("currency", "currency");
             intent.putExtra("from", "razor");
             startActivity(intent);
+
+        });
+
+        card_oneupi.setOnClickListener(view -> {
+            Intent intent = new Intent(FinalPaymentActivity.this, OneUPIPaymentActivity.class);
+            intent.putExtra("package", aPackage);
+            intent.putExtra("currency", "currency");
+            intent.putExtra("from", "oneupi");
+            startActivity(intent);
+
+            HashMap<String, Object> paymentstartedAction = new HashMap<String, Object>();
+            paymentstartedAction.put("payment mode", "oneUPI");
+            paymentstartedAction.put("Selected Plan", aPackage.getName());
+            paymentstartedAction.put("Amount", aPackage.getPrice());
+            paymentstartedAction.put("Days", aPackage.getDay());
+            clevertapPaymentStartedInstance.pushEvent("Payment Started", paymentstartedAction);
+
+            HashMap<String, Object> screenViewedAction = new HashMap<String, Object>();
+            screenViewedAction.put("Screen Name", "oneUPIPayment");
+            clevertapscreenviewd.pushEvent("Screen Viewed", screenViewedAction);
+
 
         });
 
@@ -175,6 +202,8 @@ public class FinalPaymentActivity extends AppCompatActivity {
                         String cashfree = jsonObject.getString("cashfree");
                         String razorpay = jsonObject.getString("razorpay");
                         String gpay = jsonObject.getString("gap");
+                        String oneupi = jsonObject.getString("oneupi");
+                        String stripe = jsonObject.getString("stripe");
 
                         if (payUMoney.equals("1")) {
                             card_payuMoney.setVisibility(View.VISIBLE);
@@ -201,6 +230,16 @@ public class FinalPaymentActivity extends AppCompatActivity {
                             card_gpay.setVisibility(View.VISIBLE);
                         } else {
                             card_gpay.setVisibility(View.GONE);
+                        }
+                        if (oneupi.equals("1")) {
+                            card_oneupi.setVisibility(View.VISIBLE);
+                        } else {
+                            card_oneupi.setVisibility(View.GONE);
+                        }
+                        if (stripe.equals("1")) {
+                            card_stripe.setVisibility(View.VISIBLE);
+                        } else {
+                            card_stripe.setVisibility(View.GONE);
                         }
 
                     } catch (JSONException | IOException e) {
