@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.clevertap.android.sdk.CleverTapAPI;
-import com.stripe.android.paymentsheet.PaymentSheet;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,10 +38,6 @@ public class FinalPaymentActivity extends AppCompatActivity {
             card_cashfree, card_razorpay, card_gpay, card_autoupi, card_oneupi, card_stripe;
     ImageView close_iv;
     private Package aPackage;
-    PaymentSheet paymentSheet;
-    String paymentIntentClientSecret;
-    PaymentSheet.CustomerConfiguration customerConfig;
-
     CleverTapAPI clevertapPaymentStartedInstance, clevertapscreenviewd;
 
 
