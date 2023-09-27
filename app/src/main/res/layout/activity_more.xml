@@ -84,6 +84,7 @@
                                 android:layout_marginTop="10dp"
                                 android:src="@drawable/ic_arrow_back_white" />
 
+
                             <!--
 
                                                         <com.mikhaellopez.circularimageview.CircularImageView
@@ -115,6 +116,7 @@
 
                                     android:visibility="gone" />
                             </androidx.cardview.widget.CardView>
+
 
                             <ProgressBar
                                 android:id="@+id/progress_bar"
@@ -178,12 +180,12 @@
                                                                 </LinearLayout>
                                 -->
 
+
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
                                     android:orientation="vertical">
-
 
                                     <RelativeLayout
                                         android:id="@+id/relLogin"
@@ -200,8 +202,7 @@
                                             android:includeFontPadding="false"
                                             android:text=""
                                             android:textColor="@color/white"
-                                            android:textSize="15sp" />
-
+                                            android:textSize="12sp" />
 
                                         <TextView
                                             android:id="@+id/textEmail"
@@ -233,10 +234,10 @@
                                             android:layout_below="@+id/txtmobile"
                                             android:backgroundTint="@color/white"
                                             android:includeFontPadding="false"
-                                            android:padding="3dp"
+                                            android:padding="2dp"
                                             android:text=""
                                             android:textColor="@color/white"
-                                            android:textSize="13sp" />
+                                            android:textSize="12sp" />
 
 
                                         <!-- <ImageView

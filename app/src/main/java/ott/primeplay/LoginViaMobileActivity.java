@@ -65,7 +65,7 @@ public class LoginViaMobileActivity extends AppCompatActivity {
     private View backgroundView;
     TextView txt_login_with_otp;
     private String deviceId = "";
-    private String firebaseToken = "", mobile = "", countryCode = "";
+    private String firebaseToken = "", mobile = "", countryCode = "91";
 
   CleverTapAPI clevertapDefaultInstance;
 

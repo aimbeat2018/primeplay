@@ -97,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
     CountryCodePicker ccp;
     private FirebaseAuth mAuth;
     CleverTapAPI clevertapDefaultInstance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         RtlUtils.setScreenDirection(this);
@@ -486,7 +487,7 @@ public class LoginActivity extends AppCompatActivity {
             }
     );
 
-    ActivityResultLauncher<Intent>  facebookAuthResultListener = registerForActivityResult(
+    ActivityResultLauncher<Intent> facebookAuthResultListener = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -648,7 +649,6 @@ public class LoginActivity extends AppCompatActivity {
             );
         }
     }
-
 
 
     private void googleSignIn() {
@@ -847,7 +847,8 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginActivity.this, OtpActivity.class);
                             intent.putExtra("from", "device_change");
                             intent.putExtra("otp", otp);
-                            intent.putExtra("countryCode", ccp.getSelectedCountryCode());
+//                            intent.putExtra("countryCode", ccp.getSelectedCountryCode());
+                            intent.putExtra("countryCode", "91");
                             intent.putExtra("mobile_no", etEmail.getText().toString());
                             startActivity(intent);
                         } else {
@@ -907,7 +908,8 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginActivity.this, OtpActivity.class);
                             intent.putExtra("from", "signup");
                             intent.putExtra("otp", otp);
-                            intent.putExtra("countryCode", ccp.getSelectedCountryCode());
+//                            intent.putExtra("countryCode", ccp.getSelectedCountryCode());
+                            intent.putExtra("countryCode", "91");
                             intent.putExtra("mobile_no", etEmail.getText().toString());
                             startActivity(intent);
                         } else {
@@ -940,7 +942,8 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         String status = jsonObject.getString("status");
-                        String countryCode = ccp.getSelectedCountryCode();
+//                        String countryCode = ccp.getSelectedCountryCode();
+                        String countryCode = "91";
                         if (status.equals("1")) {
                             startActivity(new Intent(LoginActivity.this, LoginViaMobileActivity.class).putExtra("mobile", etEmail.getText().toString()).putExtra("countryCode", countryCode));
                         } else {
@@ -1124,7 +1127,6 @@ public class LoginActivity extends AppCompatActivity {
         clevertapDefaultInstance.onUserLogin(profileUpdate);
         // clevertapDefaultInstance.pushProfile(profileUpdate);
     }
-
 
 
     private void sendFacebookDataToServer(String username, String photoUrl, String email) {

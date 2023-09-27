@@ -9,6 +9,7 @@ import static ott.primeplay.MoreActivity.familycontent;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -163,6 +165,7 @@ public class HomeFragment extends Fragment {
     ImageView imgFree;
     Slider slider;
     SliderListAdapter sliderAdapter;
+    ImageButton fblink,instalink,youtubelink,twitterlink;
 
     @Nullable
     @Override
@@ -226,6 +229,55 @@ public class HomeFragment extends Fragment {
         tvGoldTitleLayout = view.findViewById(R.id.tvGoldTitleLayout);
         btn_more_Gold = view.findViewById(R.id.btn_more_Gold);
         recyclerViewGold = view.findViewById(R.id.recyclerViewGold);
+
+
+        fblink = view.findViewById(R.id.fblink);
+        instalink = view.findViewById(R.id.instalink);
+        youtubelink = view.findViewById(R.id.youtubelink);
+        twitterlink = view.findViewById(R.id.twitterlink);
+
+
+        fblink.setOnClickListener(v -> {
+
+            Intent i = new Intent(Intent.ACTION_VIEW);
+          //  i.setData(Uri.parse("https://www.facebook.com/profile.php?id=100090905424999"));
+            i.setData(Uri.parse("https://www.facebook.com/people/PrimePlay_Webseries/100084157939717/"));
+            getContext().startActivity(i);
+
+        });
+
+
+
+      /*  twitterlink.setOnClickListener(v -> {
+
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            //i.setData(Uri.parse("https://www.youtube.com/channel/UC2U1WBF9g47zkb3ENy4O5jA"));
+            i.setData(Uri.parse("https://twitter.com/PrimePlay_App"));
+            getContext().startActivity(i);
+
+        });*/
+
+        instalink.setOnClickListener(v -> {
+
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            //i.setData(Uri.parse("https://www.youtube.com/channel/UC2U1WBF9g47zkb3ENy4O5jA"));
+           // i.setData(Uri.parse("https://instagram.com/besharamsapp?igshid=NGVhN2U2NjQ0Yg=="));
+            i.setData(Uri.parse("https://www.instagram.com/primeeplay_original/"));
+            getContext().startActivity(i);
+
+        });
+
+        youtubelink.setOnClickListener(v -> {
+
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            //i.setData(Uri.parse("https://www.youtube.com/channel/UC2U1WBF9g47zkb3ENy4O5jA"));
+            i.setData(Uri.parse("https://www.youtube.com/@OfficialPrimePlay"));
+            getContext().startActivity(i);
+
+        });
+
+
+
 
 
         tvseries.setOnClickListener(new View.OnClickListener() {

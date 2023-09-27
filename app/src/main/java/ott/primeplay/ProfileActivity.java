@@ -134,7 +134,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
-       clevertapDefaultInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
+        clevertapDefaultInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
         if (!isDark) {
             toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             //genderSpinner.setTextColor(getResources().getColor(android.R.color.black));
@@ -212,10 +212,10 @@ public class ProfileActivity extends AppCompatActivity {
                 String name = etName.getText().toString();
 
 //                updateProfile(id, email, phone, name, pass, currentPass);
-                if (ccp.getSelectedCountryCode().equals("")) {
-                    Toast.makeText(this, "Select countryCode", Toast.LENGTH_SHORT).show();
-                } else if (ccp.getSelectedCountryCode().contains("91")) {
-                    sendOtp(id, email, phone, name, pass, currentPass);
+//                if (ccp.getSelectedCountryCode().equals("")) {
+//                    Toast.makeText(this, "Select countryCode", Toast.LENGTH_SHORT).show();
+//                } else if (ccp.getSelectedCountryCode().contains("91")) {
+                sendOtp(id, email, phone, name, pass, currentPass);
 
 //                    if (etPhone.getText().toString().contains("+")) {
 //                        sendVerificationCode(etPhone.getText().toString());
@@ -223,13 +223,13 @@ public class ProfileActivity extends AppCompatActivity {
 //                        sendVerificationCode("+" + ccp.getSelectedCountryCode() + etPhone.getText().toString());
 //                    }
 //                    sendVerificationCode("+" + ccp.getSelectedCountryCode() + etPhone.getText().toString());
-                } else {
-                    if (etPhone.getText().toString().contains("+")) {
-                        sendVerificationCode(etPhone.getText().toString());
-                    } else {
-                        sendVerificationCode("+" + ccp.getSelectedCountryCode() + etPhone.getText().toString());
-                    }
-                }
+//                } else {
+//                    if (etPhone.getText().toString().contains("+")) {
+//                        sendVerificationCode(etPhone.getText().toString());
+//                    } else {
+//                        sendVerificationCode("+" + ccp.getSelectedCountryCode() + etPhone.getText().toString());
+//                    }
+//                }
 
 
             }
@@ -415,10 +415,10 @@ public class ProfileActivity extends AppCompatActivity {
 
 
                         String ccode = user.getCountry_code();
-                      if (etPhone.getText().toString().contains(ccode))
-                           addUserToCleverTap(user.getName(), user.getUserId(), user.getEmail(), etPhone.getText().toString());
-                      else
-                           addUserToCleverTap(user.getName(), user.getUserId(), user.getEmail(), ccode + etPhone.getText().toString());
+                        if (etPhone.getText().toString().contains(ccode))
+                            addUserToCleverTap(user.getName(), user.getUserId(), user.getEmail(), etPhone.getText().toString());
+                        else
+                            addUserToCleverTap(user.getName(), user.getUserId(), user.getEmail(), ccode + etPhone.getText().toString());
 
 //                        if (user.getGender() == null) {
 //                            genderSpinner.setText(R.string.male);
@@ -963,28 +963,29 @@ public class ProfileActivity extends AppCompatActivity {
 
         dialog.show();
     }
-public void addUserToCleverTap(String name, String id, String email, String mobile) {
-    HashMap<String, Object> profileUpdate = new HashMap<String, Object>();
-    profileUpdate.put("Name", name);    // String
-    profileUpdate.put("Identity", id);      // String or number
-    profileUpdate.put("Email", email); // Email address of the user
-    profileUpdate.put("Phone", mobile);   // Phone (with the country code, starting with +)
-    //  profileUpdate.put("Gender", "M");             // Can be either M or F
-    //  profileUpdate.put("DOB", new Date());         // Date of Birth. Set the Date object to the appropriate value first
- //optional fields. controls whether the user will be sent email, push etc.
-   //   profileUpdate.put("MSG-email", false);        // Disable email notifications
-    profileUpdate.put("MSG-push", true);          // Enable push notifications
-   //   profileUpdate.put("MSG-sms", false);          // Disable SMS notifications
-    //  profileUpdate.put("MSG-whatsapp", true);      // Enable WhatsApp notifications
-     // ArrayList<String> stuff = new ArrayList<String>();
-     // stuff.add("bag");
-     // stuff.add("shoes");
-     // profileUpdate.put("MyStuff", stuff);                        //ArrayList of Strings
-     // String[] otherStuff = {"Jeans", "Perfume"};
-    //  profileUpdate.put("MyStuff", otherStuff);                   //String Array
-    clevertapDefaultInstance.pushProfile(profileUpdate);
 
-}
+    public void addUserToCleverTap(String name, String id, String email, String mobile) {
+        HashMap<String, Object> profileUpdate = new HashMap<String, Object>();
+        profileUpdate.put("Name", name);    // String
+        profileUpdate.put("Identity", id);      // String or number
+        profileUpdate.put("Email", email); // Email address of the user
+        profileUpdate.put("Phone", mobile);   // Phone (with the country code, starting with +)
+        //  profileUpdate.put("Gender", "M");             // Can be either M or F
+        //  profileUpdate.put("DOB", new Date());         // Date of Birth. Set the Date object to the appropriate value first
+        //optional fields. controls whether the user will be sent email, push etc.
+        //   profileUpdate.put("MSG-email", false);        // Disable email notifications
+        profileUpdate.put("MSG-push", true);          // Enable push notifications
+        //   profileUpdate.put("MSG-sms", false);          // Disable SMS notifications
+        //  profileUpdate.put("MSG-whatsapp", true);      // Enable WhatsApp notifications
+        // ArrayList<String> stuff = new ArrayList<String>();
+        // stuff.add("bag");
+        // stuff.add("shoes");
+        // profileUpdate.put("MyStuff", stuff);                        //ArrayList of Strings
+        // String[] otherStuff = {"Jeans", "Perfume"};
+        //  profileUpdate.put("MyStuff", otherStuff);                   //String Array
+        clevertapDefaultInstance.pushProfile(profileUpdate);
+
+    }
 
     private void startMobileTimer(TextView text) {
         new CountDownTimer(60000, 1000) {

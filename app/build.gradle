@@ -17,7 +17,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
-
 android {
     compileSdkVersion 33
     buildToolsVersion "30.0.3"
@@ -25,10 +24,10 @@ android {
         applicationId "ott.primeplay"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 42
-        versionName "1.42"
-       /* versionCode 35
-        versionName "1.35"*/
+        versionCode 43
+        versionName "1.43"
+        /* versionCode 35
+         versionName "1.35"*/
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -73,6 +72,7 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude("META-INF/*.kotlin_module")
     }
+
 
     lintOptions {
         checkReleaseBuilds false
@@ -244,6 +244,7 @@ dependencies {
 
 //    implementation 'com.appsflyer:af-android-sdk:6.11.1'
 
+
     //branch
     implementation 'io.branch.sdk.android:library:4.+'
 
@@ -254,5 +255,11 @@ dependencies {
 
     //one upi
     implementation files('libs/OneUPI.aar')
+
+    //    // stripe
+    //  implementation 'com.stripe:stripe-android:16.0.0'
+    implementation 'com.stripe:stripe-android:19.1.0'
+    //  implementation 'com.stripe:stripe-android:20.30.0'
+    implementation 'com.stripe:stripe-java:5.36.0'
 
 }
