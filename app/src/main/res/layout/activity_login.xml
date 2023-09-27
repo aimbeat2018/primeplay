@@ -196,7 +196,8 @@
                                     android:paddingVertical="10dp"
                                     android:text="+91"
                                     android:textColor="@color/white"
-                                    android:textSize="15sp" />
+                                    android:textSize="15sp"
+                                    android:visibility="visible" />
 
 
                                 <com.google.android.material.textfield.TextInputEditText

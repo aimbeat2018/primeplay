@@ -130,7 +130,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
 
     public void fetch_stripe_Payment_data(String strip_plan_amount) {
         //   RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = "https://primeplay.co.in/webworld_backoffice/rest_api/V130/stripe_payment";
+        String url = "https://hunters.co.in/ppv1/V130/stripe_payment";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 //  StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "?amount=" + 100 + "&currency=" + "INR" + "&customer=" + 18,

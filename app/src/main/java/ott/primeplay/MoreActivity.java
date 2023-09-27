@@ -553,7 +553,7 @@ public class MoreActivity extends AppCompatActivity {
     public void onPrivacyClick(View view) {
         Intent intent = new Intent(MoreActivity.this, TermsActivity.class);
         intent.putExtra("from", "privacy");
-        intent.putExtra("url", "https://primeplay.co.in/privacy-policy");
+        intent.putExtra("url", "https://hunters.co.in/ppv1/privacy-policy");
         intent.putExtra("title", "Privacy Policy");
         startActivity(intent);
 

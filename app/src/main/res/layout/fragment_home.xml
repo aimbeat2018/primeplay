@@ -491,7 +491,7 @@
                                         android:iconifiedByDefault="true"
                                         android:padding="-20dp"
                                         android:scaleType="fitXY"
-                                        android:src="@drawable/twitter64" />
+                                        android:src="@drawable/twitter" />
 
                                     <ImageButton
                                         android:id="@+id/youtubelink"
