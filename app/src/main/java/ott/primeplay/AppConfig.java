@@ -14,7 +14,7 @@ public class AppConfig {
     public static final String API_KEY                  = getApiKey();
     //copy your terms url from php admin dashboard & paste below
     //public static final String TERMS_URL                = "https://streamcineprime.co.in/cineprime_adminpanel/terms/";
-    public static final String TERMS_URL                = "https://hunters.co.in/ppv1/terms/";
+    public static final String TERMS_URL                = "https://hunters.co.in/ppv1/rest-api/terms/";
 
     //paypal payment status
     public static final boolean PAYPAL_ACCOUNT_LIVE     = true;

@@ -277,7 +277,7 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
 
     public void getToken(final String orderId, final String amount) {
         dialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, /*"https://primeplay.co.in/webworld_backoffice/rest-api/v130/cashfree"*/"https://hunters.co.in/ppv1/v130/cashfree_test"/*"https://test.cashfree.com/api/v2/cftoken/order"*/, new com.android.volley.Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, /*"https://primeplay.co.in/webworld_backoffice/rest-api/v130/cashfree"*/"https://hunters.co.in/ppv1/rest-api/v130/cashfree_test"/*"https://test.cashfree.com/api/v2/cftoken/order"*/, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
