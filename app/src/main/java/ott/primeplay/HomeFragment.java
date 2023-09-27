@@ -105,7 +105,6 @@ public class HomeFragment extends Fragment {
     final long PERIOD_MS = 7000;
     int currentPage = 0;
 
-
     private ShimmerFrameLayout shimmerFrameLayout;
     private RecyclerView recyclerViewMovie, recyclerViewTv, recyclerViewTvSeries, recyclerViewGenre, recyclerViewContinueWatching;
     private LinearLayout continueWatchingLayout;
@@ -206,6 +205,7 @@ public class HomeFragment extends Fragment {
         sliderlayout = view.findViewById(R.id.lytSlider);
 //        lang_rv = view.findViewById(R.id.lang_rv);
 
+
         countryRv = view.findViewById(R.id.country_rv);
         genreLayout = view.findViewById(R.id.genre_layout);
         popularStarsRv = view.findViewById(R.id.popular_stars_rv);
@@ -247,7 +247,6 @@ public class HomeFragment extends Fragment {
         });
 
 
-
       /*  twitterlink.setOnClickListener(v -> {
 
             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -278,8 +277,6 @@ public class HomeFragment extends Fragment {
 
 
 
-
-
         tvseries.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -302,6 +299,8 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+
 
         if (db.getConfigurationData().getAppConfig().getGenreVisible()) {
             genreLayout.setVisibility(View.VISIBLE);
@@ -411,6 +410,7 @@ public class HomeFragment extends Fragment {
         recyclerViewGold.setAdapter(adapterGold);
 
         shimmerFrameLayout.startShimmer();
+
 
         //home content live data
         homeContentViewModel = new ViewModelProvider(getActivity()).get(HomeContentViewModel.class);

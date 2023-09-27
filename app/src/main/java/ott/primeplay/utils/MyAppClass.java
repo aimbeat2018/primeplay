@@ -361,15 +361,16 @@ public class MyAppClass extends Application {
 
     }
 
-//    public DownloadManager getDownloadManager() {
-//        initDownloadManager();
-//        return downloadManager;
-//    }
-//
-//    public DownloadTracker getDownloadTracker() {
-//        initDownloadManager();
-//        return downloadTracker;
-//    }
+   public DownloadManager getDownloadManager() {
+        initDownloadManager();
+        return downloadManager;
+    }
+
+    public DownloadTracker getDownloadTracker() {
+       initDownloadManager();
+        return downloadTracker;
+   }
+
 
     private void upgradeActionFile(
             String fileName, DefaultDownloadIndex downloadIndex, boolean addNewDownloadsAsCompleted) {
@@ -385,22 +386,21 @@ public class MyAppClass extends Application {
         }
     }
 
-//    private synchronized void initDownloadManager() {
-//        if (downloadManager == null) {
-//            DefaultDownloadIndex downloadIndex = new DefaultDownloadIndex(getDatabaseProvider());
-//            upgradeActionFile(DOWNLOAD_ACTION_FILE, downloadIndex, /* addNewDownloadsAsCompleted= */ false);
-//            upgradeActionFile(DOWNLOAD_TRACKER_ACTION_FILE, downloadIndex, /* addNewDownloadsAsCompleted= */ true);
-//
-////           DownloaderConstructorHelper downloaderConstructorHelper =  new DownloaderConstructorHelper(getDownloadCache(), buildHttpDataSourceFactory());
-//            DefaultDataSourceFactory upstreamFactory = new DefaultDataSourceFactory(this, buildHttpDataSourceFactory());
-//            downloadManager = new DownloadManager(this, getDatabaseProvider(), getDownloadCache(), buildHttpDataSourceFactory(), Executors.newFixedThreadPool(6));
-////            downloadManager = new DownloadManager(this, downloadIndex, new DefaultDownloaderFactory(buildReadOnlyCacheDataSource(upstreamFactory,getDownloadCache())));
-//            downloadTracker = new DownloadTracker(/* context= */ this, buildDataSourceFactory(), downloadManager);
-//        } else {
-//            downloadTracker = new DownloadTracker(this, buildDataSourceFactory(), downloadManager);
-//        }
-//    }
-//
+    private synchronized void initDownloadManager() {
+      if (downloadManager == null) {
+           DefaultDownloadIndex downloadIndex = new DefaultDownloadIndex(getDatabaseProvider());
+            upgradeActionFile(DOWNLOAD_ACTION_FILE, downloadIndex, /* addNewDownloadsAsCompleted= */ false);
+           upgradeActionFile(DOWNLOAD_TRACKER_ACTION_FILE, downloadIndex, /* addNewDownloadsAsCompleted= */ true);
+
+         //  DownloaderConstructorHelper downloaderConstructorHelper =  new DownloaderConstructorHelper(getDownloadCache(), buildHttpDataSourceFactory());
+          DefaultDataSourceFactory upstreamFactory = new DefaultDataSourceFactory(this, buildHttpDataSourceFactory());
+          downloadManager = new DownloadManager(this, getDatabaseProvider(), getDownloadCache(), buildHttpDataSourceFactory(), Executors.newFixedThreadPool(6));
+         //   downloadManager = new DownloadManager(this, downloadIndex, new DefaultDownloaderFactory(buildReadOnlyCacheDataSource(upstreamFactory,getDownloadCache())));
+          downloadTracker = new DownloadTracker(/* context= */ this, buildDataSourceFactory(), downloadManager);
+      } else {
+          downloadTracker = new DownloadTracker(this, buildDataSourceFactory(), downloadManager);
+      }
+  }
 
     public HttpDataSource.Factory buildHttpDataSourceFactory() {
         return new DefaultHttpDataSourceFactory(userAgent);

@@ -118,6 +118,7 @@ public class DownloadNewFragment extends Fragment {
             }
         });
 
+
         handler = new Handler();
         runnableCode = new Runnable() {
             @Override

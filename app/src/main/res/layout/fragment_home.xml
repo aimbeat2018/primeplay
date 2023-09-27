@@ -462,9 +462,9 @@
                                         android:id="@+id/instalink"
                                         android:layout_width="28dp"
                                         android:layout_height="28dp"
-                                        android:layout_marginRight="3dp"
                                         android:background="#00000000"
                                         android:iconifiedByDefault="true"
+                                        android:layout_marginRight="3dp"
                                         android:padding="-20dp"
                                         android:scaleType="fitXY"
                                         android:src="@drawable/insta64" />
@@ -474,14 +474,15 @@
                                         android:layout_width="28dp"
                                         android:layout_height="28dp"
                                         android:layout_marginLeft="5dp"
-                                        android:layout_marginRight="3dp"
                                         android:background="#00000000"
                                         android:iconifiedByDefault="true"
+                                        android:layout_marginRight="3dp"
                                         android:padding="-20dp"
                                         android:scaleType="fitXY"
                                         android:src="@drawable/fb64" />
 
                                     <ImageButton
+                                        android:visibility="gone"
                                         android:id="@+id/twitterlink"
                                         android:layout_width="32dp"
                                         android:layout_height="32dp"
@@ -490,17 +491,16 @@
                                         android:iconifiedByDefault="true"
                                         android:padding="-20dp"
                                         android:scaleType="fitXY"
-                                        android:src="@drawable/twitter"
-                                        android:visibility="gone" />
+                                        android:src="@drawable/twitter64" />
 
                                     <ImageButton
                                         android:id="@+id/youtubelink"
                                         android:layout_width="28dp"
                                         android:layout_height="28dp"
                                         android:layout_marginLeft="5dp"
-                                        android:layout_marginRight="3dp"
                                         android:background="#00000000"
                                         android:iconifiedByDefault="true"
+                                        android:layout_marginRight="3dp"
                                         android:padding="-20dp"
                                         android:scaleType="fitXY"
                                         android:src="@drawable/youtube64" />

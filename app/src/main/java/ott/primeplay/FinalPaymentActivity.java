@@ -105,6 +105,8 @@ public class FinalPaymentActivity extends AppCompatActivity {
 
     }
 
+
+
     private void init() {
         package_name = findViewById(R.id.package_name);
         package_validity = findViewById(R.id.package_validity);
@@ -190,6 +192,8 @@ public class FinalPaymentActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
+
+
     public void onClick() {
 /*
 
@@ -227,6 +231,9 @@ public class FinalPaymentActivity extends AppCompatActivity {
                     }
             }
         });
+
+
+
 
 
         card_cashfree.setOnClickListener(view -> {

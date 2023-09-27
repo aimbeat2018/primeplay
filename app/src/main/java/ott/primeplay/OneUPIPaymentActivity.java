@@ -114,6 +114,7 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
     }
 
 
+
     private void payWithUpi() {
 
         transactionId = "TID" + System.currentTimeMillis();
@@ -190,7 +191,6 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
         lnr_success.setVisibility(View.VISIBLE);
 
         txt_txn_id.setText("Transaction Id : " + transactionId);
-
 
         saveChargeData(transactionId, "oneupi");
         //  saveChargeData(orderID, "oneupi");
@@ -294,6 +294,8 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
         });
 
     }
+
+
 
 
     private void getSubscriptionHistory(String plantamount) {
