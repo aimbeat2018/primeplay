@@ -128,6 +128,8 @@ public class FinalPaymentActivity extends AppCompatActivity {
         price.setText("\u20B9 " + aPackage.getPrice());
     }
 
+
+
     public void fetch_stripe_Payment_data(String strip_plan_amount) {
         //   RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url = "https://hunters.co.in/ppv1/rest-api/V130/stripe_payment";
@@ -163,6 +165,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         }) {
+
 
             @Override
             public Map<String, String> getHeaders() {

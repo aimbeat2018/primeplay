@@ -292,18 +292,16 @@
                                 android:visibility="visible" />
 
 
-                            <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/reset_pass"
-                                android:layout_width="match_parent"
-                                android:layout_height="55dp"
-                                android:layout_marginVertical="30dp"
-                                android:layout_marginLeft="-4dp"
-                                android:layout_marginRight="-4dp"
-                                android:background="@drawable/btn_rounded_primary"
-                                android:backgroundTint="@color/colorPrimary"
-                                android:text="@string/login"
-                                android:textAllCaps="true"
-                                android:textColor="@android:color/white"
+                            <TextView
+                                android:id="@+id/txt_login_with_otp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/dimen_25dp"
+                                android:text="Login with OTP"
+                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                android:textColor="@color/white"
+                                android:textSize="16dp"
                                 android:textStyle="bold" />
 
 
@@ -337,18 +335,20 @@
                                     android:layout_weight="1"
                                     android:background="@color/gray_light" />
                             </LinearLayout>
-
-                            <TextView
-                                android:id="@+id/txt_login_with_otp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="@dimen/dimen_25dp"
-                                android:text="Login with OTP"
-                                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                                android:textColor="@color/white"
-                                android:textSize="16dp"
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/reset_pass"
+                                android:layout_width="match_parent"
+                                android:layout_height="55dp"
+                                android:layout_marginVertical="30dp"
+                                android:layout_marginLeft="-4dp"
+                                android:layout_marginRight="-4dp"
+                                android:background="@drawable/btn_rounded_primary"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:text="@string/login"
+                                android:textAllCaps="true"
+                                android:textColor="@android:color/white"
                                 android:textStyle="bold" />
+
 
                             <ProgressBar
                                 android:id="@+id/progress_bar"

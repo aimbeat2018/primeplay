@@ -348,7 +348,7 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     }
 
-                } else if (user.getStatus().equals("error")) {
+                } else if (user.getStatus().equals("202")) {
                     new ToastMsg(SignUpActivity.this).toastIconError(user.getData());
                     dialog.cancel();
                 }
@@ -364,6 +364,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
     private void addUserToAppsflyer(String name, String userId, String email, String s) {
