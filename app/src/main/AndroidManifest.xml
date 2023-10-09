@@ -53,6 +53,13 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:usesCleartextTraffic,android:theme,android:allowBackup">
         <activity
+            android:name=".AgrrepayActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".OneUPIPaymentActivity"
             android:exported="false">
             <meta-data
@@ -356,10 +363,7 @@
         <activity
             android:name=".DownloadActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Nobar" />
-
-        <!--        <activity android:name=".reelsvideo.Home" />-->
-
+            android:theme="@style/AppTheme.Nobar" /> <!-- <activity android:name=".reelsvideo.Home" /> -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ppapplogo" /> <!-- Test mode -->

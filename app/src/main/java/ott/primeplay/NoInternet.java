@@ -28,6 +28,7 @@ public class NoInternet extends AppCompatActivity {
         frame_layout = findViewById(R.id.frame_layout);
 
 
+
         view_download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,6 +52,7 @@ public class NoInternet extends AppCompatActivity {
         });
     }
 
+
     private boolean loadFragment(Fragment fragment) {
 
         if (fragment != null) {
@@ -60,6 +62,11 @@ public class NoInternet extends AppCompatActivity {
                     .replace(R.id.fragment_container, fragment)
                     .commit();
 
+
+            Bundle bundle = new Bundle();
+            bundle.putString("from", "nointernetactivity");
+            fragment.setArguments(bundle);
+// set Fragmentclass Arguments
             return true;
         }
         return false;

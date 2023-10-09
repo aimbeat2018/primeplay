@@ -238,6 +238,8 @@ public class OtpActivity extends AppCompatActivity {
         }
     };
 
+
+
     private void verifyCode(String code) {
         // below line is used for getting
         // credentials from our verification id and code.
@@ -474,6 +476,7 @@ public class OtpActivity extends AppCompatActivity {
 
                 }
             }
+
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {

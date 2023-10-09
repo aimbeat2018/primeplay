@@ -256,6 +256,7 @@ public class HomeFragment extends Fragment {
 
         });*/
 
+
         instalink.setOnClickListener(v -> {
 
             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -266,15 +267,15 @@ public class HomeFragment extends Fragment {
 
         });
 
+
         youtubelink.setOnClickListener(v -> {
 
             Intent i = new Intent(Intent.ACTION_VIEW);
             //i.setData(Uri.parse("https://www.youtube.com/channel/UC2U1WBF9g47zkb3ENy4O5jA"));
-            i.setData(Uri.parse("https://www.youtube.com/@OfficialPrimePlay"));
+            i.setData(Uri.parse("https://www.youtube.com/channel/UCiJe2ybVfhXrWxc3jPHzJTw"));
             getContext().startActivity(i);
 
         });
-
 
 
         tvseries.setOnClickListener(new View.OnClickListener() {

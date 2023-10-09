@@ -354,7 +354,6 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
 
-
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 new ToastMsg(SignUpActivity.this).toastIconError("Something went wrong." + t.getMessage());

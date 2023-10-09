@@ -53,7 +53,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
             price;
     CardView card_paytm,
             card_payuMoney,
-            card_cashfree, card_razorpay, card_gpay, card_autoupi, card_oneupi, card_stripe;
+            card_cashfree, card_razorpay, card_gpay, card_autoupi, card_oneupi, card_stripe,card_aggrepay;
     ImageView close_iv;
     private Package aPackage;
     CleverTapAPI clevertapPaymentStartedInstance, clevertapscreenviewd;
@@ -89,7 +89,6 @@ public class FinalPaymentActivity extends AppCompatActivity {
         clevertapPaymentStartedInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
         clevertapscreenviewd = CleverTapAPI.getDefaultInstance(getApplicationContext());
 
-
         User user = databaseHelper.getUserData();
         uid = user.getUserId();
         uname = user.getName();
@@ -120,6 +119,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
         card_autoupi = findViewById(R.id.card_autoupi);
         card_oneupi = findViewById(R.id.card_oneupi);
         card_stripe = findViewById(R.id.card_stripe);
+        card_aggrepay = findViewById(R.id.card_agrrepay);
 
 
         package_name.setText(aPackage.getName());
@@ -129,10 +129,9 @@ public class FinalPaymentActivity extends AppCompatActivity {
     }
 
 
-
     public void fetch_stripe_Payment_data(String strip_plan_amount) {
         //   RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = "https://hunters.co.in/ppv1/rest-api/V130/stripe_payment";
+        String url = "https://hunters.co.in/ppv1/rest-api/v130/stripe_payment";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 //  StringRequest stringRequest = new StringRequest(Request.Method.POST, url + "?amount=" + 100 + "&currency=" + "INR" + "&customer=" + 18,
@@ -219,24 +218,63 @@ public class FinalPaymentActivity extends AppCompatActivity {
         });
 */
 
-        card_stripe.setOnClickListener(new View.OnClickListener() {
+
+        card_aggrepay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (paymentIntentClientSecret != null)
+                Intent intent = new Intent(FinalPaymentActivity.this, AgrrepayActivity.class);
+                intent.putExtra("package", aPackage);
+                intent.putExtra("currency", "currency");
+                intent.putExtra("from", "aggrepay");
+                startActivity(intent);
 
-                    try {
 
-                        paymentSheet.presentWithPaymentIntent(paymentIntentClientSecret, new PaymentSheet.Configuration("besharams",
-                                customerConfig));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+
+                HashMap<String, Object> paymentstartedAction = new HashMap<String, Object>();
+                paymentstartedAction.put("payment mode", "aggrepay");
+                paymentstartedAction.put("Selected Plan", aPackage.getName());
+                paymentstartedAction.put("Amount", aPackage.getPrice());
+                paymentstartedAction.put("Days", aPackage.getDay());
+                clevertapPaymentStartedInstance.pushEvent("Payment Started", paymentstartedAction);
+
+                HashMap<String, Object> screenViewedAction = new HashMap<String, Object>();
+                screenViewedAction.put("Screen Name", "AgrrepayActivity");
+                clevertapscreenviewd.pushEvent("Screen Viewed", screenViewedAction);
+
+
             }
         });
 
 
 
+        card_stripe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (paymentIntentClientSecret != null) {
+
+                    try {
+
+                        paymentSheet.presentWithPaymentIntent(paymentIntentClientSecret, new PaymentSheet.Configuration("Primeplay",
+                                customerConfig));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                HashMap<String, Object> paymentstartedAction = new HashMap<String, Object>();
+                paymentstartedAction.put("payment mode", "strip");
+                paymentstartedAction.put("Selected Plan", aPackage.getName());
+                paymentstartedAction.put("Amount", aPackage.getPrice());
+                paymentstartedAction.put("Days", aPackage.getDay());
+                clevertapPaymentStartedInstance.pushEvent("Payment Started", paymentstartedAction);
+
+                HashMap<String, Object> screenViewedAction = new HashMap<String, Object>();
+                screenViewedAction.put("Screen Name", "strippayment");
+                clevertapscreenviewd.pushEvent("Screen Viewed", screenViewedAction);
+            }
+        });
 
 
         card_cashfree.setOnClickListener(view -> {
@@ -271,6 +309,9 @@ public class FinalPaymentActivity extends AppCompatActivity {
             startActivity(intent);
 
         });
+
+
+
         card_razorpay.setOnClickListener(view -> {
             Intent intent = new Intent(FinalPaymentActivity.this, RazorPayActivity.class);
             intent.putExtra("package", aPackage);
@@ -286,6 +327,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
             intent.putExtra("currency", "currency");
             intent.putExtra("from", "oneupi");
             startActivity(intent);
+
 
             HashMap<String, Object> paymentstartedAction = new HashMap<String, Object>();
             paymentstartedAction.put("payment mode", "oneUPI");
@@ -339,6 +381,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
                         String gpay = jsonObject.getString("gap");
                         String oneupi = jsonObject.getString("oneupi");
                         String stripe = jsonObject.getString("stripe");
+                        String aggrepay = jsonObject.getString("aggrepay");
 
 
                         if (payUMoney.equals("1")) {
@@ -379,6 +422,12 @@ public class FinalPaymentActivity extends AppCompatActivity {
                             card_stripe.setVisibility(View.GONE);
                         }
 
+                        if (aggrepay.equals("1")) {
+                            card_aggrepay.setVisibility(View.VISIBLE);
+                        } else {
+                            card_aggrepay.setVisibility(View.GONE);
+                        }
+
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
@@ -394,6 +443,8 @@ public class FinalPaymentActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void onPaymentSheetResult(final PaymentSheetResult paymentSheetResult) {
         if (paymentSheetResult instanceof PaymentSheetResult.Canceled) {

@@ -127,6 +127,8 @@ public final class TrackSelectionDialog extends DialogFragment {
         setRetainInstance(true);
     }
 
+
+
     private void init(
             int titleId,
             MappedTrackInfo mappedTrackInfo,
@@ -319,6 +321,7 @@ public final class TrackSelectionDialog extends DialogFragment {
                     mappedTrackInfo, rendererIndex, isDisabled, overrides, /* listener= */ this, this);
             return rootView;
         }
+
 
         @Override
         public void onTrackSelectionChanged(boolean isDisabled, List<SelectionOverride> overrides) {

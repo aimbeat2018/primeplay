@@ -149,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
         txt_error = findViewById(R.id.txt_error);
         ccp = findViewById(R.id.ccp);
 
+
         tvsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,6 +197,7 @@ public class LoginActivity extends AppCompatActivity {
             Constant.googleName = "";
 
             checkMobile();
+
 
         });
 
@@ -989,7 +991,6 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.cancel();
             }
         });
-
 
     }
 

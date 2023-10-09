@@ -70,11 +70,12 @@ public class DownloadNewFragment extends Fragment {
     public static LinearLayout download_layout;
     public boolean isActive;
     RelativeLayout rel_rec;
-    private NoInternet activity;
+    private NoInternet noactivity;
     Button subscribe_bt;
 
     private MainActivity mainActivity;
 
+    String from = "";
 
     public void setMyItemMovie(ItemMovie myItemMovie) {
         this.myItemMovie = myItemMovie;
@@ -98,7 +99,24 @@ public class DownloadNewFragment extends Fragment {
         rel_rec = rootView.findViewById(R.id.rel_rec);
         download_text = rootView.findViewById(R.id.download_text);
         download_text.setText("Downloads");
-        mainActivity = (MainActivity) getActivity();
+
+        //  mainActivity = (MainActivity) getActivity();
+
+        try {
+            from = getArguments().getString("from");
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        if (from.equals("nointernetactivity")) {
+            noactivity = (NoInternet) getActivity();
+
+        } else {
+            mainActivity = (MainActivity) getActivity();
+
+        }
+
         subscribe_bt = rootView.findViewById(R.id.subscribe_bt);
 
         lyt_not_found = rootView.findViewById(R.id.lyt_not_found);

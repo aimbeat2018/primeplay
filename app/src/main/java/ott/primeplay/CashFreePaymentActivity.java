@@ -275,6 +275,8 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
         requestQueue.add(stringRequest);
     }*/
 
+
+
     public void getToken(final String orderId, final String amount) {
         dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, /*"https://primeplay.co.in/webworld_backoffice/rest-api/v130/cashfree"*/"https://hunters.co.in/ppv1/rest-api/v130/cashfree_test"/*"https://test.cashfree.com/api/v2/cftoken/order"*/, new com.android.volley.Response.Listener<String>() {
@@ -407,7 +409,6 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
                 }
             }
 
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 t.printStackTrace();
@@ -418,6 +419,7 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
         });
 
     }
+
 
 
     private void getSubscriptionHistory(String plantamount) {
@@ -465,6 +467,7 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
         });
 
     }
+
 
 
     private void updateActiveStatus() {

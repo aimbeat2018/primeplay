@@ -1641,6 +1641,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
             subtitleLayout.setVisibility(GONE);
         }
 
+
         movieTitle.setText("Report for: " + title);
         if (!isDark) {
             movieTitle.setTextColor(getResources().getColor(R.color.colorPrimary));
