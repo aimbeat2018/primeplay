@@ -7,6 +7,7 @@
     android:background="@color/whitelight"
     android:orientation="vertical"
     tools:ctx=".SignUpActivity">
+
     <!-- <com.google.android.material.appbar.AppBarLayout
          android:id="@+id/appBar"
          android:layout_width="match_parent"
@@ -194,6 +195,7 @@
                                 android:textColor="@color/blue_grey_300"
                                 android:textSize="16dp" />
 
+
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -232,6 +234,51 @@
                                 android:layout_height="1dp"
                                 android:background="@color/white" />
 
+
+                            <TextView
+                                android:id="@+id/txt_login_with_otp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/dimen_25dp"
+                                android:text="Login with OTP"
+                                android:background="@drawable/btn_rounded_primary"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:textColor="@color/white"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:layout_marginTop="@dimen/dimen_30dp"
+                                android:orientation="horizontal">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:background="@color/gray_light" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="@dimen/dimen_30dp"
+                                    android:text="OR"
+                                    android:textStyle="bold"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/gray_light"
+                                    android:textSize="16dp" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:background="@color/gray_light" />
+                            </LinearLayout>
+
                             <!--                            <com.google.android.material.textfield.TextInputEditText-->
                             <!--                                android:id="@+id/email"-->
                             <!--                                android:layout_width="match_parent"-->
@@ -255,6 +302,7 @@
 
 
                             <TextView
+                                android:id="@+id/tv_password"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
@@ -262,7 +310,7 @@
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                                 android:textColor="@color/blue_grey_300"
                                 android:textSize="16dp"
-                                android:visibility="visible" />
+                                android:visibility="gone" />
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etPass"
@@ -273,7 +321,7 @@
                                 android:maxLines="1"
                                 android:singleLine="true"
                                 android:textSize="15dp"
-                                android:visibility="visible" />
+                                android:visibility="gone" />
 
 
                             <TextView
@@ -289,10 +337,10 @@
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                                 android:textColor="@color/colorPrimary"
                                 android:textStyle="bold"
-                                android:visibility="visible" />
+                                android:visibility="gone" />
 
 
-                            <TextView
+                       <!--     <TextView
                                 android:id="@+id/txt_login_with_otp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -302,9 +350,10 @@
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                                 android:textColor="@color/white"
                                 android:textSize="16dp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold" />-->
 
 
+<!--
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -335,6 +384,7 @@
                                     android:layout_weight="1"
                                     android:background="@color/gray_light" />
                             </LinearLayout>
+-->
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/reset_pass"
                                 android:layout_width="match_parent"
@@ -344,8 +394,8 @@
                                 android:layout_marginRight="-4dp"
                                 android:background="@drawable/btn_rounded_primary"
                                 android:backgroundTint="@color/colorPrimary"
-                                android:text="@string/login"
-                                android:textAllCaps="true"
+                                android:text="Login with password"
+                                android:textAllCaps="false"
                                 android:textColor="@android:color/white"
                                 android:textStyle="bold" />
 

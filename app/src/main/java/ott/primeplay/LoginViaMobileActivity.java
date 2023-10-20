@@ -60,7 +60,7 @@ public class LoginViaMobileActivity extends AppCompatActivity {
 
     private EditText etEmail, etPass;
     private AppCompatButton btnReset;
-    TextView forgotPass, txtcountryCode;
+    TextView forgotPass,tv_password, txtcountryCode;
     private ProgressDialog dialog;
     private View backgroundView;
     TextView txt_login_with_otp;
@@ -111,6 +111,7 @@ public class LoginViaMobileActivity extends AppCompatActivity {
         txt_login_with_otp = findViewById(R.id.txt_login_with_otp);
         forgotPass = findViewById(R.id.forgotPass);
         txtcountryCode = findViewById(R.id.txtcountryCode);
+        tv_password = findViewById(R.id.tv_password);
 
         txtcountryCode.setText(String.format("+%s ", countryCode));
         etEmail.setText(mobile);
@@ -128,6 +129,11 @@ public class LoginViaMobileActivity extends AppCompatActivity {
         forgotPass.setOnClickListener(view -> startActivity(new Intent(LoginViaMobileActivity.this, PassResetActivity.class)));
 
         btnReset.setOnClickListener(v -> {
+
+            etPass.setVisibility(View.VISIBLE);
+            tv_password.setVisibility(View.VISIBLE);
+            forgotPass.setVisibility(View.VISIBLE);
+
 
             /*if (!isValidEmailAddress(etEmail.getText().toString())) {
                 new ToastMsg(LoginActivity.this).toastIconError("Please enter valid email");

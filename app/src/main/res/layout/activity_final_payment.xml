@@ -53,7 +53,6 @@
 
             </LinearLayout>
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,7 +93,6 @@
                         android:textSize="16sp"
                         tools:text="STARTER PACK" />
 
-
                     <TextView
                         android:id="@+id/package_validity"
                         android:layout_width="match_parent"
@@ -104,7 +102,6 @@
                         android:gravity="start"
                         android:padding="10dp"
                         android:textColor="@color/white"
-
                         android:textSize="20sp"
                         tools:text="3 MONTH" />
 
@@ -118,7 +115,6 @@
                           android:textColor="@color/colorPrimary"
                           android:textSize="16sp"
                           tools:text="$4.99 Per Month" />-->
-
 
                     <TextView
                         android:id="@+id/price"
@@ -136,6 +132,8 @@
 
             </LinearLayout>
 
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -147,15 +145,12 @@
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@color/blacklight12"
                 android:orientation="vertical">
-
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_paytm"
@@ -488,7 +483,6 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_agrrepay"
                     android:layout_width="match_parent"
@@ -530,6 +524,46 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_onepay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/black"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="@color/black"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/onepaylogo" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/amazon"
+                            android:text="1 Pay"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
 
             </LinearLayout>

@@ -14,7 +14,10 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.appsflyer.AppsFlyerLib;
+import com.clevertap.android.pushtemplates.PushTemplateNotificationHandler;
 import com.clevertap.android.sdk.ActivityLifecycleCallback;
+import com.clevertap.android.sdk.CleverTapAPI;
+import com.clevertap.android.sdk.interfaces.NotificationHandler;
 import com.facebook.FacebookSdk;
 import com.google.android.exoplayer2.database.DatabaseProvider;
 import com.google.android.exoplayer2.database.ExoDatabaseProvider;
@@ -119,6 +122,12 @@ public class MyAppClass extends Application {
         //use for clevertap
         ActivityLifecycleCallback.register(this);
         super.onCreate();
+
+
+//used for different template  type push notification
+        CleverTapAPI.setNotificationHandler((NotificationHandler)new PushTemplateNotificationHandler());
+
+
         mContext = this;
         userAgent = Util.getUserAgent(this, "prime play");
         FacebookSdk.sdkInitialize(mContext);
@@ -146,7 +155,7 @@ public class MyAppClass extends Application {
         mInstance = this;
 
         // screenshot disable
-        setupActivityListener();
+      //  setupActivityListener();
         //
 
         if (!getFirstTimeOpenStatus()) {

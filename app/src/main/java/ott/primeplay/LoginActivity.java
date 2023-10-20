@@ -832,7 +832,6 @@ public class LoginActivity extends AppCompatActivity {
             email = "";
         }
 
-
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
         LoginApi api = retrofit.create(LoginApi.class);
         Call<ResponseBody> call = api.login_otp(AppConfig.API_KEY, mobile, email);
@@ -931,6 +930,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
     private void checkMobile() {
         dialog.show();
         String mobile = etEmail.getText().toString();
@@ -944,7 +944,7 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         String status = jsonObject.getString("status");
-//                        String countryCode = ccp.getSelectedCountryCode();
+//                        String countryCode = ccp.getSelectedCountryCode();  //and disable phone in firebase console-app-authentication-sign in method-phone (disable) county code
                         String countryCode = "91";
                         if (status.equals("1")) {
                             startActivity(new Intent(LoginActivity.this, LoginViaMobileActivity.class).putExtra("mobile", etEmail.getText().toString()).putExtra("countryCode", countryCode));

@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +20,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.clevertap.android.sdk.CleverTapAPI;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
@@ -25,9 +30,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 import okhttp3.ResponseBody;
 import ott.primeplay.network.RetrofitClient;
@@ -39,6 +47,8 @@ import ott.primeplay.network.model.ActiveStatus;
 import ott.primeplay.network.model.Package;
 import ott.primeplay.network.model.SubscriptionHistory;
 import ott.primeplay.network.model.User;
+import ott.primeplay.onepay.Constants;
+import ott.primeplay.onepay.PaymentActivity;
 import ott.primeplay.utils.PreferenceUtils;
 import ott.primeplay.utils.ToastMsg;
 import retrofit2.Call;
@@ -53,7 +63,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
             price;
     CardView card_paytm,
             card_payuMoney,
-            card_cashfree, card_razorpay, card_gpay, card_autoupi, card_oneupi, card_stripe,card_aggrepay;
+            card_cashfree, card_razorpay, card_gpay, card_autoupi, card_oneupi, card_stripe, card_aggrepay, card_onepay;
     ImageView close_iv;
     private Package aPackage;
     CleverTapAPI clevertapPaymentStartedInstance, clevertapscreenviewd;
@@ -105,7 +115,6 @@ public class FinalPaymentActivity extends AppCompatActivity {
     }
 
 
-
     private void init() {
         package_name = findViewById(R.id.package_name);
         package_validity = findViewById(R.id.package_validity);
@@ -120,7 +129,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
         card_oneupi = findViewById(R.id.card_oneupi);
         card_stripe = findViewById(R.id.card_stripe);
         card_aggrepay = findViewById(R.id.card_agrrepay);
-
+        card_onepay = findViewById(R.id.card_onepay);
 
         package_name.setText(aPackage.getName());
         package_validity.setText(aPackage.getDay() + " Days");
@@ -195,7 +204,6 @@ public class FinalPaymentActivity extends AppCompatActivity {
     }
 
 
-
     public void onClick() {
 /*
 
@@ -230,7 +238,6 @@ public class FinalPaymentActivity extends AppCompatActivity {
                 startActivity(intent);
 
 
-
                 HashMap<String, Object> paymentstartedAction = new HashMap<String, Object>();
                 paymentstartedAction.put("payment mode", "aggrepay");
                 paymentstartedAction.put("Selected Plan", aPackage.getName());
@@ -242,9 +249,76 @@ public class FinalPaymentActivity extends AppCompatActivity {
                 screenViewedAction.put("Screen Name", "AgrrepayActivity");
                 clevertapscreenviewd.pushEvent("Screen Viewed", screenViewedAction);
 
+            }
+        });
+
+
+        card_onepay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Random rnd = new Random();
+                int trans_id = 100000 + rnd.nextInt(900000);
+                String str_trn_id = Integer.toString(trans_id);
+
+                Map<String, String> mapData = new HashMap<>();
+
+              //  mapData.put("dateTime", "2023-10-02 18:16:29");
+                mapData.put("custMail", email);
+                mapData.put("custMobile", mobile);
+                mapData.put("udf1", "NA");
+                mapData.put("udf2", "NA");
+                mapData.put("returnURL", Constants.PAYMENT_GATEWAY_RET_URL);
+                mapData.put("productId", "DEFAULT");
+                mapData.put("channelId", "0");
+                mapData.put("isMultiSettlement", "0");
+                mapData.put("txnType", "DIRECT");
+                mapData.put("instrumentId", "NA");
+                mapData.put("udf3", "NA");
+                mapData.put("udf4", "NA");
+                mapData.put("udf5", "NA");
+                mapData.put("cardDetails", "NA");
+                mapData.put("cardType", "NA");
+                mapData.put("merchantId", Constants.merchantID);
+                mapData.put("apiKey", Constants.secretKey);
+                mapData.put("txnId", str_trn_id);
+                mapData.put("amount", aPackage.getPrice()+".00");
+
+                LocalDateTime currentDateTime = null;
+                DateTimeFormatter formatter = null;
+                String formattedDateTime = null;
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    currentDateTime = LocalDateTime.now();
+                    formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    formattedDateTime = currentDateTime.format(formatter);
+                }
+                if (formattedDateTime != null)
+                    mapData.put("dateTime", formattedDateTime);
+
+               // Log.d("OnePay", "Debug message");
+
+                Gson gson = new GsonBuilder().serializeNulls().create();
+
+                // Serialize the map to JSON
+                String jsonString = gson.toJson(mapData);
+                Log.d("OnePay", "JSON String: " + jsonString);
+
+                Intent intent = new Intent(FinalPaymentActivity.this, PaymentActivity.class);
+                intent.putExtra("jsonString", jsonString);
+                intent.putExtra("merchantId", Constants.merchantID);
+                intent.putExtra("transactionId", str_trn_id);
+
+                intent.putExtra("package", aPackage);
+                intent.putExtra("currency", "currency");
+                intent.putExtra("from", "oneupi");
+
+                startActivity(intent);
 
             }
         });
+
 
 
 
@@ -309,7 +383,6 @@ public class FinalPaymentActivity extends AppCompatActivity {
             startActivity(intent);
 
         });
-
 
 
         card_razorpay.setOnClickListener(view -> {
@@ -443,7 +516,6 @@ public class FinalPaymentActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void onPaymentSheetResult(final PaymentSheetResult paymentSheetResult) {

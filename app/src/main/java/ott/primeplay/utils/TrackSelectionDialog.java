@@ -53,7 +53,6 @@ public final class TrackSelectionDialog extends DialogFragment {
         return mappedTrackInfo != null && willHaveContent(mappedTrackInfo);
     }
 
-
     public static boolean willHaveContent(MappedTrackInfo mappedTrackInfo) {
         for (int i = 0; i < mappedTrackInfo.getRendererCount(); i++) {
             if (showTabForRenderer(mappedTrackInfo, i)) {
@@ -62,6 +61,7 @@ public final class TrackSelectionDialog extends DialogFragment {
         }
         return false;
     }
+
 
 
     public static TrackSelectionDialog createForTrackSelector(
@@ -100,6 +100,7 @@ public final class TrackSelectionDialog extends DialogFragment {
     }
 
 
+
     public static TrackSelectionDialog createForMappedTrackInfoAndParameters(
             int titleId,
             MappedTrackInfo mappedTrackInfo,
@@ -120,13 +121,13 @@ public final class TrackSelectionDialog extends DialogFragment {
         return trackSelectionDialog;
     }
 
+
     public TrackSelectionDialog() {
         tabFragments = new SparseArray<>();
         tabTrackTypes = new ArrayList<>();
         // Retain instance across activity re-creation to prevent losing access to init data.
         setRetainInstance(true);
     }
-
 
 
     private void init(
@@ -208,6 +209,7 @@ public final class TrackSelectionDialog extends DialogFragment {
         return dialogView;
     }
 
+
     private static boolean showTabForRenderer(MappedTrackInfo mappedTrackInfo, int rendererIndex) {
         TrackGroupArray trackGroupArray = mappedTrackInfo.getTrackGroups(rendererIndex);
         if (trackGroupArray.length == 0) {
@@ -217,6 +219,8 @@ public final class TrackSelectionDialog extends DialogFragment {
         return isSupportedTrackType(trackType);
     }
 
+
+    
     private static boolean isSupportedTrackType(int trackType) {
         switch (trackType) {
       case C.TRACK_TYPE_VIDEO:
@@ -231,6 +235,8 @@ public final class TrackSelectionDialog extends DialogFragment {
         }
     }
 
+
+
     private static String getTrackTypeString(Resources resources, int trackType) {
         switch (trackType) {
             case C.TRACK_TYPE_VIDEO:
@@ -243,6 +249,7 @@ public final class TrackSelectionDialog extends DialogFragment {
                 throw new IllegalArgumentException();
         }
     }
+
 
     private final class FragmentAdapter extends FragmentPagerAdapter {
 
@@ -335,3 +342,5 @@ public final class TrackSelectionDialog extends DialogFragment {
         }
     }
 }
+
+

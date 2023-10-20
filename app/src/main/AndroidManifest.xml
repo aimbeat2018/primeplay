@@ -363,7 +363,10 @@
         <activity
             android:name=".DownloadActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Nobar" /> <!-- <activity android:name=".reelsvideo.Home" /> -->
+            android:theme="@style/AppTheme.Nobar" />
+        <activity android:name=".onepay.PaymentActivity" />
+        <activity android:name=".onepay.PaymentResultActivity" />
+        <!-- <activity android:name=".reelsvideo.Home" /> -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ppapplogo" /> <!-- Test mode -->

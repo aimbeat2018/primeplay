@@ -594,11 +594,12 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
             }
         });
 
+
         imgAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MappingTrackSelector.MappedTrackInfo mappedTrackInfo;
-                DefaultTrackSelector.Parameters parameters = trackSelector.getParameters();
+               DefaultTrackSelector.Parameters parameters = trackSelector.getParameters();
                 isShowingTrackSelectionDialog = true;
                 TrackSelectionDialog trackSelectionDialog =
                         TrackSelectionDialog.createForTrackSelector(
@@ -609,6 +610,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                 trackSelectionDialog.show(getSupportFragmentManager(), null);
             }
         });
+
 
         img_quality.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -698,6 +700,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
             }
         });
 
+
         myApplication = MyAppClass.getInstance();
         handler = new Handler();
         dataSourceFactory = buildDataSourceFactory();
@@ -717,7 +720,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
     private DataSource.Factory buildDataSourceFactory() {
         return ((MyAppClass) getApplication()).buildDataSourceFactory();
     }
-
 
     public void openBottomSheet() {
         View dialogView = getLayoutInflater().inflate(R.layout.fragment_bottom_sheet_subtitle, null);
@@ -1009,6 +1011,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         }
 
     }
+
 
     private void showAlertDialog() {
         androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(DetailsActivity.this);

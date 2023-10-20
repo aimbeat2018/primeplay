@@ -998,6 +998,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.Original
                 optionsToDownload // List
         );
 
+
         TrackKey trackKey = trackKeyss.get(0);
         qualityParams = ((DefaultTrackSelector) trackSelector).getParameters().buildUpon()
                 .setMaxVideoSize(trackKey.getTrackFormat().width, trackKey.getTrackFormat().height)
@@ -1013,8 +1014,6 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.Original
                         .setMaxVideoSize(trackKey.getTrackFormat().width, trackKey.getTrackFormat().height)
                         .setMaxVideoBitrate(trackKey.getTrackFormat().bitrate)
                         .build();
-
-
             }
         });
         // Set the a;ert dialog positive button

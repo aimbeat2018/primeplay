@@ -146,6 +146,7 @@ public class LoginSocialNumberNotFoundActivity extends AppCompatActivity {
         });
 
 
+
 //        if (AppConfig.ENABLE_FACEBOOK_LOGIN) {
 ////            facebookAuthButton.setVisibility(View.VISIBLE);
 //            card_facebook.setVisibility(View.VISIBLE);
@@ -811,7 +812,8 @@ public class LoginSocialNumberNotFoundActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginSocialNumberNotFoundActivity.this, OtpActivity.class);
                             intent.putExtra("from", "device_change");
                             intent.putExtra("otp", otp);
-                            intent.putExtra("countryCode", ccp.getSelectedCountryCode());
+                           // intent.putExtra("countryCode", ccp.getSelectedCountryCode());
+                            intent.putExtra("countryCode", "91");
                             intent.putExtra("mobile_no", etEmail.getText().toString());
                             startActivity(intent);
                         } else {
@@ -871,7 +873,8 @@ public class LoginSocialNumberNotFoundActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginSocialNumberNotFoundActivity.this, OtpActivity.class);
                             intent.putExtra("from", "signup");
                             intent.putExtra("otp", otp);
-                            intent.putExtra("countryCode", ccp.getSelectedCountryCode());
+                           // intent.putExtra("countryCode", ccp.getSelectedCountryCode());
+                            intent.putExtra("countryCode", "91");
                             intent.putExtra("mobile_no", etEmail.getText().toString());
                             startActivity(intent);
                         } else {
@@ -904,7 +907,8 @@ public class LoginSocialNumberNotFoundActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         String status = jsonObject.getString("status");
-                        String countryCode = ccp.getSelectedCountryCode();
+                      //  String countryCode = ccp.getSelectedCountryCode();
+                        String countryCode = "91";
                         if (status.equals("1")) {
                             startActivity(new Intent(LoginSocialNumberNotFoundActivity.this, LoginViaMobileActivity.class).putExtra("mobile", etEmail.getText().toString()).putExtra("countryCode", countryCode));
                         } else {

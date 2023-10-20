@@ -300,6 +300,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 goToPlayStore();
                 updateDailog.dismiss();
             });
+
             builder.setNegativeButton("Cancel", (dialog, which) -> {
                 updateDailog.dismiss();
                 finishAffinity();
@@ -591,24 +592,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.code() == 200) {
-                    if (response.body() != null) {
-                        User user = response.body();
-                        if (user != null)
-                            if (user.getLogout_status().equals("1")) {
-                                String deviceNoDynamic = user.getDevice_no();
-                                String deviceNo = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-                                if (deviceNoDynamic != null) {
-                                    if (!deviceNoDynamic.equals("")) {
-                                        if (!deviceNo.equals(deviceNoDynamic)) {
-                                            Toast.makeText(MainActivity.this, "Logged in other device", Toast.LENGTH_SHORT).show();
-                                            logoutUser(uid);
+
+                    try{
+
+                        if (response.body() != null) {
+                            User user = response.body();
+                            if (user != null)
+                                if (user.getLogout_status().equals("1")) {
+                                    String deviceNoDynamic = user.getDevice_no();
+                                    String deviceNo = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+                                    if (deviceNoDynamic != null) {
+                                        if (!deviceNoDynamic.equals("")) {
+                                            if (!deviceNo.equals(deviceNoDynamic)) {
+                                                Toast.makeText(MainActivity.this, "Logged in other device", Toast.LENGTH_SHORT).show();
+                                                logoutUser(uid);
+                                            }
                                         }
                                     }
+                                } else {
+                                    logoutUser(uid);
                                 }
-                            } else {
-                                logoutUser(uid);
-                            }
-                    }
+                        }
+
+                    }catch (Exception e){e.printStackTrace();}
+
                 }
             }
 

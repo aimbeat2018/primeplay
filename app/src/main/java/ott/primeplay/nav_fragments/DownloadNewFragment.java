@@ -88,6 +88,8 @@ public class DownloadNewFragment extends Fragment {
         return f;
     }
 
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -124,6 +126,7 @@ public class DownloadNewFragment extends Fragment {
         download_layout.setVisibility(View.GONE);
         getActiveStatus(PreferenceUtils.getUserId(getActivity()));
         loadVideos();
+
 
         subscribe_bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,6 +166,8 @@ public class DownloadNewFragment extends Fragment {
         handler.post(runnableCode);
         return rootView;
     }
+
+
 
     private void getActiveStatus(String userId) {
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();

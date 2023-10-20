@@ -126,6 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String Status = "status";
 
 
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_CONFIG_TABLE());

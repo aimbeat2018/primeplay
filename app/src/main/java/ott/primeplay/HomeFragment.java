@@ -289,6 +289,8 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+
         imgFree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -300,7 +302,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
 
 
         if (db.getConfigurationData().getAppConfig().getGenreVisible()) {

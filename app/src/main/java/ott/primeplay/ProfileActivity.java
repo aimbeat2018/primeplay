@@ -108,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String id;
     private boolean isDark;
     private String selectedGender = "Male";
-    String from = "", intentOtp = "", countryCode = "";
+    String from = "", intentOtp = "", countryCode = "91";
     String userEnteredOtp = "";
     private ImageView backbtn;
     CountryCodePicker ccp;
@@ -117,6 +117,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String verificationId;
     private PhoneAuthProvider.ForceResendingToken verificationToken;
     CleverTapAPI clevertapDefaultInstance;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,10 +212,11 @@ public class ProfileActivity extends AppCompatActivity {
                 String currentPass = etCurrentPassword.getText().toString();
                 String name = etName.getText().toString();
 
+
 //                updateProfile(id, email, phone, name, pass, currentPass);
-                if (ccp.getSelectedCountryCode().equals("")) {
+             /*   if (ccp.getSelectedCountryCode().equals("")) {
                     Toast.makeText(this, "Select countryCode", Toast.LENGTH_SHORT).show();
-                } else if (ccp.getSelectedCountryCode().contains("91")) {
+                } else if (ccp.getSelectedCountryCode().contains("91")) {*/
                     sendOtp(id, email, phone, name, pass, currentPass);
 
 //                    if (etPhone.getText().toString().contains("+")) {
@@ -223,16 +225,19 @@ public class ProfileActivity extends AppCompatActivity {
 //                        sendVerificationCode("+" + ccp.getSelectedCountryCode() + etPhone.getText().toString());
 //                    }
 //                    sendVerificationCode("+" + ccp.getSelectedCountryCode() + etPhone.getText().toString());
-                } else {
+               /* } else {
                     if (etPhone.getText().toString().contains("+")) {
                         sendVerificationCode(etPhone.getText().toString());
                     } else {
-                        sendVerificationCode("+" + ccp.getSelectedCountryCode() + etPhone.getText().toString());
+                       // sendVerificationCode("+" + ccp.getSelectedCountryCode() + etPhone.getText().toString());
+                        //change 191023-rk
+                        sendVerificationCode("+91" + etPhone.getText().toString());
                     }
-                }
+             }*/
 
             }
         });
+
 
         setPasswordBtn.setOnClickListener(view -> showSetPasswordDialog());
 
@@ -406,15 +411,16 @@ public class ProfileActivity extends AppCompatActivity {
                         etEmail.setText(user.getEmail());
                         etPhone.setText(user.getPhone());
 
-                        if (!user.getCountry_code().equals("") || user.getCountry_code() != null) {
+                     /*   if (!user.getCountry_code().equals("") || user.getCountry_code() != null) {
                             countryCode = user.getCountry_code();
                             if (user.getCountry_code().contains("+")) {
                                 ccp.setDefaultCountryUsingPhoneCode(Integer.parseInt(user.getCountry_code().replace("+", "")));
                             }
-                        }
+                        }*/
 
 
-                        String ccode = ccp.getSelectedCountryCode();
+                       // String ccode = ccp.getSelectedCountryCode();
+                        String ccode = "91";
                         if (etPhone.getText().toString().contains(ccode))
                             addUserToCleverTap(user.getName(), user.getUserId(), user.getEmail(), etPhone.getText().toString());
                         else
@@ -710,7 +716,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-
     private void sendOtp(String idString, String emailString, String phoneString, String nameString, String passString, String currentPassString) {
         dialog.show();
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
@@ -906,42 +911,42 @@ public class ProfileActivity extends AppCompatActivity {
 
         txt_resend.setOnClickListener(view -> {
 
-            if (ccp.getSelectedCountryCode().contains("91")) {
+           // if (ccp.getSelectedCountryCode().contains("91")) {
                 sendOtp(idString,
                         emailString,
                         phoneString,
                         nameString,
                         passString,
                         currentPassString);
-            } else {
+           /* } else {
                 if (etPhone.getText().toString().contains("+")) {
                     resendVerificationCode(phoneString, verificationToken);
                 } else {
                     resendVerificationCode("+" + ccp.getSelectedCountryCode() + phoneString, verificationToken);
                 }
 
-            }
+            }*/
         });
 
         otp_view.setOtpCompletionListener(otp -> userEnteredOtp = otp);
 
         otp_viewIndia.setOtpCompletionListener(otp -> userEnteredOtp = otp);
 
-        if (ccp.getSelectedCountryCode().contains("91")) {
+       // if (ccp.getSelectedCountryCode().contains("91")) {
             otp_viewIndia.setVisibility(View.VISIBLE);
             otp_view.setVisibility(View.GONE);
-        } else {
+      /*  } else {
             otp_viewIndia.setVisibility(View.GONE);
             otp_view.setVisibility(View.VISIBLE);
         }
-
+*/
         submit.setOnClickListener(view -> {
 //            String otp = otp_edit_box1.getText().toString() +
 //                    otp_edit_box2.getText().toString()
 //                    + otp_edit_box3.getText().toString()
 //                    + otp_edit_box4.getText().toString();
 
-            if (ccp.getSelectedCountryCode().contains("91")) {
+           // if (ccp.getSelectedCountryCode().contains("91")) {
                 if (userEnteredOtp.equals("")) {
                     Toast.makeText(ProfileActivity.this, "Enter OTP", Toast.LENGTH_SHORT).show();
                 } else if (!userEnteredOtp.equals(intentOtp)) {
@@ -950,13 +955,13 @@ public class ProfileActivity extends AppCompatActivity {
                     dialog.dismiss();
                     updateProfile(idString, emailString, phoneString, nameString, passString, currentPassString);
                 }
-            } else {
-                if (userEnteredOtp.equals("")) {
+           // } else {
+               /* if (userEnteredOtp.equals("")) {
                     Toast.makeText(ProfileActivity.this, "Enter OTP", Toast.LENGTH_SHORT).show();
                 } else {
                     verifyCode(userEnteredOtp);
-                }
-            }
+                }*/
+         //   }
         });
 
         txt_change_no.setOnClickListener(view -> dialog.dismiss());
