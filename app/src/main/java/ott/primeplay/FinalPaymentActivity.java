@@ -2,11 +2,17 @@ package ott.primeplay;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -38,6 +44,9 @@ import java.util.Objects;
 import java.util.Random;
 
 import okhttp3.ResponseBody;
+import ott.primeplay.adapters.MyListAdapter;
+import ott.primeplay.adapters.MyListData;
+import ott.primeplay.adapters.PackageAdapter;
 import ott.primeplay.network.RetrofitClient;
 import ott.primeplay.database.DatabaseHelper;
 import ott.primeplay.network.apis.PaymentApi;
@@ -77,7 +86,8 @@ public class FinalPaymentActivity extends AppCompatActivity {
 
     String uid = "", uname = "", mobile = "", email = "", order_id = "", orderIdstr = "";
     private DatabaseHelper databaseHelper;
-
+    MyListData[] myListData;
+Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +101,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
         init();
         onClick();
-
+context=this;
         clevertapPaymentStartedInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
         clevertapscreenviewd = CleverTapAPI.getDefaultInstance(getApplicationContext());
         CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
@@ -112,8 +122,179 @@ public class FinalPaymentActivity extends AppCompatActivity {
 
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
 
-    }
 
+
+        final Dialog dialog = new Dialog(FinalPaymentActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.confirm_spinner_user_age_dialog);
+        dialog.setCancelable(false);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        //  Button btConfirm = dialog.findViewById(R.id.btConfirm);
+        TextView txtCancel = dialog.findViewById(R.id.txtCancel);
+        RecyclerView rec_age = dialog.findViewById(R.id.recyclerView);
+
+        myListData = new MyListData[]{
+
+                new MyListData("18"),
+                new MyListData("19"),
+                new MyListData("20"),
+                new MyListData("21"),
+                new MyListData("22"),
+                new MyListData("23"),
+                new MyListData("24"),
+                new MyListData("25"),
+                new MyListData("26"),
+                new MyListData("27"),
+                new MyListData("28"),
+
+
+                new MyListData("29"),
+                new MyListData("30"),
+                new MyListData("31"),
+                new MyListData("32"),
+                new MyListData("33"),
+                new MyListData("34"),
+                new MyListData("35"),
+                new MyListData("36"),
+                new MyListData("37"),
+                new MyListData("38"),
+                new MyListData("39"),
+
+                new MyListData("40"),
+                new MyListData("41"),
+                new MyListData("42"),
+                new MyListData("42"),
+                new MyListData("43"),
+                new MyListData("44"),
+                new MyListData("45"),
+                new MyListData("46"),
+                new MyListData("47"),
+                new MyListData("48"),
+                new MyListData("49"),
+
+
+                new MyListData("50"),
+                new MyListData("51"),
+                new MyListData("52"),
+                new MyListData("52"),
+                new MyListData("53"),
+                new MyListData("54"),
+                new MyListData("55"),
+                new MyListData("56"),
+                new MyListData("57"),
+                new MyListData("58"),
+                new MyListData("59"),
+
+
+                new MyListData("60"),
+                new MyListData("61"),
+                new MyListData("62"),
+                new MyListData("62"),
+                new MyListData("63"),
+                new MyListData("64"),
+                new MyListData("65"),
+                new MyListData("66"),
+                new MyListData("67"),
+                new MyListData("68"),
+                new MyListData("69"),
+
+                new MyListData("70"),
+                new MyListData("71"),
+                new MyListData("72"),
+                new MyListData("72"),
+                new MyListData("73"),
+                new MyListData("74"),
+                new MyListData("75"),
+                new MyListData("76"),
+                new MyListData("77"),
+                new MyListData("78"),
+                new MyListData("79"),
+
+
+                new MyListData("80"),
+                new MyListData("81"),
+                new MyListData("82"),
+                new MyListData("82"),
+                new MyListData("83"),
+                new MyListData("84"),
+                new MyListData("85"),
+                new MyListData("86"),
+                new MyListData("87"),
+                new MyListData("88"),
+                new MyListData("89"),
+
+
+                new MyListData("90"),
+                new MyListData("91"),
+                new MyListData("92"),
+                new MyListData("92"),
+                new MyListData("93"),
+                new MyListData("94"),
+                new MyListData("95"),
+                new MyListData("96"),
+                new MyListData("97"),
+                new MyListData("98"),
+                new MyListData("99"),
+                new MyListData("100"),
+
+        };
+
+
+
+       // MyListAdapter MyListAdapter = new MyListAdapter(myListData,packageList.get(getAdapterPosition()));
+         MyListAdapter MyListAdapter = new MyListAdapter(myListData,context,dialog);
+        rec_age.setHasFixedSize(true);
+        rec_age.setLayoutManager(new LinearLayoutManager(FinalPaymentActivity.this));
+        rec_age.setAdapter(MyListAdapter);
+
+
+
+/*
+        rec_age.addOnItemTouchListener(
+                new PackageAdapter.RecyclerItemClickListener(FinalPaymentActivity.this, rec_age, new PackageAdapter.RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        // do whatever
+                        if (itemClickListener != null) {
+                            itemClickListener.onItemClick(packageList.get(getAdapterPosition()));
+                            itemClickListener.onItemClick(packageList.get(getAdapterPosition()));
+
+                        }
+
+
+                        ott.primeplay.adapters.MyListAdapter.ViewHolder viewHolder = (ott.primeplay.adapters.MyListAdapter.ViewHolder) rec_age.getChildViewHolder(view);
+
+                        View age = viewHolder.itemView.findViewById(position);
+
+                        String agee = String.valueOf(age);
+
+                    }
+
+
+                })
+        );*/
+
+
+        txtCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+//                finish();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+
+
+
+    }
 
     private void init() {
         package_name = findViewById(R.id.package_name);
@@ -136,7 +317,6 @@ public class FinalPaymentActivity extends AppCompatActivity {
 
         price.setText("\u20B9 " + aPackage.getPrice());
     }
-
 
     public void fetch_stripe_Payment_data(String strip_plan_amount) {
         //   RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -227,6 +407,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
 */
 
 
+
         card_aggrepay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,7 +417,6 @@ public class FinalPaymentActivity extends AppCompatActivity {
                 intent.putExtra("currency", "currency");
                 intent.putExtra("from", "aggrepay");
                 startActivity(intent);
-
 
                 HashMap<String, Object> paymentstartedAction = new HashMap<String, Object>();
                 paymentstartedAction.put("payment mode", "aggrepay");
@@ -362,6 +542,8 @@ public class FinalPaymentActivity extends AppCompatActivity {
             paymentstartedAction.put("Selected Plan", aPackage.getName());
             paymentstartedAction.put("Amount", aPackage.getPrice());
             paymentstartedAction.put("Days", aPackage.getDay());
+
+
 
 
             clevertapPaymentStartedInstance.pushEvent("Payment Started", paymentstartedAction);
@@ -536,6 +718,8 @@ public class FinalPaymentActivity extends AppCompatActivity {
         }
     }
 
+
+
     public void saveChargeData(String token, String from) {
         //  progressBar.setVisibility(View.VISIBLE);
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
@@ -544,7 +728,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
                 databaseHelper.getUserData().getUserId(),
                 aPackage.getPrice(),
                 // "1",
-                token, from);
+                token,"35", from);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {

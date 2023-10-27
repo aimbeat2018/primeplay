@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -31,6 +32,7 @@ import ott.primeplay.network.apis.SubscriptionApi;
 import ott.primeplay.network.model.ActiveStatus;
 import ott.primeplay.network.model.SubscriptionHistory;
 import ott.primeplay.network.model.User;
+import ott.primeplay.utils.Constants;
 import ott.primeplay.utils.PreferenceUtils;
 import ott.primeplay.utils.ToastMsg;
 import retrofit2.Call;
@@ -66,12 +68,23 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
     String transactionId;
     private OneUPIPayment easyUpiPayment;
     Float float_plan_amount;
-
+    String str_user_age="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_upipayment);
 
+
+
+        try {
+            //  Block of code to try
+            SharedPreferences sharedPreferences = OneUPIPaymentActivity.this.getSharedPreferences(Constants.USER_AGE, MODE_PRIVATE);
+            str_user_age = sharedPreferences.getString("user_age", "20");
+
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
         clevertapChergedInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
         clevertapChergedInstance.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
 
@@ -233,7 +246,7 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
                 databaseHelper.getUserData().getUserId(),
                 aPackage.getPrice(),
                 // "1",
-                token, from);
+                token,str_user_age, from);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {

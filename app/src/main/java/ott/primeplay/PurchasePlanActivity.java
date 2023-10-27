@@ -107,6 +107,9 @@ public class PurchasePlanActivity extends AppCompatActivity implements PackageAd
     ProgressDialog dialog;
 
     CleverTapAPI clevertapscreenviewd;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         RtlUtils.setScreenDirection(this);
@@ -177,6 +180,7 @@ public class PurchasePlanActivity extends AppCompatActivity implements PackageAd
                 progressBar.setVisibility(View.GONE);
             }
 
+
             @Override
             public void onFailure(Call<AllPackage> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
@@ -210,7 +214,7 @@ public class PurchasePlanActivity extends AppCompatActivity implements PackageAd
             Retrofit retrofit = RetrofitClient.getRetrofitInstance();
             PaymentApi paymentApi = retrofit.create(PaymentApi.class);
             Call<ResponseBody> call = paymentApi.savePayment(AppConfig.API_KEY, packageItem.getPlanId(), userId, packageItem.getPrice(),
-                    payId, "Paypal");
+                    payId, "34","Paypal");
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -524,7 +528,7 @@ public class PurchasePlanActivity extends AppCompatActivity implements PackageAd
         Call<ResponseBody> call = paymentApi.savePayment(AppConfig.API_KEY, packageItem.getPlanId(),
                 databaseHelper.getUserData().getUserId(),
                 packageItem.getPrice(),
-                token, from);
+                token,"44", from);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {

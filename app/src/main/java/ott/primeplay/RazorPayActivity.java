@@ -2,6 +2,7 @@ package ott.primeplay;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -93,6 +94,7 @@ import ott.primeplay.network.model.PayuMoneyModel;
 import ott.primeplay.network.model.User;
 import ott.primeplay.network.model.config.PaymentConfig;
 import ott.primeplay.utils.ApiResources;
+import ott.primeplay.utils.Constants;
 import ott.primeplay.utils.MyAppClass;
 import ott.primeplay.utils.PreferenceUtils;
 import ott.primeplay.utils.ToastMsg;
@@ -112,7 +114,7 @@ public class RazorPayActivity extends AppCompatActivity implements PaymentResult
     TextView package_name, package_validity, price, txt_txn_id, txt_falied_reason;
     CardView card_paytm, card_payuMoney, card_cashfree;
     LinearLayout lnr_success, lnr_failed;
-
+    String str_user_age="";
     private long mLastClickTime;
     User user;
     String hashServer = "";
@@ -133,6 +135,17 @@ public class RazorPayActivity extends AppCompatActivity implements PaymentResult
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_razor_pay);
         progressBar = findViewById(R.id.progress_bar);
+
+        try {
+            //  Block of code to try
+            SharedPreferences sharedPreferences = RazorPayActivity.this.getSharedPreferences(Constants.USER_AGE, MODE_PRIVATE);
+            str_user_age = sharedPreferences.getString("user_age", "20");
+
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+
         aPackage = (Package) getIntent().getSerializableExtra("package");
         from = getIntent().getStringExtra("from");
         init();
@@ -638,7 +651,7 @@ public class RazorPayActivity extends AppCompatActivity implements PaymentResult
         Call<ResponseBody> call = paymentApi.savePayment(AppConfig.API_KEY, aPackage.getPlanId(),
                 databaseHelper.getUserData().getUserId(),
                 aPackage.getPrice(),
-                token, from);
+                token,str_user_age, from);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

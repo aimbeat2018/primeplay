@@ -220,6 +220,7 @@
             app:srcCompat="@drawable/ic_subtitle" />
 
         <ImageView
+
             android:id="@+id/img_audio"
             android:layout_width="35dp"
             android:layout_height="35dp"

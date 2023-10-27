@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,7 @@ import ott.primeplay.network.model.ActiveStatus;
 import ott.primeplay.network.model.Package;
 import ott.primeplay.network.model.SubscriptionHistory;
 import ott.primeplay.network.model.User;
+import ott.primeplay.utils.Constants;
 import ott.primeplay.utils.PreferenceUtils;
 import ott.primeplay.utils.ToastMsg;
 import retrofit2.Call;
@@ -49,7 +51,7 @@ public class AgrrepayActivity extends AppCompatActivity {
     String plantamount = "";
 
     CleverTapAPI clevertapChergedInstance;
-
+    String str_user_age="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,15 @@ public class AgrrepayActivity extends AppCompatActivity {
         clevertapChergedInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
         clevertapChergedInstance.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
         CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
+        try {
+            //  Block of code to try
+            SharedPreferences sharedPreferences = AgrrepayActivity.this.getSharedPreferences(Constants.USER_AGE, MODE_PRIVATE);
+            str_user_age = sharedPreferences.getString("user_age", "20");
 
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
 
         if (getIntent() != null) {
             aPackage = (Package) getIntent().getSerializableExtra("package");
@@ -184,7 +194,7 @@ public class AgrrepayActivity extends AppCompatActivity {
                 databaseHelper.getUserData().getUserId(),
                 aPackage.getPrice(),
                 // "1",
-                token, from);
+                token,str_user_age, from);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {

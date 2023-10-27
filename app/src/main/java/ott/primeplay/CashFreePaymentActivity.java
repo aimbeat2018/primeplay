@@ -1,10 +1,13 @@
 package ott.primeplay;
 
+import static ott.primeplay.MoreActivity.familycontent;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,6 +64,7 @@ import ott.primeplay.network.model.ActiveStatus;
 import ott.primeplay.network.model.Package;
 import ott.primeplay.network.model.SubscriptionHistory;
 import ott.primeplay.network.model.User;
+import ott.primeplay.utils.Constants;
 import ott.primeplay.utils.PreferenceUtils;
 import ott.primeplay.utils.ToastMsg;
 import retrofit2.Call;
@@ -92,11 +96,23 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
             lnr_failed;
     private ProgressBar progressBar;
     CleverTapAPI clevertapChergedInstance;
+    String str_user_age = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cash_free_payment);
+
+
+        try {
+            //  Block of code to try
+            SharedPreferences sharedPreferences = CashFreePaymentActivity.this.getSharedPreferences(Constants.USER_AGE, MODE_PRIVATE);
+            str_user_age = sharedPreferences.getString("user_age", "20");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         if (getIntent() != null) {
             aPackage = (Package) getIntent().getSerializableExtra("package");
@@ -132,10 +148,12 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
         order_id = String.valueOf(create_otp);
         orderID = order_id;
         getToken(order_id, aPackage.getPrice());
-        // getToken(order_id, "1");
+      //  getToken(order_id, "1");
+
 
         clevertapChergedInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
     }
+
 
     @Override
     public void onPaymentVerify(String orderID) {
@@ -276,7 +294,6 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
     }*/
 
 
-
     public void getToken(final String orderId, final String amount) {
         dialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, /*"https://primeplay.co.in/webworld_backoffice/rest-api/v130/cashfree"*/"https://hunters.co.in/ppv1/rest-api/v130/cashfree_test"/*"https://test.cashfree.com/api/v2/cftoken/order"*/, new com.android.volley.Response.Listener<String>() {
@@ -390,8 +407,10 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
         Call<ResponseBody> call = paymentApi.savePayment(AppConfig.API_KEY, aPackage.getPlanId(),
                 databaseHelper.getUserData().getUserId(),
                 aPackage.getPrice(),
-                //  "1",
-                token, from);
+                // "1",
+                token, str_user_age, from);
+
+
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
@@ -419,7 +438,6 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
         });
 
     }
-
 
 
     private void getSubscriptionHistory(String plantamount) {
@@ -467,7 +485,6 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
         });
 
     }
-
 
 
     private void updateActiveStatus() {

@@ -429,6 +429,7 @@ public class HomeFragment extends Fragment {
         });
 
 
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -549,7 +550,6 @@ public class HomeFragment extends Fragment {
             //  viewPager.setTranslationX(-2 * viewPager.getWidth() * viewPager.getCurrentItem() );
 
         };
-
 
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -743,6 +743,7 @@ public class HomeFragment extends Fragment {
             movieLayout.setVisibility(GONE);
             adapterMovie.notifyDataSetChanged();
         }
+
 
 
         //latest tv series
@@ -981,6 +982,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
 
     private void getFamilyContententFromServer() {
 

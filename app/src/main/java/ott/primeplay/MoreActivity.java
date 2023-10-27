@@ -254,6 +254,7 @@ public class MoreActivity extends AppCompatActivity {
             switchfamilycontent.setChecked(true);
         }
 
+
         switchfamilycontent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

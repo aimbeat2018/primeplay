@@ -258,11 +258,22 @@
             android:theme="@style/AppTheme.Nobar" />
         <activity
             android:name=".DetailsActivity"
-            android:configChanges="screenLayout|screenSize|orientation"
             android:label="@string/title_activity_details"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+
+            android:supportsPictureInPicture="true"
+            android:configChanges=
+                "screenSize|smallestScreenSize|screenLayout|orientation"
+            android:resizeableActivity="true"
+            />
+
+
+        <!--
+            android:configChanges="screenLayout|screenSize|orientation"
+-->
+
         <activity
             android:name=".GoldDetailsActivity"
             android:configChanges="screenLayout|screenSize|orientation"
