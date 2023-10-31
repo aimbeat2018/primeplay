@@ -204,6 +204,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -477,6 +479,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         familycontent = sharedPreferencesfamily.getBoolean("familycontent", false);
 
 
+
         offlineDatabaseHelper = new DatabaseHelper(DetailsActivity.this);
         //check vpn connection
         helperUtils = new HelperUtils(DetailsActivity.this);
@@ -501,6 +504,9 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         initViews();
+
+
+
 
         if (isDark) {
             tvTopLayout.setBackgroundColor(getResources().getColor(R.color.black_window_light));
@@ -731,6 +737,9 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         }
 
     }
+
+
+
 
     private DataSource.Factory buildDataSourceFactory() {
         return ((MyAppClass) getApplication()).buildDataSourceFactory();
@@ -1404,7 +1413,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
             public void onClick(View v) {
 
                 if (!familycontent) {
-
 
 
 //agepopup rk 261023
@@ -5789,7 +5797,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
 
             holder.lnrDetails.setOnClickListener(v -> {
 
-
+                //agepopup
                 if(!familycontent) {
 
 
@@ -6321,7 +6329,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
 
 
 
-                //agepopup
              //   show_userAgeConfirmDialog(items.get(position), holder, "stop", position);
 
 

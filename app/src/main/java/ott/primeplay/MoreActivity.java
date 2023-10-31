@@ -108,7 +108,8 @@ public class MoreActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     RelativeLayout relLogin, relNotLogin;
 
-
+    String str_register_age = "";
+    CardView cardfamilyzone;
 
     /*Navigation layout*/
     ImageView imgProfile, imgWatchLater, imgSubscription, imgSupport, imgSettings, imgHelp, imgRateUs, imgPrivacyPolicy, imgTermsCondition, imgRefundPolicy, imgSignout;
@@ -137,6 +138,7 @@ public class MoreActivity extends AppCompatActivity {
 
         userId = PreferenceUtils.getUserId(MoreActivity.this);
 
+
 /*
 
 
@@ -150,7 +152,6 @@ public class MoreActivity extends AppCompatActivity {
 
         }
 */
-
 
 
         if (userId != null) {
@@ -236,6 +237,34 @@ public class MoreActivity extends AppCompatActivity {
         txtSignout = findViewById(R.id.txtSignout);
         relLogin = findViewById(R.id.relLogin);
         relNotLogin = findViewById(R.id.relNotLogin);
+        cardfamilyzone = findViewById(R.id.cardfamilyzone);
+
+
+        try {
+            //  Block of code to try
+            SharedPreferences sharedPreferences_userage = getSharedPreferences(Constants.USER_REGISTER_AGE, MODE_PRIVATE);
+            str_register_age = sharedPreferences_userage.getString("user_register_age", "20");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+        try {
+
+            int user_age = Integer.parseInt(str_register_age);
+            if (user_age > 18) {
+                cardfamilyzone.setVisibility(View.GONE);
+
+            }
+
+        } catch (Exception e) {
+
+        }
+
+
+
 
         themeSwitch.setChecked(isDark);
 
@@ -248,6 +277,7 @@ public class MoreActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Profile");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
 
         if (familycontent) {
 
@@ -385,8 +415,9 @@ public class MoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MoreActivity.this, MainActivity.class);
-
+                intent.putExtra("login_status", "user_login");
                 startActivity(intent);
+                // finish();
             }
         });
 
@@ -529,8 +560,6 @@ public class MoreActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
     public void onHelpClick(View view) {

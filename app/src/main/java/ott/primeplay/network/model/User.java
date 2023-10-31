@@ -26,6 +26,20 @@ public class User {
     @SerializedName("age")
     @Expose
     private String age;
+
+
+
+    @SerializedName("user_age")
+    @Expose
+    private String user_age;
+
+
+    @SerializedName("pin")
+    @Expose
+    private String pin;
+
+
+
     @SerializedName("country_code")
     @Expose
     private String country_code;
@@ -161,6 +175,25 @@ public class User {
         this.joinDate = joinDate;
     }
 
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
+
+    public String getUser_age() {
+        return user_age;
+    }
+
+
+
+    public void setUser_age(String user_age) {
+        this.user_age = user_age;
+    }
 //    public String getLastLogin() {
 //        return lastLogin;
 //    }

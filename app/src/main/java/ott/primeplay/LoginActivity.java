@@ -328,6 +328,7 @@ public class LoginActivity extends AppCompatActivity {
         return m.matches();
     }
 
+
     public void updateSubscriptionStatus(String userId) {
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
         SubscriptionApi subscriptionApi = retrofit.create(SubscriptionApi.class);
@@ -786,6 +787,17 @@ public class LoginActivity extends AppCompatActivity {
                         db.insertUserData(user);
                         ApiResources.USER_PHONE = user.getPhone();
 
+
+                        SharedPreferences.Editor editor = getSharedPreferences(Constants.USER_REGISTER_AGE, MODE_PRIVATE).edit();
+                        editor.putString("user_register_age", response.body().getUser_age());
+                        editor.apply();
+
+
+                        SharedPreferences.Editor editor1 = getSharedPreferences(Constants.USER_PIN, MODE_PRIVATE).edit();
+                        editor1.putString("user_pin", response.body().getPin());
+                        editor1.apply();
+
+
                         SharedPreferences.Editor preferences = getSharedPreferences(Constants.USER_LOGIN_STATUS, MODE_PRIVATE).edit();
                         preferences.putBoolean(Constants.USER_LOGIN_STATUS, true);
                         preferences.apply();
@@ -909,6 +921,9 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginActivity.this, OtpActivity.class);
                             intent.putExtra("from", "signup");
                             intent.putExtra("otp", otp);
+
+                            Log.d("mobile_otp", otp);
+
 //                            intent.putExtra("countryCode", ccp.getSelectedCountryCode());
                             intent.putExtra("countryCode", "91");
                             intent.putExtra("mobile_no", etEmail.getText().toString());

@@ -9,6 +9,9 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
+
+
+
 public interface SignUpApi {
     @FormUrlEncoded
     @POST("signup")
@@ -20,5 +23,12 @@ public interface SignUpApi {
                       @Field("country_code") String countryCode,
                       @Field("device_no") String device_no,
                       @Field("age") String age,
-                      @Field("device_token") String device_token);
+                      @Field("device_token") String device_token,
+                      @Field("user_age") String user_age,
+                      @Field("pin") String pin);
+
+
+
 }
+
+

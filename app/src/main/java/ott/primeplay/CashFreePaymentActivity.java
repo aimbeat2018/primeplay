@@ -103,7 +103,6 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cash_free_payment);
 
-
         try {
             //  Block of code to try
             SharedPreferences sharedPreferences = CashFreePaymentActivity.this.getSharedPreferences(Constants.USER_AGE, MODE_PRIVATE);
@@ -112,7 +111,6 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         if (getIntent() != null) {
             aPackage = (Package) getIntent().getSerializableExtra("package");
@@ -503,10 +501,12 @@ public class CashFreePaymentActivity extends AppCompatActivity implements CFChec
                     new ToastMsg(CashFreePaymentActivity.this).toastIconSuccess(getResources().getString(R.string.payment_success));
                     progressBar.setVisibility(View.GONE);
                     Intent intent = new Intent(CashFreePaymentActivity.this, MainActivity.class);
+                    intent.putExtra("login_status", "user_login");
                     startActivity(intent);
                     finish();
                 }
             }
+
 
             @Override
             public void onFailure(Call<ActiveStatus> call, Throwable t) {

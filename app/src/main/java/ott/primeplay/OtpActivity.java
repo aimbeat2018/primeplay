@@ -57,7 +57,6 @@ import retrofit2.Retrofit;
 
 public class OtpActivity extends AppCompatActivity {
 
-
     TextView txt_otp, txt_resend;
     AppCompatEditText otp_edit_box1, otp_edit_box2, otp_edit_box3, otp_edit_box4, otp_edit_box5,
             otp_edit_box6;
@@ -127,6 +126,7 @@ public class OtpActivity extends AppCompatActivity {
         otp_view.setOtpCompletionListener(otp -> userEnterOtp = otp);
 
         otp_viewIndia.setOtpCompletionListener(otp -> userEnterOtp = otp);
+
 
         submit.setOnClickListener(view -> {
 
@@ -238,7 +238,6 @@ public class OtpActivity extends AppCompatActivity {
             Toast.makeText(OtpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     };
-
 
 
     private void verifyCode(String code) {
@@ -452,10 +451,31 @@ public class OtpActivity extends AppCompatActivity {
                         db.insertUserData(user);
                         ApiResources.USER_PHONE = user.getPhone();
 
+
                         SharedPreferences.Editor preferences = getSharedPreferences(Constants.USER_LOGIN_STATUS, MODE_PRIVATE).edit();
                         preferences.putBoolean(Constants.USER_LOGIN_STATUS, true);
                         preferences.apply();
                         preferences.commit();
+
+                        if (response.body().getUser_age().equals("")) {
+
+                            SharedPreferences.Editor editor = getSharedPreferences(Constants.USER_REGISTER_AGE, MODE_PRIVATE).edit();
+                            editor.putString("user_register_age", "19");
+                            editor.apply();
+                        } else {
+
+                            SharedPreferences.Editor editor = getSharedPreferences(Constants.USER_REGISTER_AGE, MODE_PRIVATE).edit();
+                            editor.putString("user_register_age", response.body().getUser_age());
+                            editor.apply();
+
+                        }
+
+
+
+                        SharedPreferences.Editor editor1 = getSharedPreferences(Constants.USER_PIN, MODE_PRIVATE).edit();
+                        editor1.putString("user_pin", response.body().getPin());
+                        editor1.apply();
+
 
                         addUserToCleverTap(user.getName(), user.getUserId(), user.getEmail(), user.getPhone());
 

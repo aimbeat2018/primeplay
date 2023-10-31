@@ -8,6 +8,8 @@
     android:orientation="vertical"
     tools:ctx=".SignUpActivity">
 
+
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_edtbox"
         android:layout_width="match_parent"
@@ -17,7 +19,6 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:orientation="vertical">
-
 
         <TextView
             android:id="@+id/tv_login"
@@ -158,6 +159,7 @@
                                 android:textColor="@color/blue_grey_300"
                                 android:textSize="16dp" />
 
+
                             <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -195,6 +197,106 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:background="@color/white" />
+
+
+
+
+
+
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+                                <!--                                app:ccp_countryPreference="us,in"-->
+                                <TextView
+                                    android:visibility="visible"
+                                    android:id="@+id/tv_selectage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="10dp"
+                                    android:text="Age"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp" />
+
+
+                                <Spinner
+                                    android:id="@+id/spinner"
+                                    android:layout_width="149dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="8dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintHorizontal_bias="0.502"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintVertical_bias="0.498" />
+
+
+
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            <View
+                                android:visibility="visible"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/white" />
+
+
+                            <LinearLayout
+                                android:visibility="gone"
+                                android:id="@+id/ll_pin"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                >
+
+
+                                <TextView
+                                    android:id="@+id/txt_otp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="Enter your Pin"
+                                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                                    android:textColor="@color/blue_grey_300"
+                                    android:textSize="15sp" />
+
+
+
+                                <com.mukeshsolanki.OtpView
+                                    android:id="@+id/otp_viewIndia"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginVertical="10dp"
+                                    android:focusableInTouchMode="true"
+                                    android:inputType="number"
+                                    android:itemBackground="@drawable/edittext_curve_bg"
+                                    android:minWidth="20dp"
+                                    android:textColor="@android:color/black"
+                                    app:OtpItemCount="4"
+                                    app:OtpItemHeight="40dp"
+                                    app:OtpItemWidth="40dp"
+                                    app:OtpState_filled="true"
+                                    tools:ignore="SpeakableTextPresentCheck" />
+
+
+
+
+
+
+                            </LinearLayout>
 
 
                             <!-- <com.google.android.material.textfield.TextInputLayout
@@ -261,12 +363,13 @@
 
                             <LinearLayout
 
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
                                 android:layout_marginTop="8dp"
                                 android:orientation="horizontal"
-                                android:visibility="visible">
+                                android:visibility="gone">
 
                                 <RadioButton
                                     android:id="@+id/checkbox_age"
@@ -286,6 +389,7 @@
                                     android:textStyle="bold" />
 
                             </LinearLayout>
+
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -311,6 +415,8 @@
                                     android:textSize="14sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
+
+
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/signup"

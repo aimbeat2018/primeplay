@@ -9,10 +9,14 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +39,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.mukeshsolanki.OtpView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,7 +64,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final String TAG = "SignUpActivity";
     private static int RC_PHONE_SIGN_IN = 1231;
     private static int RC_FACEBOOK_SIGN_IN = 1241;
@@ -79,8 +84,18 @@ public class SignUpActivity extends AppCompatActivity {
     String firebaseToken = "", mobileStr = "", countryCode = "91";
     TextView tv_login, txtcountryCode;
     CleverTapAPI clevertapDefaultInstance, clevertapnewRegisterInstance;
-//    String mobile = "";
+    //    String mobile = "";
+    LinearLayout ll_pin;
+    OtpView otp_viewIndia;
 
+    String[] user_age = {"Select Age","7", "8", "9", "10", "11", "12", "13", "14", "15",
+            "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31",
+     "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47",
+     "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "58", "60", "61", "62", "63"};
+
+
+    String str_user_age = "";
+    String userEnterPin = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +106,7 @@ public class SignUpActivity extends AppCompatActivity {
         clevertapDefaultInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
         clevertapnewRegisterInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
 
+
         if (isDark) {
             setTheme(R.style.AppThemeDark);
         } else {
@@ -99,6 +115,25 @@ public class SignUpActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        otp_viewIndia = findViewById(R.id.otp_viewIndia);
+        ll_pin = findViewById(R.id.ll_pin);
+
+        otp_viewIndia.setOtpCompletionListener(otp -> userEnterPin = otp);
+
+
+        Spinner spin = (Spinner) findViewById(R.id.spinner);
+
+        spin.setOnItemSelectedListener(SignUpActivity.this);
+
+        //Creating the ArrayAdapter instance having the country list
+        ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, user_age);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        spin.setAdapter(aa);
+       // spin.setPrompt("Select age1");
+
+
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //
 //        if (!isDark) {
@@ -169,6 +204,8 @@ public class SignUpActivity extends AppCompatActivity {
             backgorundView.setBackgroundColor(getResources().getColor(R.color.nav_head_bg));
             btnSignup.setBackground(ContextCompat.getDrawable(this, R.drawable.login_field_button_dark));
         }
+
+
         btnSignup.setOnClickListener(v -> {
             if (etName.getText().toString().equals("")) {
                 new ToastMsg(SignUpActivity.this).toastIconError("please enter name");
@@ -180,9 +217,13 @@ public class SignUpActivity extends AppCompatActivity {
                 new ToastMsg(SignUpActivity.this).toastIconError("please enter password");
             } else if (!confirmpassword.getText().toString().equals(etPass.getText().toString())) {
                 new ToastMsg(SignUpActivity.this).toastIconError("confirm password should match with password");
-            } */ else if (!checkbox_age.isChecked()) {
-                new ToastMsg(SignUpActivity.this).toastIconError("please select age");
-            } /*else if (!chk_terms.isChecked()) {
+            } */
+
+            //else if (!checkbox_age.isChecked()) {
+               // new ToastMsg(SignUpActivity.this).toastIconError("please select age");
+           // }
+
+            /*else if (!chk_terms.isChecked()) {
                 new ToastMsg(SignUpActivity.this).toastIconError("please accept our terms and conditions");
             }*/ else {
 
@@ -208,7 +249,11 @@ public class SignUpActivity extends AppCompatActivity {
                                 strDob = "";
                             }
 
-                            signUp(email, pass, name, mobilestr, strDob);
+                           // signUp(email, pass, name, mobilestr, strDob);
+                            signUp(email, pass, name, mobilestr, "1");
+
+
+
                         }
                     }
                 });
@@ -316,12 +361,15 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
+
+
     private void signUp(String email, String pass, String name, String mobile, String age) {
         dialog.show();
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
         SignUpApi signUpApi = retrofit.create(SignUpApi.class);
         String countryCodeStr = "+" + countryCode;
-        Call<User> call = signUpApi.signUp(AppConfig.API_KEY, email, pass, name, mobile, countryCodeStr, deviceId, age, firebaseToken);
+        Call<User> call = signUpApi.signUp(AppConfig.API_KEY, email, pass, name, mobile, countryCodeStr, deviceId, age, firebaseToken, str_user_age, userEnterPin);
+
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -329,6 +377,17 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (user.getStatus().equals("success")) {
                     new ToastMsg(SignUpActivity.this).toastIconSuccess("Successfully registered");
+
+
+                    SharedPreferences.Editor editor = SignUpActivity.this.getSharedPreferences(Constants.USER_REGISTER_AGE, MODE_PRIVATE).edit();
+                    editor.putString("user_register_age", user.getUser_age());
+                    editor.apply();
+
+
+                    SharedPreferences.Editor editor1 = getSharedPreferences(Constants.USER_PIN, MODE_PRIVATE).edit();
+                    editor1.putString("user_pin", user.getPin());
+                    editor1.apply();
+
 
                     // save user info to sharedPref
                     saveUserInfo(user, user.getName(), etEmail.getText().toString(),
@@ -363,7 +422,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void addUserToAppsflyer(String name, String userId, String email, String s) {
@@ -829,6 +887,38 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        // Toast.makeText(getApplicationContext(), user_age[position], Toast.LENGTH_LONG).show();
+
+        str_user_age = user_age[position];
+
+
+        if (str_user_age.equals("Select Age")) {
+
+            Toast.makeText(getApplicationContext(), user_age[position], Toast.LENGTH_LONG).show();
+        } else {
+
+            int age = Integer.parseInt(str_user_age);
+
+            if (age > 18) {
+                ll_pin.setVisibility(View.VISIBLE);
+            } else {
+                ll_pin.setVisibility(View.GONE);
+            }
+        }
+
+    }
+
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
 

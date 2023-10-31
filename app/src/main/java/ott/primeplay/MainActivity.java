@@ -1,5 +1,7 @@
 package ott.primeplay;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static androidx.core.content.PackageManagerCompat.LOG_TAG;
 import static ott.primeplay.MoreActivity.familycontent;
 
@@ -28,6 +30,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -76,6 +79,7 @@ import okhttp3.ResponseBody;
 import ott.primeplay.adapters.NavigationAdapter;
 import ott.primeplay.database.DatabaseHelper;
 import ott.primeplay.firebaseservice.Config;
+import ott.primeplay.models.CommonModels;
 import ott.primeplay.models.NavigationModel;
 import ott.primeplay.nav_fragments.MainHomeFragment;
 import ott.primeplay.network.RetrofitClient;
@@ -102,6 +106,7 @@ import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.AFInAppEventType; // Predefined event names
 import com.appsflyer.AFInAppEventParameterName; // Predefined parameter names
+import com.mukeshsolanki.OtpView;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Serializable {
@@ -121,6 +126,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AlertDialog updateDailog;
     AppsFlyerRequestListener appsFlyerRequestListener;
     CleverTapAPI clevertapDefaultInstance;
+    String login_status = "";
+    String str_register_age = "";
+
+    String userEnternewPin = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +184,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setContentView(R.layout.activity_main);
 
+        try {
+
+
+            login_status = getIntent().getExtras().getString("login_status", "defaultKey");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            //  Block of code to try
+            SharedPreferences sharedPreferences_userage = MainActivity.this.getSharedPreferences(Constants.USER_REGISTER_AGE, MODE_PRIVATE);
+            str_register_age = sharedPreferences_userage.getString("user_register_age", "19");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            int user_age = Integer.parseInt(str_register_age);
+
+            if (user_age > 18) {
+
+                check_pin();
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        // check_pin();
+
+
 //to  get user  city location
         clevertapDefaultInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
         clevertapDefaultInstance.enableDeviceNetworkInfoReporting(true);
@@ -221,6 +266,182 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //----external method call--------------
         loadFragment(new MainHomeFragment());
     }
+
+
+    private void check_pin() {
+//        progressBar.setVisibility(View.VISIBLE);
+        // dialog.show();
+
+        Retrofit retrofit = RetrofitClient.getRetrofitInstance();
+        LoginApi api = retrofit.create(LoginApi.class);
+
+        Call<ResponseBody> call = api.check_pin(AppConfig.API_KEY, PreferenceUtils.getUserId(MainActivity.this));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        String status = jsonObject.getString("status");
+                        String pin = jsonObject.getString("pin");
+                        if (status.equals("0")) {//pin not generated
+
+                            pin_popup();
+
+                            Toast.makeText(MainActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+
+                            if (!login_status.equals("user_login")) {
+
+                                Intent intent = new Intent(MainActivity.this, PinActivity.class);
+                            /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
+                                intent.putExtra("pin", pin);
+
+                                startActivity(intent);
+                                finish();
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    // dialog.cancel();
+
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+/*//                progressBar.setVisibility(View.GONE);
+                changeDeviceSignIn();*/
+                //  dialog.cancel();
+            }
+        });
+
+
+    }
+
+
+    private void pin_popup() {
+
+
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.new_pin_generation_dialog);
+        dialog.setCancelable(false);
+
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        Button btConfirm = dialog.findViewById(R.id.btConfirm);
+        //TextView txtCancel = dialog.findViewById(R.id.txtCancel);
+        OtpView otp_newpin = dialog.findViewById(R.id.newsetpin);
+
+
+        try {
+
+            otp_newpin.setOtpCompletionListener(otp -> userEnternewPin = otp);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        btConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (userEnternewPin.equals("")) {
+
+
+                    Toast.makeText(MainActivity.this, "Enter 4 digit PIN", Toast.LENGTH_SHORT).show();
+
+
+                } else {
+                    generate_pin(userEnternewPin, dialog);
+
+
+                }
+
+                //  dialog.dismiss();
+            }
+        });
+
+
+       /* txtCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+//                finish();
+            }
+        });
+*/
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+    }
+
+
+    private void generate_pin(String userEnternewPin, Dialog dialog) {
+
+        Retrofit retrofit = RetrofitClient.getRetrofitInstance();
+        LoginApi api = retrofit.create(LoginApi.class);
+
+
+        Call<ResponseBody> call = api.pin_generate(AppConfig.API_KEY, PreferenceUtils.getUserId(MainActivity.this), userEnternewPin);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        String status = jsonObject.getString("status");
+
+
+                        if (status.equals("success")) {
+
+                            SharedPreferences.Editor editor = getSharedPreferences(Constants.USER_PIN, MODE_PRIVATE).edit();
+                            editor.putString("user_pin", userEnternewPin);
+                            editor.apply();
+
+                            Toast.makeText(MainActivity.this, jsonObject.getString("message") + " " + userEnternewPin, Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+
+
+                        } else {
+                            Toast.makeText(MainActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    // dialog.cancel();
+
+
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+/*//                progressBar.setVisibility(View.GONE);
+                changeDeviceSignIn();*/
+                //  dialog.cancel();
+            }
+        });
+
+    }
+
 
     private boolean checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -593,7 +814,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.code() == 200) {
 
-                    try{
+                    try {
 
                         if (response.body() != null) {
                             User user = response.body();
@@ -614,7 +835,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 }
                         }
 
-                    }catch (Exception e){e.printStackTrace();}
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                 }
             }
@@ -625,6 +848,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
+
 
     private void getImage(String uid) {
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
@@ -656,10 +880,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
     public void newUpdateDialog(String image) {
 
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.FAMILYCONTENTSTATUS, MODE_PRIVATE);
         familycontent = sharedPreferences.getBoolean("familycontent", false);
+
 
         if (familycontent == false) {
 

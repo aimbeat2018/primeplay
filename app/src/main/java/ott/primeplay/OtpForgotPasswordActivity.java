@@ -252,6 +252,18 @@ public class OtpForgotPasswordActivity extends AppCompatActivity {
                         preferences.apply();
                         preferences.commit();
 
+
+                        SharedPreferences.Editor editor = getSharedPreferences(Constants.USER_REGISTER_AGE, MODE_PRIVATE).edit();
+                        editor.putString("user_register_age", response.body().getUser_age());
+                        editor.apply();
+
+
+                        SharedPreferences.Editor editor1 = getSharedPreferences(Constants.USER_PIN, MODE_PRIVATE).edit();
+                        editor1.putString("user_pin", response.body().getPin());
+                        editor1.apply();
+
+
+
                         //save user login time, expire time
                         updateSubscriptionStatus(db.getUserData().getUserId());
                     }

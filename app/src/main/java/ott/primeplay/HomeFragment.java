@@ -44,12 +44,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.viewpagerindicator.LinePageIndicator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import okhttp3.ResponseBody;
 import ott.primeplay.adapters.ContinueWatchingAdapter;
 import ott.primeplay.adapters.CountryAdapter;
 import ott.primeplay.adapters.GenreAdapter;
@@ -166,6 +171,9 @@ public class HomeFragment extends Fragment {
     SliderListAdapter sliderAdapter;
     ImageButton fblink,instalink,youtubelink,twitterlink;
 
+    String str_register_age="";
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -183,6 +191,41 @@ public class HomeFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.FAMILYCONTENTSTATUS, MODE_PRIVATE);
         familycontent = sharedPreferences.getBoolean("familycontent", false);
+
+
+        try {
+            //  Block of code to try
+            SharedPreferences sharedPreferences_userage = getContext().getSharedPreferences(Constants.USER_REGISTER_AGE, MODE_PRIVATE);
+            str_register_age = sharedPreferences_userage.getString("user_register_age", "20");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+
+        int user_age= Integer.parseInt(str_register_age);
+
+        if(user_age<=18  ){
+
+            familycontent=true;//show family content
+            SharedPreferences.Editor editor = getActivity().getSharedPreferences(Constants.FAMILYCONTENTSTATUS, MODE_PRIVATE).edit();
+            editor.putBoolean("familycontent", familycontent);
+            editor.apply();
+
+        }
+        else {
+
+            familycontent=false;//show home content
+            SharedPreferences.Editor editor = getActivity().getSharedPreferences(Constants.FAMILYCONTENTSTATUS, MODE_PRIVATE).edit();
+            editor.putBoolean("familycontent", familycontent);
+            editor.apply();
+
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 //        adView = view.findViewById(R.id.adView);
@@ -235,6 +278,7 @@ public class HomeFragment extends Fragment {
         instalink = view.findViewById(R.id.instalink);
         youtubelink = view.findViewById(R.id.youtubelink);
         twitterlink = view.findViewById(R.id.twitterlink);
+
 
 
         fblink.setOnClickListener(v -> {
@@ -538,6 +582,11 @@ public class HomeFragment extends Fragment {
         }, 1000);
 
     }
+
+
+
+
+
 
     private void setAutoSwipable(ArrayList<Slide> slideArrayList) {
         mHandler = new Handler();

@@ -301,6 +301,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         } else {
 
+
+
 //added splash video
             Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.primelongblack);
             myvideoview.setVideoURI(video);
@@ -309,6 +311,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 public void onCompletion(MediaPlayer mp) {
 
                     Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+                   //Intent intent = new Intent(SplashScreenActivity.this, PinActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

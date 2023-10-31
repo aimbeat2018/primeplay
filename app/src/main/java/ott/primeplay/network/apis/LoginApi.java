@@ -26,7 +26,6 @@ public interface LoginApi {
                                 @Field("user_id") String user_id);
 
 
-
     @FormUrlEncoded
     @POST("updatedevice")
     Call<User> postChangeDeviceStatus(@Header("API-KEY") String apiKey,
@@ -41,6 +40,33 @@ public interface LoginApi {
     Call<ResponseBody> login_otp(@Header("API-KEY") String apiKey,
                                  @Field("mobile_no") String mobile_no,
                                  @Field("email") String email);
+
+
+
+    @FormUrlEncoded
+    @POST("check_pin")
+    Call<ResponseBody> check_pin(@Header("API-KEY") String apiKey,
+                                 @Field("user_id") String userid);
+
+
+
+
+    @FormUrlEncoded
+    @POST("forgot_pin")
+    Call<ResponseBody> forgot_pin(@Header("API-KEY") String apiKey,
+                                 @Field("mobile") String mobile,
+                                 @Field("pin") String pin);
+
+
+
+
+    @FormUrlEncoded
+    @POST("pin_generate")
+    Call<ResponseBody> pin_generate(@Header("API-KEY") String apiKey,
+                                 @Field("user_id") String user_id,
+                                 @Field("pin") String pin);
+
+
 
     @FormUrlEncoded
     @POST("mobile_check")
