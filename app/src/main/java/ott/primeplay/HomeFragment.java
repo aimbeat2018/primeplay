@@ -207,7 +207,7 @@ public class HomeFragment extends Fragment {
 
         int user_age= Integer.parseInt(str_register_age);
 
-        if(user_age<=18  ){
+        if(user_age<=17){
 
             familycontent=true;//show family content
             SharedPreferences.Editor editor = getActivity().getSharedPreferences(Constants.FAMILYCONTENTSTATUS, MODE_PRIVATE).edit();

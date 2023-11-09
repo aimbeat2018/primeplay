@@ -154,9 +154,11 @@ public class MyAppClass extends Application {
         SharedPreferences preferences = getSharedPreferences("push", MODE_PRIVATE);
         mInstance = this;
 
+
         // screenshot disable
-      //  setupActivityListener();
+        setupActivityListener();
         //
+
 
         if (!getFirstTimeOpenStatus()) {
             if (AppConfig.DEFAULT_DARK_THEME_ENABLE) {
