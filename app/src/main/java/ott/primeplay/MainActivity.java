@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             login_status = getIntent().getExtras().getString("login_status", "defaultKey");
 
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -296,9 +297,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             if (!login_status.equals("user_login")) {
 
                                 Intent intent = new Intent(MainActivity.this, PinActivity.class);
-                            /*intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);*/
+
                                 intent.putExtra("pin", pin);
 
                                 startActivity(intent);
@@ -642,6 +641,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         webView.loadUrl(AppConfig.TERMS_URL);
 
+
         if (isDark) {
             declineBt.setBackground(getResources().getDrawable(R.drawable.btn_rounded_grey_outline));
             acceptBt.setBackground(getResources().getDrawable(R.drawable.btn_rounded_dark));
@@ -654,6 +654,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 finish();
             }
         });
+
 
         acceptBt.setOnClickListener(new View.OnClickListener() {
             @Override

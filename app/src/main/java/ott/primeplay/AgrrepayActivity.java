@@ -94,6 +94,7 @@ public class AgrrepayActivity extends AppCompatActivity {
         tvprice.setText(aPackage.getPrice());
         tvplanname.setText(aPackage.getName());
 
+
         clickButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -3,10 +3,18 @@
     <string name="fb_login_protocol_scheme" translatable="false">fb177558751604981</string>
     <string name="facebook_application_id" translatable="false">177558751604981</string>
     <string name="facebook_client_token" translatable="false">0c7c9f45f03a999d25a39d5488236416</string>
-    //admob
+
+    //banner admob
     <string name="admob_application_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_banner_unit_id" translatable="false">ca-app-pub-1307905966777808/6708516251</string>
+
+    //admon open app
+    <string name="admob_openapp_unit_id" translatable="false">ca-app-pub-1307905966777808/5867327433</string>
+
+
     //startapp
     <string name="startapp_app_id" translatable="false">209411604</string>
+
 
     <string name="app_name">Prime Play</string>
     <!--app_title for main navigation & home title-->

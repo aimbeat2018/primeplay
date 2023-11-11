@@ -144,6 +144,14 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaMetadata;
 import com.google.android.gms.cast.MediaQueueItem;
@@ -443,6 +451,9 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
     CleverTapAPI clevertapDownloadinitiatedInstance, clevertapDownloadcompletedInstance, clevertapDownloadDeviceInstance, clevertapSharedInstance, clevertapTrailerwatchlistInstance, clevertapAddedwatchlistInstance, clevertapRemovedwatchlistInstance, clevertapVedioPlaysatredInstance, clevertapVedioPausedInstance, clevertapVedioCompletedWatchedInstance, clevertapVedioStoppedInstance;
     public static boolean familycontent = false;
 
+
+    private AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         RtlUtils.setScreenDirection(this);
@@ -505,6 +516,60 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
 
         initViews();
 
+        //admob banner ads
+        MobileAds.initialize(DetailsActivity.this);
+        MobileAds.initialize(DetailsActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdView adView = new AdView(DetailsActivity.this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(getResources().getString(R.string.admob_banner_unit_id));
+        //adView.setAdUnitId("ca-app-pub-1307905966777808/6708516251");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+
+                mAdView.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onAdFailedToLoad(LoadAdError adError) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdImpression() {
+                // Code to be executed when an impression is recorded
+                // for an ad.
+            }
+
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+        });
+
 
 
 
@@ -540,6 +605,9 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         webView.setWebChromeClient(new WebChromeClient());
 
 
+
+
+
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -554,8 +622,17 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                     activeMovie = false;
                 } else {
                     //finish();
-                    onBackPressed();
+                   // onBackPressed();
+
+
+
+
+      Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
+                    intent.putExtra("login_status", "user_login");
+                    startActivity(intent);
                 }
+
+
             }
         });
 
@@ -1735,6 +1812,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         backIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finish();
             }
         });
@@ -3717,16 +3795,21 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         lPlay.setVisibility(GONE);
     }
 
+
+
     @Override
     protected void onPause() {
         super.onPause();
         if (isPlaying && player != null) {
             //Log.e("PLAY:::","PAUSE");
-            player.setPlayWhenReady(false);
+          //  player.setPlayWhenReady(false);
+            player.setPlayWhenReady(true);
+
 
         }
 
     }
+
 
     @Override
     protected void onStop() {
@@ -3754,7 +3837,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
     @Override
     public void onBackPressed() {
 
-        if (activeMovie || isFullScr) {
+    /*    if (activeMovie || isFullScr) {
             setPlayerNormalScreen();
             if (player != null) {
                 player.setPlayWhenReady(false);
@@ -3766,9 +3849,10 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
             releasePlayer();
             super.onBackPressed();
         }
+*/
 
-
-       /* //used for PIP video on screen after back click and exit from app (rk251023)
+        player.setPlayWhenReady(true);
+        //used for PIP video on screen after back click and exit from app (rk251023)
         Display d = getWindowManager()
                 .getDefaultDisplay();
         Point p = new Point();
@@ -3792,10 +3876,9 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             enterPictureInPictureMode(pip_Builder.build());
-        }*/
+        }
 
     }
-
 
     @Override
     protected void onResume() {
@@ -3847,6 +3930,8 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         }
     }
 
+
+
     public void showQueuePopup(final Context context, View view, final MediaInfo mediaInfo) {
         CastSession castSession =
                 CastContext.getSharedInstance(context).getSessionManager().getCurrentCastSession();
@@ -3866,6 +3951,8 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                 MediaStatus.REPEAT_MODE_REPEAT_OFF, null);
 
     }
+
+
 
     public void playNextCast(MediaInfo mediaInfo) {
 
@@ -6725,6 +6812,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         List<CommonModels> listServer;
         RecyclerView rec_episod;
 
+
         public SeasonAdaptor(Activity context, List<String> seasonData, List<CommonModels> listServer, RecyclerView rec_episod) {
             this.context = context;
             this.seasonData = seasonData;
@@ -6892,6 +6980,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                             }
 
                         }
+
 
 
 //                System.out.println("llDownloadVideo.getTag() ==> " + holder.ll_download_video.getTag());

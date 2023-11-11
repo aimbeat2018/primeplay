@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -97,9 +99,10 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.Origin
             }
         });
 
-        setAnimation(holder.itemView, position);
 
+        setAnimation(holder.itemView, position);
     }
+
 
 
     @Override
@@ -121,6 +124,10 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.Origin
             lyt_parent = v.findViewById(R.id.lyt_parent);
             qualityTv = v.findViewById(R.id.quality_tv);
             releaseDateTv = v.findViewById(R.id.release_date_tv);
+
+
+
+
         }
     }
 
@@ -140,11 +147,17 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.Origin
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+
+
     private void setAnimation(View view, int position) {
         if (position > lastPosition) {
             ItemAnimation.animate(view, on_attach ? position : -1, animation_type);
             lastPosition = position;
         }
     }
+
+
+
+
 
 }

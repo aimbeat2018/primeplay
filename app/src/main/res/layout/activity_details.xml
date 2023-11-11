@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:ctx=".DetailsActivity">
 
+
     <include
         android:id="@+id/content_details"
         layout="@layout/content_details" />
@@ -16,7 +17,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone">
-
 
         <LinearLayout
             android:id="@+id/topbar"

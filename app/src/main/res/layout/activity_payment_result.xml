@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:id="@+id/activity_merchant"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:paddingLeft="5dp"
+      android:paddingTop="5dp"
+      android:paddingRight="5dp"
+      android:orientation="vertical"
+      android:gravity="center"
+      android:paddingBottom="5dp"
+      tools:context=".CashFreePaymentActivity">
+
+      <LinearLayout
+          android:id="@+id/lnr_success"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:gravity="center"
+          android:visibility="gone"
+          android:orientation="vertical">
+
+          <ImageView
+              android:layout_width="100dp"
+              android:layout_height="100dp"
+              android:src="@drawable/success"/>
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="20dp"
+              android:layout_marginTop="20dp"
+              android:layout_marginEnd="20dp"
+              android:fontFamily="@font/amazon"
+              android:text="Payment Successful"
+              android:textColor="@color/white"
+              android:textSize="20sp"
+              android:textStyle="bold" />
+
+          <TextView
+              android:id="@+id/txt_txn_id"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="20dp"
+              android:layout_marginTop="10dp"
+              android:layout_marginEnd="20dp"
+              android:fontFamily="@font/amazon"
+              android:text="Transaction Id : "
+              android:textColor="@color/white"
+              android:textSize="12sp"
+              android:textStyle="bold" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="20dp"
+              android:layout_marginTop="10dp"
+              android:layout_marginEnd="20dp"
+              android:fontFamily="@font/amazon"
+              android:gravity="center"
+              android:text="Please wait while we are processing your subscription request"
+              android:textColor="@color/white"
+              android:textSize="12sp"
+              android:textStyle="bold" />
+
+          <ProgressBar
+              android:id="@+id/progressBar"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="20dp"/>
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:id="@+id/lnr_failed"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:gravity="center"
+          android:visibility="gone"
+          android:orientation="vertical">
+
+          <ImageView
+              android:layout_width="100dp"
+              android:layout_height="100dp"
+              android:src="@drawable/failed"/>
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="20dp"
+              android:layout_marginTop="20dp"
+              android:layout_marginEnd="20dp"
+              android:fontFamily="@font/amazon"
+              android:text="Payment Failed"
+              android:textColor="@color/white"
+              android:textSize="20sp"
+              android:textStyle="bold" />
+
+          <TextView
+              android:id="@+id/txt_falied_reason"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="20dp"
+              android:layout_marginTop="10dp"
+              android:layout_marginEnd="20dp"
+              android:fontFamily="@font/amazon"
+              android:text=""
+              android:textColor="@color/white"
+              android:textSize="12sp"
+              android:textStyle="bold" />
+      </LinearLayout>
+  </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".onepay.PaymentResultActivity">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+
+        <TextView
+            android:id="@+id/lbl_txn_details"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:text="Transaction Details"
+            android:layout_below="@+id/toolbar"
+            android:layout_marginTop="25dp"
+            android:layout_centerHorizontal="true"/>
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_submit"
+            android:layout_below="@+id/lbl_txn_details"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:stretchColumns="*"/>
+
+        <TextView
+            android:id="@+id/lbl_txn_details_log"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_submit"
+            android:layout_below="@+id/lbl_txn_details"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:visibility="invisible"
+            android:text="" />
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="45dp"
+            android:onClick="backToHomeClickAction"
+            android:text="@string/ok" />
+
+    </RelativeLayout>
+-->
+
+
+
+
+
+

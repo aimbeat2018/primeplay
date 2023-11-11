@@ -272,6 +272,8 @@ dependencies {
     implementation files('libs/pgsdk.aar')
 
 
+    //admob
+    implementation 'com.google.android.gms:play-services-ads:22.5.0'
 
 
 }

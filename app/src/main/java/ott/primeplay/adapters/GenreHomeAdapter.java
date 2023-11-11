@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -68,6 +70,12 @@ public class GenreHomeAdapter extends RecyclerView.Adapter<GenreHomeAdapter.Orig
 
         setAnimation(holder.itemView, position);
 
+
+
+
+
+
+
     }
 
     @Override
@@ -86,7 +94,12 @@ public class GenreHomeAdapter extends RecyclerView.Adapter<GenreHomeAdapter.Orig
             name = v.findViewById(R.id.tv_name);
             recyclerView=v.findViewById(R.id.recyclerView);
             btnMore=v.findViewById(R.id.btn_more);
+
+
+
+
         }
+
     }
 
     @Override

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_mlarge">
+
+
+        <TextView
+            android:id="@+id/txt_otp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:text="Set new  PIN for login"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <com.mukeshsolanki.OtpView
+            android:id="@+id/otp_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:focusableInTouchMode="true"
+            android:inputType="number"
+            android:itemBackground="@drawable/edittext_curve_bg"
+            android:minWidth="20dp"
+            android:textColor="@android:color/black"
+            android:visibility="gone"
+            app:OtpItemCount="6"
+            app:OtpItemHeight="40dp"
+            app:OtpItemWidth="40dp"
+            app:OtpState_filled="true"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <com.mukeshsolanki.OtpView
+            android:id="@+id/newsetpin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:focusableInTouchMode="true"
+            android:inputType="number"
+            android:itemBackground="@drawable/edittext_curve_bg"
+            android:minWidth="20dp"
+            android:textColor="@android:color/black"
+            app:OtpItemCount="4"
+            app:OtpItemHeight="40dp"
+            app:OtpItemWidth="40dp"
+            app:OtpState_filled="true"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_field_button_red"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Submit"
+            android:textColor="@color/white"
+            tools:ignore="TouchTargetSizeCheck" />
+
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/spacing_large" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

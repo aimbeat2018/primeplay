@@ -19,6 +19,14 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.clevertap.android.sdk.CleverTapAPI;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.volcaniccoder.bottomify.BottomifyNavigationView;
 import com.volcaniccoder.bottomify.OnNavigationItemChangeListener;
@@ -48,6 +56,9 @@ public class MainHomeFragment extends Fragment {
     TextView txt_home, txt_gold, txt_watchlist, txt_download, txt_account, txt_search;
     FloatingActionButton fab_goals;
     CleverTapAPI clevertapscreenviewd;
+    private AdView mAdView;
+
+
 
     @Nullable
     @Override
@@ -92,8 +103,66 @@ public class MainHomeFragment extends Fragment {
         txt_account = view.findViewById(R.id.txt_account);
         txt_search = view.findViewById(R.id.txt_search);
 
-
         clevertapscreenviewd = CleverTapAPI.getDefaultInstance(getActivity());
+
+
+        //admob banner ads
+        MobileAds.initialize(getActivity());
+        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdView adView = new AdView(getContext());
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(getResources().getString(R.string.admob_banner_unit_id));
+        // adView.setAdUnitId("ca-app-pub-1307905966777808/6708516251");
+        //  adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");//test unit id
+        mAdView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+
+                mAdView.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onAdFailedToLoad(LoadAdError adError) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdImpression() {
+                // Code to be executed when an impression is recorded
+                // for an ad.
+            }
+
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+        });
+
+
 
 //        if (activity != null)
         sharedPreferences = activity.getSharedPreferences("push", MODE_PRIVATE);
@@ -240,6 +309,7 @@ public class MainHomeFragment extends Fragment {
 
             }
         });
+
 
 
         lnr_search.setOnClickListener(new View.OnClickListener() {

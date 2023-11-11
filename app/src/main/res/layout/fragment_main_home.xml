@@ -58,6 +58,20 @@
                 app:scale_percent="5" />
 
 
+            <com.google.android.gms.ads.AdView
+                xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView"
+                android:layout_width="@dimen/_320sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="@dimen/_50sdp"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/admob_banner_unit_id">
+            </com.google.android.gms.ads.AdView>
+
+
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottom_app_bar"
                 android:layout_width="match_parent"
