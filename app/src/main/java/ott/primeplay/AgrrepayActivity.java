@@ -247,6 +247,7 @@ public class AgrrepayActivity extends AppCompatActivity {
             }
 
 
+
             @Override
             public void onFailure(Call<ActiveStatus> call, Throwable t) {
                 t.printStackTrace();

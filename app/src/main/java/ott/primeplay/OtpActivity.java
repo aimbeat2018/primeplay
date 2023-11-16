@@ -433,6 +433,7 @@ public class OtpActivity extends AppCompatActivity {
 //    }
 
 
+
     private void changeDevice() {
 //        progressBar.setVisibility(View.VISIBLE);
         dialog.show();
@@ -548,7 +549,6 @@ public class OtpActivity extends AppCompatActivity {
                         DatabaseHelper db = new DatabaseHelper(OtpActivity.this);
                         db.deleteAllActiveStatusData();
                         db.insertActiveStatusData(activeStatus);
-
 
                         Intent intent = new Intent(OtpActivity.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -58,7 +58,9 @@
                 app:scale_percent="5" />
 
 
+
             <com.google.android.gms.ads.AdView
+                android:visibility="gone"
                 xmlns:ads="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/adView"
                 android:layout_width="@dimen/_320sdp"

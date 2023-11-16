@@ -54,6 +54,7 @@ android {
 
     }
 
+
     dataBinding {
         android.buildFeatures.dataBinding = true
     }
@@ -262,7 +263,6 @@ dependencies {
     implementation files('libs/pgsdkv5ax.aar')
 
     implementation files('libs/pgsdk.aar')
-
 
     //admob
     implementation 'com.google.android.gms:play-services-ads:22.5.0'

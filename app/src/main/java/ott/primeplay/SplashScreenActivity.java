@@ -4,6 +4,7 @@ import static androidx.core.content.PackageManagerCompat.LOG_TAG;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -37,6 +39,8 @@ import io.branch.referral.BranchError;
 import ott.primeplay.database.DatabaseHelper;
 import ott.primeplay.firebaseservice.Config;
 import ott.primeplay.network.apis.ConfigurationApi;
+import ott.primeplay.network.apis.SubscriptionApi;
+import ott.primeplay.network.model.ActiveStatus;
 import ott.primeplay.network.model.config.ApkUpdateInfo;
 import ott.primeplay.network.model.config.Configuration;
 
@@ -59,6 +63,7 @@ import ott.primeplay.R;
 import ott.primeplay.network.RetrofitClient;
 import ott.primeplay.reels.ReelsListActivity;
 import ott.primeplay.utils.HelperUtils;
+import ott.primeplay.utils.MyAppClass;
 import ott.primeplay.utils.PreferenceUtils;
 import ott.primeplay.utils.ApiResources;
 import ott.primeplay.utils.Constants;
@@ -284,6 +289,9 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void checkForUpdate(int latestAppVersion) {
         int version = getCurrentVersionCode();
+        Application application = getApplication();
+
+
         if (latestAppVersion > version) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Update App");
@@ -303,27 +311,43 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         } else {
 
+            //for showing banner ads to package status inactive user//visibility set to mAdView
+            if (PreferenceUtils.getUserId(SplashScreenActivity.this) != null) {
+                if (!PreferenceUtils.getUserId(SplashScreenActivity.this).equals(""))
+                    userPackageStatus(PreferenceUtils.getUserId(SplashScreenActivity.this));
 
+            }
+            else {
+
+                // Show the app open ad.rk15112023 app open ads
+                ((MyAppClass) application)
+                        .showAdIfAvailable(
+                                SplashScreenActivity.this,
+                                new MyAppClass.OnShowAdCompleteListener() {
+                                    @Override
+                                    public void onShowAdComplete() {
 
 //added splash video
-            Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.primelongblack);
-            myvideoview.setVideoURI(video);
+                                        Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.primelongblack);
+                                        myvideoview.setVideoURI(video);
 
-            myvideoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                public void onCompletion(MediaPlayer mp) {
+                                        myvideoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                            public void onCompletion(MediaPlayer mp) {
 
-                    Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-                   //Intent intent = new Intent(SplashScreenActivity.this, PinActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
-                    finish();
+                                                Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+                                                //Intent intent = new Intent(SplashScreenActivity.this, PinActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                startActivity(intent);
+                                                finish();
 
-                }
-            });
-            myvideoview.start();
+                                            }
+                                        });
+                                        myvideoview.start();
 
+                                    }
+                                });
 
           /*  Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -333,56 +357,97 @@ public class SplashScreenActivity extends AppCompatActivity {
             finish();
 */
 
-//            Intent intent1 = getIntent();
-//            intent1.putExtra("branch_force_new_session", true);
-//            setIntent(intent1);
-//
-//            Branch branch = Branch.getInstance();
-//
-//            // Branch init
-//            branch.initSession((referringParams, error) -> {
-//                if (error == null) {
-//                    Log.i("BRANCH SDK1", referringParams.toString());
-//                    try {
-//                        boolean isLinkClicked = referringParams.getBoolean("+clicked_branch_link");
-//                        Log.d(TAG, "onStart:is link clicked   " + isLinkClicked);
-//
-//                        if (isLinkClicked) {
-//                            String branchData = referringParams.getString(Config.DATA);
-//
-//                            Log.d(TAG, "onStart:is link clicked111  " + branchData);
-//
-//                            Intent intent = new Intent(SplashScreenActivity.this, ReelsListActivity.class);
-//                            intent.putExtra("reelId", branchData);
-//                            startActivity(intent);
-//                            finish();
-//                        } else {
-//                            Log.d(TAG, "onStart:is link clicked111 in else");
-////
-//
-//                        }
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                } else {
-//                    Log.i("BRANCH SDK2", error.getMessage());
-//                    Log.d(TAG, "onStart:is link clicked111 in error " + error.getMessage());
-//
-//                    Toast.makeText(this, "on error", Toast.LENGTH_SHORT).show();
-//
-////                    Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-////                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-////                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-////                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-////                    startActivity(intent);
-////                    finish();
-//                }
-//            }, intent1.getData(), this);
 
-        }
+            }
+
+
+            }
+
+    }
+
+
+    public void userPackageStatus(String userId) {
+        Retrofit retrofit = RetrofitClient.getRetrofitInstance();
+        SubscriptionApi subscriptionApi = retrofit.create(SubscriptionApi.class);
+
+        Call<ActiveStatus> call = subscriptionApi.getActiveStatus(AppConfig.API_KEY, userId);
+        call.enqueue(new Callback<ActiveStatus>() {
+            @Override
+            public void onResponse(Call<ActiveStatus> call, Response<ActiveStatus> response) {
+                if (response.code() == 200) {
+                    if (response.body() != null) {
+                        ActiveStatus activeStatus = response.body();
+                        if (activeStatus.getStatus().equals("active")) {
+
+                            //hide admob  app open ads  if user package active
+
+                            Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.primelongblack);
+                            myvideoview.setVideoURI(video);
+
+                            myvideoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                public void onCompletion(MediaPlayer mp) {
+
+                                    Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+                                    //Intent intent = new Intent(SplashScreenActivity.this, PinActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(intent);
+                                    finish();
+
+                                }
+                            });
+                            myvideoview.start();
+
+                        } else {
+
+                            Application application1 = getApplication();
+
+//show app open ads
+                            // Show the app open ad.rk15112023 app open ads
+                            ((MyAppClass) application1)
+                                    .showAdIfAvailable(
+                                            SplashScreenActivity.this,
+                                            new MyAppClass.OnShowAdCompleteListener() {
+                                                @Override
+                                                public void onShowAdComplete() {
+
+//added splash video
+                                                    Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.primelongblack);
+                                                    myvideoview.setVideoURI(video);
+
+                                                    myvideoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                                        public void onCompletion(MediaPlayer mp) {
+
+                                                            Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+                                                            //Intent intent = new Intent(SplashScreenActivity.this, PinActivity.class);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                            startActivity(intent);
+                                                            finish();
+
+                                                        }
+                                                    });
+                                                    myvideoview.start();
+
+                                                }
+                                            });
+
+
+                        }
+
+                    }
+                }
+            }
+
+
+
+            @Override
+            public void onFailure(Call<ActiveStatus> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     @Override

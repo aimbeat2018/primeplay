@@ -523,11 +523,13 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        AdView adView = new AdView(DetailsActivity.this);
-        adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId(getResources().getString(R.string.admob_banner_unit_id));
+
+
+        AdView adView1 = new AdView(DetailsActivity.this);
+        adView1.setAdSize(AdSize.BANNER);
+        adView1.setAdUnitId(getResources().getString(R.string.admob_banner_unit_id));
         //adView.setAdUnitId("ca-app-pub-1307905966777808/6708516251");
-        mAdView = findViewById(R.id.adView);
+        mAdView = findViewById(R.id.banneradView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -570,6 +572,15 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
             }
         });
 
+
+
+
+        //for showing banner ads to package status inactive user//visibility set to mAdView 
+        if (PreferenceUtils.getUserId(DetailsActivity.this) != null) {
+            if (!PreferenceUtils.getUserId(DetailsActivity.this).equals(""))
+                userPackageStatus(PreferenceUtils.getUserId(DetailsActivity.this));
+
+        }
 
 
 
@@ -817,6 +828,36 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
 
 
 
+    public void userPackageStatus(String userId) {
+        Retrofit retrofit = RetrofitClient.getRetrofitInstance();
+        SubscriptionApi subscriptionApi = retrofit.create(SubscriptionApi.class);
+
+        Call<ActiveStatus> call = subscriptionApi.getActiveStatus(AppConfig.API_KEY, userId);
+        call.enqueue(new Callback<ActiveStatus>() {
+            @Override
+            public void onResponse(Call<ActiveStatus> call, Response<ActiveStatus> response) {
+                if (response.code() == 200) {
+                    if (response.body() != null) {
+                        ActiveStatus activeStatus = response.body();
+                        if (activeStatus.getStatus().equals("active")) {
+                            mAdView.setVisibility(View.GONE);
+                        } else {
+                            mAdView.setVisibility(View.VISIBLE);
+
+                        }
+
+                    }
+                }
+            }
+
+
+
+            @Override
+            public void onFailure(Call<ActiveStatus> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
 
     private DataSource.Factory buildDataSourceFactory() {
         return ((MyAppClass) getApplication()).buildDataSourceFactory();

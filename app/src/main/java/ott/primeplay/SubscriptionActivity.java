@@ -87,6 +87,9 @@ public class SubscriptionActivity extends AppCompatActivity implements ActiveSub
         }
         setContentView(R.layout.activity_subscription);
 
+
+
+
         clevertapscreenviewd = CleverTapAPI.getDefaultInstance(getApplicationContext());
         intiView();
 

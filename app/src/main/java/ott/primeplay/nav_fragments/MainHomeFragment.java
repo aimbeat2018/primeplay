@@ -35,14 +35,25 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
+import ott.primeplay.AppConfig;
 import ott.primeplay.CpGoldFragment;
 import ott.primeplay.HomeFragment;
 import ott.primeplay.MainActivity;
 import ott.primeplay.MoreActivity;
+import ott.primeplay.OtpActivity;
 import ott.primeplay.R;
 import ott.primeplay.SearchActivity;
 import ott.primeplay.TvSeriesFragment;
+import ott.primeplay.database.DatabaseHelper;
+import ott.primeplay.network.RetrofitClient;
+import ott.primeplay.network.apis.SubscriptionApi;
+import ott.primeplay.network.model.ActiveStatus;
 import ott.primeplay.reels.ReelsListActivity;
+import ott.primeplay.utils.PreferenceUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainHomeFragment extends Fragment {
     private MainActivity activity;
@@ -57,7 +68,6 @@ public class MainHomeFragment extends Fragment {
     FloatingActionButton fab_goals;
     CleverTapAPI clevertapscreenviewd;
     private AdView mAdView;
-
 
 
     @Nullable
@@ -123,6 +133,14 @@ public class MainHomeFragment extends Fragment {
         mAdView.loadAd(adRequest);
 
 
+        //for showing banner ads to package status inactive user//visibility set to mAdView
+        if (PreferenceUtils.getUserId(activity) != null) {
+            if (!PreferenceUtils.getUserId(activity).equals(""))
+                userPackageStatus(PreferenceUtils.getUserId(activity));
+
+        }
+
+
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdClicked() {
@@ -161,7 +179,6 @@ public class MainHomeFragment extends Fragment {
                 // covers the screen.
             }
         });
-
 
 
 //        if (activity != null)
@@ -311,7 +328,6 @@ public class MainHomeFragment extends Fragment {
         });
 
 
-
         lnr_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -328,6 +344,36 @@ public class MainHomeFragment extends Fragment {
 
 //        loadFragment(new HomeFragment());
 
+    }
+
+    
+    public void userPackageStatus(String userId) {
+        Retrofit retrofit = RetrofitClient.getRetrofitInstance();
+        SubscriptionApi subscriptionApi = retrofit.create(SubscriptionApi.class);
+
+        Call<ActiveStatus> call = subscriptionApi.getActiveStatus(AppConfig.API_KEY, userId);
+        call.enqueue(new Callback<ActiveStatus>() {
+            @Override
+            public void onResponse(Call<ActiveStatus> call, Response<ActiveStatus> response) {
+                if (response.code() == 200) {
+                    if (response.body() != null) {
+                        ActiveStatus activeStatus = response.body();
+                        if (activeStatus.getStatus().equals("active")) {
+                            mAdView.setVisibility(View.GONE);
+                        } else {
+                            mAdView.setVisibility(View.VISIBLE);
+
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ActiveStatus> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
 

@@ -4,12 +4,15 @@
     <string name="facebook_application_id" translatable="false">177558751604981</string>
     <string name="facebook_client_token" translatable="false">0c7c9f45f03a999d25a39d5488236416</string>
 
+
     //banner admob
-    <string name="admob_application_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="admob_banner_unit_id" translatable="false">ca-app-pub-1307905966777808/6708516251</string>
+    <string name="admob_application_id" translatable="false">ca-app-pub-1505000717930669~2537206102</string>
+    <string name="admob_banner_unit_id" translatable="false">ca-app-pub-1505000717930669/5204218118</string>
+    <string name="admob_reward_unit_id" translatable="false">ca-app-pub-1505000717930669/4890142287</string>
+
 
     //admon open app
-    <string name="admob_openapp_unit_id" translatable="false">ca-app-pub-1307905966777808/5867327433</string>
+    <string name="admob_openapp_unit_id" translatable="false">ca-app-pub-1505000717930669/9759325589</string>
 
 
     //startapp
@@ -198,6 +201,7 @@
 
     <string name="title_activity_item_show">ItemShowActivity</string>
     <string name="video_quality">Video Quality - 480p, 720p, 1080p</string>
+    <string name="no_ads">No Ads</string>
     <string name="title_activity_details">DetailsActivity</string>
     <string name="title_activity_reply">ReplyActivity</string>
     <string name="play_now">Play Now</string>

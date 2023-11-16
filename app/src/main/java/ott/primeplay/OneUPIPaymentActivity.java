@@ -145,7 +145,6 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
                 .setDescription(aPackage.getName())
                 //.setAmount("1.00");
                 .setAmount(String.valueOf(float_plan_amount));
-
         // END INITIALIZATION
 
         try {
@@ -164,6 +163,10 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
         }
     }
 
+
+
+
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -177,6 +180,7 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
         toast("Cancelled by user");
 
     }
+
 
     @Override
     public void onTransactionCompleted(@NonNull TransactionDetails transactionDetails) {

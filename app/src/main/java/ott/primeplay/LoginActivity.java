@@ -329,6 +329,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+
     public void updateSubscriptionStatus(String userId) {
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
         SubscriptionApi subscriptionApi = retrofit.create(SubscriptionApi.class);
@@ -805,6 +806,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         //save user login time, expire time
                         updateSubscriptionStatus(db.getUserData().getUserId());
+
                     }
 
                 }

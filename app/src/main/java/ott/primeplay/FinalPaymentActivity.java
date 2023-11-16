@@ -245,7 +245,6 @@ context=this;
         };
 
 
-
        // MyListAdapter MyListAdapter = new MyListAdapter(myListData,packageList.get(getAdapterPosition()));
          MyListAdapter MyListAdapter = new MyListAdapter(myListData,context,dialog);
         rec_age.setHasFixedSize(true);
@@ -377,7 +376,6 @@ context=this;
             }
         };
 
-
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
         queue.add(stringRequest);
@@ -405,7 +403,6 @@ context=this;
 
         });
 */
-
 
 
         card_aggrepay.setOnClickListener(new View.OnClickListener() {
@@ -498,7 +495,6 @@ context=this;
 
             }
         });
-
 
 
 

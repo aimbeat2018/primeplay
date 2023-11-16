@@ -26,6 +26,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.clevertap.android.sdk.CleverTapAPI;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -34,14 +42,22 @@ import java.util.HashMap;
 import java.util.List;
 
 import ott.primeplay.models.single_details.Genre;
+import ott.primeplay.network.RetrofitClient;
+import ott.primeplay.network.apis.SubscriptionApi;
+import ott.primeplay.network.model.ActiveStatus;
 import ott.primeplay.roomdatabase.DatabaseClient;
 import ott.primeplay.roomdatabase.Task;
 import ott.primeplay.roomdatabase.TasksAdapter;
 import ott.primeplay.utils.Constants;
 import ott.primeplay.utils.NetworkInst;
+import ott.primeplay.utils.PreferenceUtils;
 import ott.primeplay.utils.RtlUtils;
 import ott.primeplay.utils.ToastMsg;
 import ott.primeplay.widget.RangeSeekBar;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -74,6 +90,7 @@ public class SearchActivity extends AppCompatActivity {
     SearchGridAdapter mAdapter;
 
     CleverTapAPI clevertapSearchdInstance;
+    private AdView mAdView;
 
 
     @Override
@@ -98,6 +115,73 @@ public class SearchActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         view_more = findViewById(R.id.view_more);
+
+
+        //admob banner ads
+        MobileAds.initialize(SearchActivity.this);
+        MobileAds.initialize(SearchActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+
+        AdView adView = new AdView(SearchActivity.this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(getResources().getString(R.string.admob_banner_unit_id));
+        //  adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");//test unit id
+        mAdView = findViewById(R.id.banneradView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+
+                mAdView.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onAdFailedToLoad(LoadAdError adError) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdImpression() {
+                // Code to be executed when an impression is recorded
+                // for an ad.
+            }
+
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+        });
+
+
+
+        //for showing banner ads to package status inactive user//visibility set to mAdView
+        if (PreferenceUtils.getUserId(SearchActivity.this) != null) {
+            if (!PreferenceUtils.getUserId(SearchActivity.this).equals(""))
+                userPackageStatus(PreferenceUtils.getUserId(SearchActivity.this));
+
+        }
+
 
 /*
 
@@ -156,6 +240,42 @@ public class SearchActivity extends AppCompatActivity {
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
     }
+
+
+
+
+
+    public void userPackageStatus(String userId) {
+        Retrofit retrofit = RetrofitClient.getRetrofitInstance();
+        SubscriptionApi subscriptionApi = retrofit.create(SubscriptionApi.class);
+
+        Call<ActiveStatus> call = subscriptionApi.getActiveStatus(AppConfig.API_KEY, userId);
+        call.enqueue(new Callback<ActiveStatus>() {
+            @Override
+            public void onResponse(Call<ActiveStatus> call, Response<ActiveStatus> response) {
+                if (response.code() == 200) {
+                    if (response.body() != null) {
+                        ActiveStatus activeStatus = response.body();
+                        if (activeStatus.getStatus().equals("active")) {
+                            mAdView.setVisibility(View.GONE);
+                        } else {
+                            mAdView.setVisibility(View.VISIBLE);
+
+                        }
+
+                    }
+                }
+            }
+
+
+
+            @Override
+            public void onFailure(Call<ActiveStatus> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
 
 
     private void initComponent() {

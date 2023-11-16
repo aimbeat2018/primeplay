@@ -431,6 +431,7 @@
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
 
+
         <service
             android:name=".offlinedownload.DemoDownloadService"
             android:exported="false">

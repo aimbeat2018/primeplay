@@ -13,6 +13,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+
 import com.appsflyer.AppsFlyerLib;
 import com.clevertap.android.pushtemplates.PushTemplateNotificationHandler;
 import com.clevertap.android.sdk.ActivityLifecycleCallback;
@@ -37,6 +41,14 @@ import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvicto
 import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor;
 import com.google.android.exoplayer2.upstream.cache.SimpleCache;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.appopen.AppOpenAd;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Request;
@@ -46,11 +58,13 @@ import net.one97.paytm.nativesdk.PaytmSDK;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
 
 import io.branch.referral.Branch;
 import ott.primeplay.AppConfig;
+import ott.primeplay.R;
 import ott.primeplay.constant.AppEnvironment;
 import ott.primeplay.database.DatabaseHelper;
 import ott.primeplay.models.CommonModels;
@@ -63,8 +77,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
-public class MyAppClass extends Application {
+public class MyAppClass extends Application implements DefaultLifecycleObserver {
 
     public static final String NOTIFICATION_CHANNEL_ID = "download_channel_id";
     public static final String NOTIFICATION_CHANNEL_NAME = "download_channel";
@@ -89,6 +102,9 @@ public class MyAppClass extends Application {
     public SharedPreferences preferences;
     public String prefName = "VideoStreamingApp";
     public static SimpleCache simpleCache = null;
+
+
+    private Activity currentActivity;
 
     public static LeastRecentlyUsedCacheEvictor leastRecentlyUsedCacheEvictor = null;
     public static ExoDatabaseProvider exoDatabaseProvider = null;
@@ -116,6 +132,9 @@ public class MyAppClass extends Application {
 //        MultiDex.install(this);
     }
 
+
+    private AppOpenAdManager appOpenAdManager;
+
     @Override
     public void onCreate() {
 
@@ -124,9 +143,21 @@ public class MyAppClass extends Application {
         super.onCreate();
 
 
-//used for different template  type push notification
-        CleverTapAPI.setNotificationHandler((NotificationHandler)new PushTemplateNotificationHandler());
 
+//admob open app rk 161123
+        MobileAds.initialize(
+                this,
+                new OnInitializationCompleteListener() {
+                    @Override
+                    public void onInitializationComplete(InitializationStatus initializationStatus) {
+                    }
+                });
+        appOpenAdManager = new AppOpenAdManager();
+
+
+
+//used for different template  type push notification
+        CleverTapAPI.setNotificationHandler((NotificationHandler) new PushTemplateNotificationHandler());
 
         mContext = this;
         userAgent = Util.getUserAgent(this, "prime play");
@@ -143,8 +174,8 @@ public class MyAppClass extends Application {
 
         appEnvironment = AppEnvironment.SANDBOX;
 
-      // AppsFlyerLib.getInstance().init("", null, this);
-      //  AppsFlyerLib.getInstance().start(this);
+        // AppsFlyerLib.getInstance().init("", null, this);
+        //  AppsFlyerLib.getInstance().start(this);
 
 
         itemMovie = new CommonModels();
@@ -154,11 +185,9 @@ public class MyAppClass extends Application {
         SharedPreferences preferences = getSharedPreferences("push", MODE_PRIVATE);
         mInstance = this;
 
-
         // screenshot disable
         setupActivityListener();
         //
-
 
         if (!getFirstTimeOpenStatus()) {
             if (AppConfig.DEFAULT_DARK_THEME_ENABLE) {
@@ -196,6 +225,7 @@ public class MyAppClass extends Application {
 
     }
 
+
     public void freeMemory() {
 
         try {
@@ -226,7 +256,6 @@ public class MyAppClass extends Application {
             return false;
         }
     }
-
 
 
     public AppEnvironment getAppEnvironment() {
@@ -372,15 +401,15 @@ public class MyAppClass extends Application {
 
     }
 
-   public DownloadManager getDownloadManager() {
+    public DownloadManager getDownloadManager() {
         initDownloadManager();
         return downloadManager;
     }
 
     public DownloadTracker getDownloadTracker() {
-       initDownloadManager();
+        initDownloadManager();
         return downloadTracker;
-   }
+    }
 
 
     private void upgradeActionFile(
@@ -398,20 +427,20 @@ public class MyAppClass extends Application {
     }
 
     private synchronized void initDownloadManager() {
-      if (downloadManager == null) {
-           DefaultDownloadIndex downloadIndex = new DefaultDownloadIndex(getDatabaseProvider());
+        if (downloadManager == null) {
+            DefaultDownloadIndex downloadIndex = new DefaultDownloadIndex(getDatabaseProvider());
             upgradeActionFile(DOWNLOAD_ACTION_FILE, downloadIndex, /* addNewDownloadsAsCompleted= */ false);
-           upgradeActionFile(DOWNLOAD_TRACKER_ACTION_FILE, downloadIndex, /* addNewDownloadsAsCompleted= */ true);
+            upgradeActionFile(DOWNLOAD_TRACKER_ACTION_FILE, downloadIndex, /* addNewDownloadsAsCompleted= */ true);
 
-         //  DownloaderConstructorHelper downloaderConstructorHelper =  new DownloaderConstructorHelper(getDownloadCache(), buildHttpDataSourceFactory());
-          DefaultDataSourceFactory upstreamFactory = new DefaultDataSourceFactory(this, buildHttpDataSourceFactory());
-          downloadManager = new DownloadManager(this, getDatabaseProvider(), getDownloadCache(), buildHttpDataSourceFactory(), Executors.newFixedThreadPool(6));
-         //   downloadManager = new DownloadManager(this, downloadIndex, new DefaultDownloaderFactory(buildReadOnlyCacheDataSource(upstreamFactory,getDownloadCache())));
-          downloadTracker = new DownloadTracker(/* context= */ this, buildDataSourceFactory(), downloadManager);
-      } else {
-          downloadTracker = new DownloadTracker(this, buildDataSourceFactory(), downloadManager);
-      }
-  }
+            //  DownloaderConstructorHelper downloaderConstructorHelper =  new DownloaderConstructorHelper(getDownloadCache(), buildHttpDataSourceFactory());
+            DefaultDataSourceFactory upstreamFactory = new DefaultDataSourceFactory(this, buildHttpDataSourceFactory());
+            downloadManager = new DownloadManager(this, getDatabaseProvider(), getDownloadCache(), buildHttpDataSourceFactory(), Executors.newFixedThreadPool(6));
+            //   downloadManager = new DownloadManager(this, downloadIndex, new DefaultDownloaderFactory(buildReadOnlyCacheDataSource(upstreamFactory,getDownloadCache())));
+            downloadTracker = new DownloadTracker(/* context= */ this, buildDataSourceFactory(), downloadManager);
+        } else {
+            downloadTracker = new DownloadTracker(this, buildDataSourceFactory(), downloadManager);
+        }
+    }
 
     public HttpDataSource.Factory buildHttpDataSourceFactory() {
         return new DefaultHttpDataSourceFactory(userAgent);
@@ -504,5 +533,215 @@ public class MyAppClass extends Application {
     public void setMovieDuration(String movieDuration) {
         this.movieDuration = movieDuration;
     }
+
+
+    //admob ads open app rk 15092023
+    @Override
+    public void onStart(@NonNull LifecycleOwner owner) {
+        DefaultLifecycleObserver.super.onStart(owner);
+        // Show the ad (if available) when the app moves to foreground.
+        appOpenAdManager.showAdIfAvailable(currentActivity);
+    }
+
+
+    /**
+     * Shows an app open ad.
+     *
+     * @param activity                 the activity that shows the app open ad
+     * @param onShowAdCompleteListener the listener to be notified when an app open ad is complete
+     */
+    public void showAdIfAvailable(
+            @NonNull Activity activity,
+            @NonNull OnShowAdCompleteListener onShowAdCompleteListener) {
+        // We wrap the showAdIfAvailable to enforce that other classes only interact with MyApplication
+        // class.
+        appOpenAdManager.showAdIfAvailable(activity, onShowAdCompleteListener);
+    }
+
+    /**
+     * Interface definition for a callback to be invoked when an app open ad is complete
+     * (i.e. dismissed or fails to show).
+     */
+    public interface OnShowAdCompleteListener {
+        void onShowAdComplete();
+    }
+
+    /**
+     * Inner class that loads and shows app open ads.
+     */
+
+
+    private class AppOpenAdManager {
+
+        private static final String LOG_TAG = "AppOpenAdManager";
+        private final String AD_UNIT_ID = getResources().getString(R.string.admob_openapp_unit_id);
+        //  private static final String AD_UNIT_ID = "ca-app-pub-1307905966777808/5867327433";
+
+        private AppOpenAd appOpenAd = null;
+        private boolean isLoadingAd = false;
+        private boolean isShowingAd = false;
+
+        /**
+         * Keep track of the time an app open ad is loaded to ensure you don't show an expired ad.
+         */
+        private long loadTime = 0;
+
+        /**
+         * Constructor.
+         */
+        public AppOpenAdManager() {
+        }
+
+        /**
+         * Load an ad.
+         *
+         * @param context the context of the activity that loads the ad
+         */
+        private void loadAd(Context context) {
+            // Do not load ad if there is an unused ad or one is already loading.
+            if (isLoadingAd || isAdAvailable()) {
+                return;
+            }
+
+            isLoadingAd = true;
+            AdRequest request = new AdRequest.Builder().build();
+            AppOpenAd.load(
+                    context,
+                    AD_UNIT_ID,
+                    request,
+                    new AppOpenAd.AppOpenAdLoadCallback() {
+                        /**
+                         * Called when an app open ad has loaded.
+                         *
+                         * @param ad the loaded app open ad.
+                         */
+                        @Override
+                        public void onAdLoaded(AppOpenAd ad) {
+                            appOpenAd = ad;
+                            isLoadingAd = false;
+                            loadTime = (new Date()).getTime();
+
+                            Log.d(LOG_TAG, "onAdLoaded.");
+                            // Toast.makeText(context, "onAdLoaded", Toast.LENGTH_SHORT).show();
+                        }
+
+                        /**
+                         * Called when an app open ad has failed to load.
+                         *
+                         * @param loadAdError the error.
+                         */
+                        @Override
+                        public void onAdFailedToLoad(LoadAdError loadAdError) {
+                            isLoadingAd = false;
+                            Log.d(LOG_TAG, "onAdFailedToLoad: " + loadAdError.getMessage());
+                            // Toast.makeText(context, "onAdFailedToLoad", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
+
+        /**
+         * Check if ad was loaded more than n hours ago.
+         */
+        private boolean wasLoadTimeLessThanNHoursAgo(long numHours) {
+            long dateDifference = (new Date()).getTime() - loadTime;
+            long numMilliSecondsPerHour = 3600000;
+            return (dateDifference < (numMilliSecondsPerHour * numHours));
+        }
+
+        /**
+         * Check if ad exists and can be shown.
+         */
+        private boolean isAdAvailable() {
+            // Ad references in the app open beta will time out after four hours, but this time limit
+            // may change in future beta versions. For details, see:
+            // https://support.google.com/admob/answer/9341964?hl=en
+            return appOpenAd != null && wasLoadTimeLessThanNHoursAgo(4);
+        }
+
+        /**
+         * Show the ad if one isn't already showing.
+         *
+         * @param activity the activity that shows the app open ad
+         */
+        private void showAdIfAvailable(@NonNull final Activity activity) {
+            showAdIfAvailable(
+                    activity,
+                    new OnShowAdCompleteListener() {
+                        @Override
+                        public void onShowAdComplete() {
+                            // Empty because the user will go back to the activity that shows the ad.
+                        }
+                    });
+        }
+
+        /**
+         * Show the ad if one isn't already showing.
+         *
+         * @param activity                 the activity that shows the app open ad
+         * @param onShowAdCompleteListener the listener to be notified when an app open ad is complete
+         */
+        private void showAdIfAvailable(
+                @NonNull final Activity activity,
+                @NonNull OnShowAdCompleteListener onShowAdCompleteListener) {
+            // If the app open ad is already showing, do not show the ad again.
+            if (isShowingAd) {
+                Log.d(LOG_TAG, "The app open ad is already showing.");
+                return;
+            }
+
+            // If the app open ad is not available yet, invoke the callback then load the ad.
+            if (!isAdAvailable()) {
+                Log.d(LOG_TAG, "The app open ad is not ready yet.");
+                onShowAdCompleteListener.onShowAdComplete();
+                loadAd(activity);
+                return;
+            }
+
+            Log.d(LOG_TAG, "Will show ad.");
+
+            appOpenAd.setFullScreenContentCallback(
+                    new FullScreenContentCallback() {
+                        /** Called when full screen content is dismissed. */
+                        @Override
+                        public void onAdDismissedFullScreenContent() {
+                            // Set the reference to null so isAdAvailable() returns false.
+                            appOpenAd = null;
+                            isShowingAd = false;
+
+                            Log.d(LOG_TAG, "onAdDismissedFullScreenContent.");
+                            // Toast.makeText(activity, "onAdDismissedFullScreenContent", Toast.LENGTH_SHORT).show();
+
+                            onShowAdCompleteListener.onShowAdComplete();
+                            loadAd(activity);
+                        }
+
+                        /** Called when fullscreen content failed to show. */
+                        @Override
+                        public void onAdFailedToShowFullScreenContent(AdError adError) {
+                            appOpenAd = null;
+                            isShowingAd = false;
+
+                            Log.d(LOG_TAG, "onAdFailedToShowFullScreenContent: " + adError.getMessage());
+                            //Toast.makeText(activity, "onAdFailedToShowFullScreenContent", Toast.LENGTH_SHORT)
+                            // .show();
+
+                            onShowAdCompleteListener.onShowAdComplete();
+                            loadAd(activity);
+                        }
+
+                        /** Called when fullscreen content is shown. */
+                        @Override
+                        public void onAdShowedFullScreenContent() {
+                            Log.d(LOG_TAG, "onAdShowedFullScreenContent.");
+                            // Toast.makeText(activity, "onAdShowedFullScreenContent", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+            isShowingAd = true;
+            appOpenAd.show(activity);
+        }
+    }
+
 
 }

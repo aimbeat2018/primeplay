@@ -1,10 +1,13 @@
 package ott.primeplay;
 
+import static ott.primeplay.DetailsActivity.TAG;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,7 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,9 +32,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.ads.RewardedVideoAd;
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
 import com.github.hiteshsondhi88.libffmpeg.FFmpegExecuteResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd;
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback;
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
@@ -115,6 +134,9 @@ public class MoreActivity extends AppCompatActivity {
     ImageView imgProfile, imgWatchLater, imgSubscription, imgSupport, imgSettings, imgHelp, imgRateUs, imgPrivacyPolicy, imgTermsCondition, imgRefundPolicy, imgSignout;
     TextView txtProfile, txtWatchLater, txtSubscription, txtSupport, txtSettings, txtHelp, txtRateUs, txtPrivacyPolicy, txtTermsCondition, txtRefundPolicy, txtSignout;
 
+    private RewardedInterstitialAd rewardedInterstitialAd;
+    private String TAG = "MoreActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         RtlUtils.setScreenDirection(this);
@@ -138,9 +160,14 @@ public class MoreActivity extends AppCompatActivity {
 
         userId = PreferenceUtils.getUserId(MoreActivity.this);
 
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+                loadAd();
+            }
+        });
 
 /*
-
 
         Intent intent = getIntent();
         Uri data = intent.getData();
@@ -157,6 +184,8 @@ public class MoreActivity extends AppCompatActivity {
         if (userId != null) {
             getSubscriptionHistory();
         }
+
+
 
         if (vpnStatus) {
             helperUtils.showWarningDialog(MoreActivity.this, getString(R.string.vpn_detected), getString(R.string.close_vpn));
@@ -250,7 +279,6 @@ public class MoreActivity extends AppCompatActivity {
         }
 
 
-
         try {
 
             int user_age = Integer.parseInt(str_register_age);
@@ -262,8 +290,6 @@ public class MoreActivity extends AppCompatActivity {
         } catch (Exception e) {
 
         }
-
-
 
 
         themeSwitch.setChecked(isDark);
@@ -513,6 +539,25 @@ public class MoreActivity extends AppCompatActivity {
 
     }
 
+
+    public void loadAd() {
+        // Use the test ad unit ID to load an ad.
+      //  RewardedInterstitialAd.load(MoreActivity.this, "ca-app-pub-1505000717930669/4487899176",
+        RewardedInterstitialAd.load(MoreActivity.this, "ca-app-pub-3940256099942544/5354046379",
+                new AdRequest.Builder().build(),  new RewardedInterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(RewardedInterstitialAd ad) {
+                        Log.d(TAG, "Ad was loaded.");
+                        rewardedInterstitialAd = ad;
+                    }
+                    @Override
+                    public void onAdFailedToLoad(LoadAdError loadAdError) {
+                        Log.d(TAG, loadAdError.toString());
+                        rewardedInterstitialAd = null;
+                    }
+                });
+    }
+
     public void apiCallForChildContent() {
 
     }
@@ -558,9 +603,7 @@ public class MoreActivity extends AppCompatActivity {
         //Intent intent = new Intent(MoreActivity.this, Home.class);
         startActivity(intent);
 
-
     }
-
 
     public void onHelpClick(View view) {
         if (status) {
@@ -690,6 +733,7 @@ public class MoreActivity extends AppCompatActivity {
 
 
     }
+
 
     private void logoutUser() {
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
