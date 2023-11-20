@@ -156,7 +156,6 @@ public class MyAppClass extends Application implements DefaultLifecycleObserver 
         appOpenAdManager = new AppOpenAdManager();
 
 
-
 //used for different template  type push notification
         CleverTapAPI.setNotificationHandler((NotificationHandler) new PushTemplateNotificationHandler());
 

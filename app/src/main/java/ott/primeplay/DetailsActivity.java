@@ -641,6 +641,8 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         });
 
 
+
+
         categoryType = getIntent().getStringExtra("vType");
         id = getIntent().getStringExtra("id");
         castSession = getIntent().getBooleanExtra("castSession", false);
@@ -816,7 +818,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         } catch (IllegalStateException e) {
             DownloadService.startForeground(this, DemoDownloadService.class);
         }
-
     }
 
 
@@ -842,13 +843,13 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                 }
             }
 
-
             @Override
             public void onFailure(Call<ActiveStatus> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
+
 
     private DataSource.Factory buildDataSourceFactory() {
         return ((MyAppClass) getApplication()).buildDataSourceFactory();

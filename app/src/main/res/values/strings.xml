@@ -199,9 +199,12 @@
 
     <!-- Example settings for Notifications -->
 
+
     <string name="title_activity_item_show">ItemShowActivity</string>
     <string name="video_quality">Video Quality - 480p, 720p, 1080p</string>
     <string name="no_ads">No Ads</string>
+    <string name="user_age">A 18+</string>
+
     <string name="title_activity_details">DetailsActivity</string>
     <string name="title_activity_reply">ReplyActivity</string>
     <string name="play_now">Play Now</string>
