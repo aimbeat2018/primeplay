@@ -490,7 +490,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         familycontent = sharedPreferencesfamily.getBoolean("familycontent", false);
 
 
-
         offlineDatabaseHelper = new DatabaseHelper(DetailsActivity.this);
         //check vpn connection
         helperUtils = new HelperUtils(DetailsActivity.this);
@@ -499,7 +498,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
             helperUtils.showWarningDialog(DetailsActivity.this, getString(R.string.vpn_detected), getString(R.string.close_vpn));
             return;
         }
-
 
 
         db = new DatabaseHelper(DetailsActivity.this);
@@ -573,15 +571,12 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         });
 
 
-
-
-        //for showing banner ads to package status inactive user//visibility set to mAdView 
+        //for showing banner ads to package status inactive user//visibility set to mAdView
         if (PreferenceUtils.getUserId(DetailsActivity.this) != null) {
             if (!PreferenceUtils.getUserId(DetailsActivity.this).equals(""))
                 userPackageStatus(PreferenceUtils.getUserId(DetailsActivity.this));
 
         }
-
 
 
         if (isDark) {
@@ -616,9 +611,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         webView.setWebChromeClient(new WebChromeClient());
 
 
-
-
-
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -633,14 +625,15 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                     activeMovie = false;
                 } else {
                     //finish();
-                   // onBackPressed();
+                    // onBackPressed();
 
 
-
-
-      Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
+                    Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
                     intent.putExtra("login_status", "user_login");
                     startActivity(intent);
+                    finish();
+                    player.setPlayWhenReady(false);
+
                 }
 
 
@@ -827,7 +820,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
     }
 
 
-
     public void userPackageStatus(String userId) {
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
         SubscriptionApi subscriptionApi = retrofit.create(SubscriptionApi.class);
@@ -849,7 +841,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                     }
                 }
             }
-
 
 
             @Override
@@ -1494,9 +1485,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         });
 
 
-
-
-
 //change for downloadbtn invisible
        /* if (!listInternalDownload.isEmpty() || !listExternalDownload.isEmpty()) {
             downloadBt.setVisibility(VISIBLE);
@@ -1598,11 +1586,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                     dialog.show();
                     dialog.getWindow().setAttributes(lp);
 
-                }
-
-
-
-                else {
+                } else {
 
                     if (PreferenceUtils.isLoggedIn(DetailsActivity.this)) {
                         if (trailerUrl != null && !trailerUrl.equalsIgnoreCase("")) {
@@ -1635,7 +1619,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                         showAgeConfirmDialog(null, null, "trailer", 0);
 
                     }
-
 
 
                 }
@@ -1677,7 +1660,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                 }
 
 */
-
 
 
             }
@@ -3837,19 +3819,18 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
     }
 
 
-
     @Override
     protected void onPause() {
         super.onPause();
         if (isPlaying && player != null) {
             //Log.e("PLAY:::","PAUSE");
-          //  player.setPlayWhenReady(false);
+            //  player.setPlayWhenReady(false);
             player.setPlayWhenReady(true);
-
 
         }
 
     }
+
 
 
     @Override
@@ -3859,6 +3840,11 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
 
         downloadTracker.removeListener(this);
         handler.removeCallbacks(runnableCode);
+
+        try {
+            player.setPlayWhenReady(false);//used for PIP close button whene clicked  stop video background sound
+        } catch (Exception e) {
+        }
 
     }
 
@@ -3892,7 +3878,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         }
 */
 
-        player.setPlayWhenReady(true);
+       // player.setPlayWhenReady(true);
         //used for PIP video on screen after back click and exit from app (rk251023)
         Display d = getWindowManager()
                 .getDefaultDisplay();
@@ -3942,6 +3928,11 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
 //        getProfile(PreferenceUtils.getUserId(DetailsActivity.this));
     }
 
+
+
+
+
+
     public void releasePlayer() {
         if (player != null) {
             player.setPlayWhenReady(false);
@@ -3972,7 +3963,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
     }
 
 
-
     public void showQueuePopup(final Context context, View view, final MediaInfo mediaInfo) {
         CastSession castSession =
                 CastContext.getSharedInstance(context).getSessionManager().getCurrentCastSession();
@@ -3992,7 +3982,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                 MediaStatus.REPEAT_MODE_REPEAT_OFF, null);
 
     }
-
 
 
     public void playNextCast(MediaInfo mediaInfo) {
@@ -5131,7 +5120,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
             holder.cardView.setOnClickListener(v -> {
 
 
-
                 if (!familycontent) {
 
                     final Dialog dialog = new Dialog(ctx);
@@ -5411,11 +5399,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
 
                     dialog.show();
                     dialog.getWindow().setAttributes(lp);
-                }
-
-
-
-                else {
+                } else {
 
                     if (obj.getEpisodeStatus().equals("0")) {
                         if (PreferenceUtils.isLoggedIn(DetailsActivity.this)) {
@@ -5661,13 +5645,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                     }
 
 
-
-
-
-
                 }
-
-
 
 
 //agepopup rk2610
@@ -5922,11 +5900,10 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
             });
 
 
-
             holder.lnrDetails.setOnClickListener(v -> {
 
                 //agepopup
-                if(!familycontent) {
+                if (!familycontent) {
 
 
                     final Dialog dialog = new Dialog(ctx);
@@ -6205,9 +6182,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                     dialog.show();
                     dialog.getWindow().setAttributes(lp);
 
-                }
-
-                else {
+                } else {
 
                     if (obj.getEpisodeStatus().equals("0")) {
                         if (PreferenceUtils.isLoggedIn(DetailsActivity.this)) {
@@ -6455,9 +6430,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                 }
 
 
-
-
-             //   show_userAgeConfirmDialog(items.get(position), holder, "stop", position);
+                //   show_userAgeConfirmDialog(items.get(position), holder, "stop", position);
 
 
 
@@ -7021,7 +6994,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                             }
 
                         }
-
 
 
 //                System.out.println("llDownloadVideo.getTag() ==> " + holder.ll_download_video.getTag());

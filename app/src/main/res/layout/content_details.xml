@@ -641,9 +641,6 @@
 
                 </RelativeLayout>
 
-
-
-
                 <com.google.android.gms.ads.AdView
                     android:visibility="gone"
                     xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -659,6 +656,72 @@
 
                 </com.google.android.gms.ads.AdView>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="visible">
+
+
+                    <TextView
+                        android:id="@+id/userageover1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:background="@drawable/keyword_background"
+                        android:paddingHorizontal="8dp"
+                        android:text="Language"
+                        android:textColor="@color/whitelight"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+
+
+
+                    <TextView
+                        android:id="@+id/userageover2"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_toRightOf="@+id/userageover1"
+                        android:background="@drawable/keyword_background"
+                        android:paddingHorizontal="8dp"
+                        android:text="Sex"
+                        android:textColor="@color/whitelight"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+
+
+                    <TextView
+                        android:id="@+id/userageover4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_toRightOf="@+id/userageover2"
+                        android:background="@drawable/keyword_background"
+                        android:text="Nudity"
+                        android:paddingHorizontal="8dp"
+                        android:textColor="@color/whitelight"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+
+
+                    <TextView
+                        android:id="@+id/userageover3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_toRightOf="@+id/userageover4"
+                        android:background="@drawable/keyword_background"
+                        android:paddingHorizontal="8dp"
+
+                        android:text="Violence"
+                        android:textColor="@color/whitelight"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+
+
+                </RelativeLayout>
 
 
                 <LinearLayout

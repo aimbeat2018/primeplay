@@ -79,6 +79,7 @@ import retrofit2.Retrofit;
 
 public class MyAppClass extends Application implements DefaultLifecycleObserver {
 
+
     public static final String NOTIFICATION_CHANNEL_ID = "download_channel_id";
     public static final String NOTIFICATION_CHANNEL_NAME = "download_channel";
     private static Context mContext;
@@ -103,7 +104,6 @@ public class MyAppClass extends Application implements DefaultLifecycleObserver 
     public String prefName = "VideoStreamingApp";
     public static SimpleCache simpleCache = null;
 
-
     private Activity currentActivity;
 
     public static LeastRecentlyUsedCacheEvictor leastRecentlyUsedCacheEvictor = null;
@@ -124,6 +124,7 @@ public class MyAppClass extends Application implements DefaultLifecycleObserver 
     public MyAppClass() {
         mInstance = this;
     }
+
 
 
     @Override

@@ -272,15 +272,20 @@
             android:name=".LoginSocialNumberNotFoundActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Nobar" />
+
+
         <activity
             android:name=".DetailsActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:label="@string/title_activity_details"
             android:resizeableActivity="true"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:supportsPictureInPicture="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" /> <!-- android:configChanges="screenLayout|screenSize|orientation" -->
+
+
         <activity
             android:name=".GoldDetailsActivity"
             android:configChanges="screenLayout|screenSize|orientation"
