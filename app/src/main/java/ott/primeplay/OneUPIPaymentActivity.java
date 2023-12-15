@@ -127,7 +127,6 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
     }
 
 
-
     private void payWithUpi() {
 
         transactionId = "TID" + System.currentTimeMillis();
@@ -137,7 +136,8 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
         // START PAYMENT INITIALIZATION
         OneUPIPayment.Builder builder = new OneUPIPayment.Builder(this)
                 .with(paymentApp)
-                .setPayeeVpa("WEBWORLD7.09@cmsidfc")
+              //  .setPayeeVpa("WEBWORLD7.09@cmsidfc")
+                .setPayeeVpa("eazypay.2q3bqj0hfyl3m3m@icici")
                 .setPayeeName("Webworld Multimedia LLP")
                 .setTransactionId(transactionId)
                 .setTransactionRefId(transactionId)

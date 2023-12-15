@@ -273,7 +273,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Nobar" />
 
-
         <activity
             android:name=".DetailsActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
@@ -414,6 +413,7 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
+
 
         <service
             android:name=".firebaseservice.MyFirebaseMessagingService"

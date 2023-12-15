@@ -568,6 +568,12 @@ public class MoreActivity extends AppCompatActivity {
             intent.putExtra("from", "more");
             startActivity(intent);
         }
+
+        else {
+            Intent intent = new Intent(MoreActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+        }
     }
 
     public void onNotLoginClick(View view) {
@@ -581,12 +587,22 @@ public class MoreActivity extends AppCompatActivity {
             Intent intent = new Intent(MoreActivity.this, SubscriptionActivity.class);
             startActivity(intent);
         }
+        else {
+            Intent intent = new Intent(MoreActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+        }
     }
 
     public void onWatchLaterClick(View view) {
         if (status) {
             Intent intent = new Intent(MoreActivity.this, FavActivity.class);
             startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(MoreActivity.this, LoginActivity.class);
+            startActivity(intent);
+
         }
     }
 
@@ -610,6 +626,12 @@ public class MoreActivity extends AppCompatActivity {
             Intent intent = new Intent(MoreActivity.this, HelpActivity.class);
             startActivity(intent);
         }
+        else {
+            Intent intent = new Intent(MoreActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+        }
+
 
     }
 
@@ -670,7 +692,6 @@ public class MoreActivity extends AppCompatActivity {
 
     }
 
-
     private void getActiveSubscriptionFromDatabase() {
         DatabaseHelper db = new DatabaseHelper(MoreActivity.this);
         if (db.getActiveStatusCount() > 0 && db.getUserDataCount() > 0) {
@@ -687,7 +708,6 @@ public class MoreActivity extends AppCompatActivity {
         }
 
     }
-
 
     private void getUserProfileData(String uid) {
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();

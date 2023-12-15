@@ -179,7 +179,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         id = PreferenceUtils.getUserId(ProfileActivity.this);
 
-
         backbtn.setOnClickListener(v -> {
 
             Intent intent = new Intent(ProfileActivity.this, MoreActivity.class);

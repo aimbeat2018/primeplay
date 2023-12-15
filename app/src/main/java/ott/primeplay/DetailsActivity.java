@@ -634,6 +634,9 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                     finish();
                     player.setPlayWhenReady(false);
 
+
+
+
                 }
 
 
@@ -849,6 +852,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
             }
         });
     }
+
 
 
     private DataSource.Factory buildDataSourceFactory() {
@@ -3819,7 +3823,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         lPlay.setVisibility(GONE);
     }
 
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -3860,7 +3863,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         downloadTracker.removeListener(this);
         handler.removeCallbacks(runnableCode);
     }
-
 
     @Override
     public void onBackPressed() {

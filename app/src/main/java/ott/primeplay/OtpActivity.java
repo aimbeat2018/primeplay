@@ -159,6 +159,8 @@ public class OtpActivity extends AppCompatActivity {
                     } else if (from.equals("login")) {
 
 
+
+
 //change here above device_change code paste here for next submit move forword
                         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
                             @Override
@@ -175,7 +177,6 @@ public class OtpActivity extends AppCompatActivity {
 
                     } else if (from.equals("signup")) {
                         startActivity(new Intent(OtpActivity.this, SignUpActivity.class).putExtra("mobile", mobile).putExtra("countryCode", countryCode));
-
 
                     }
                 }

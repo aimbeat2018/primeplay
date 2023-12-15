@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +41,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
@@ -89,10 +92,17 @@ public class FinalPaymentActivity extends AppCompatActivity {
     MyListData[] myListData;
     Context context;
 
+    private static final String GOOGLE_TEZ_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user";
+    boolean isAppInstalled ;
+    List pkgAppsList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_payment);
+        isAppInstalled = appInstalledOrNot(GOOGLE_TEZ_PACKAGE_NAME);
+
+
         clevertapChergedInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
         clevertapChergedInstance.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
 
@@ -136,6 +146,16 @@ public class FinalPaymentActivity extends AppCompatActivity {
         //  Button btConfirm = dialog.findViewById(R.id.btConfirm);
         TextView txtCancel = dialog.findViewById(R.id.txtCancel);
         RecyclerView rec_age = dialog.findViewById(R.id.recyclerView);
+
+//check upi app installed or not
+        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        mainIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+        mainIntent.setAction(Intent.ACTION_VIEW);
+        Uri uri1 = new Uri.Builder().scheme("upi").authority("pay").build();
+        mainIntent.setData(uri1);
+        pkgAppsList =
+                context.getPackageManager().queryIntentActivities(mainIntent, 0);
 
 
         myListData = new MyListData[]{
@@ -237,16 +257,13 @@ public class FinalPaymentActivity extends AppCompatActivity {
                 new MyListData("98"),
                 new MyListData("99"),
                 new MyListData("100"),
-
         };
-
 
         // MyListAdapter MyListAdapter = new MyListAdapter(myListData,packageList.get(getAdapterPosition()));
         MyListAdapter MyListAdapter = new MyListAdapter(myListData, context, dialog);
         rec_age.setHasFixedSize(true);
         rec_age.setLayoutManager(new LinearLayoutManager(FinalPaymentActivity.this));
         rec_age.setAdapter(MyListAdapter);
-
 
 
 /*
@@ -286,6 +303,20 @@ public class FinalPaymentActivity extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
 
+
+    }
+
+
+    private boolean appInstalledOrNot(String googleTezPackageName) {
+
+        PackageManager pm = getPackageManager();
+        try {
+            pm.getPackageInfo(googleTezPackageName, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+
+        return false;
 
     }
 
@@ -532,7 +563,6 @@ public class FinalPaymentActivity extends AppCompatActivity {
             paymentstartedAction.put("Amount", aPackage.getPrice());
             paymentstartedAction.put("Days", aPackage.getDay());
 
-
             clevertapPaymentStartedInstance.pushEvent("Payment Started", paymentstartedAction);
 
             HashMap<String, Object> screenViewedAction = new HashMap<String, Object>();
@@ -564,12 +594,20 @@ public class FinalPaymentActivity extends AppCompatActivity {
         });
 
         card_oneupi.setOnClickListener(view -> {
+
+
+            if (pkgAppsList.size() == 0) {
+
+                Toast.makeText(this, "UPI App not installed on your device", Toast.LENGTH_SHORT).show();
+
+            } else {
+
+
             Intent intent = new Intent(FinalPaymentActivity.this, OneUPIPaymentActivity.class);
             intent.putExtra("package", aPackage);
             intent.putExtra("currency", "currency");
             intent.putExtra("from", "oneupi");
             startActivity(intent);
-
 
             HashMap<String, Object> paymentstartedAction = new HashMap<String, Object>();
             paymentstartedAction.put("payment mode", "oneUPI");
@@ -582,18 +620,28 @@ public class FinalPaymentActivity extends AppCompatActivity {
             screenViewedAction.put("Screen Name", "oneUPIPayment");
             clevertapscreenviewd.pushEvent("Screen Viewed", screenViewedAction);
 
-
+            }
         });
 
 
         card_gpay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FinalPaymentActivity.this, RazorPayActivity.class);
-                intent.putExtra("package", aPackage);
-                intent.putExtra("currency", "currency");
-                intent.putExtra("from", "gpay");
-                startActivity(intent);
+
+                if(isAppInstalled) {
+
+                    Intent intent = new Intent(FinalPaymentActivity.this, RazorPayActivity.class);
+                    intent.putExtra("package", aPackage);
+                    intent.putExtra("currency", "currency");
+                    intent.putExtra("from", "gpay");
+                    startActivity(intent);
+
+                }
+
+                else {
+                    Toast.makeText(FinalPaymentActivity.this, "Google Pay Application is not currently installed", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
         close_iv.setOnClickListener(view -> finish());
