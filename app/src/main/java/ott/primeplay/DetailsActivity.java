@@ -3495,11 +3495,11 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
 //    }
 
 
+
     private void setGenreText() {
         tvGenre.setText(strGenre);
         dGenryTv.setText(strGenre);
     }
-
 
     private void getMovieData(String vtype, String vId) {
         shimmerFrameLayout.setVisibility(VISIBLE);
@@ -3507,7 +3507,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         //strCast = "";
         strDirector = "";
         strGenre = "";
-
 
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
         SingleDetailsApi api = retrofit.create(SingleDetailsApi.class);
@@ -3598,6 +3597,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                             }
                         }
                     }
+
                     tvGenre.setText(strGenre);
                     dGenryTv.setText(strGenre);
 
@@ -3692,7 +3692,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         });
     }
 
-
     private void getFavStatus() {
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
         FavouriteApi api = retrofit.create(FavouriteApi.class);
@@ -3721,7 +3720,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
         });
 
     }
-
 
     private void removeFromFav() {
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
@@ -3836,7 +3834,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
     }
 
 
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -3847,6 +3844,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
 
         try {
             player.setPlayWhenReady(false);//used for PIP close button whene clicked  stop video background sound
+            this.finish();
         } catch (Exception e) {
         }
 
@@ -6974,6 +6972,7 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
 
         card_cancel.setOnClickListener(view -> downloadOptionDialog.dismiss());
 
+
         card_download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -6983,7 +6982,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                         if (itemMovie.getStatus() != null && itemMovie.getStatus().equals("DOWNLOAD_COMPLETED")) {
                             Toast.makeText(DetailsActivity.this, "Already completed", Toast.LENGTH_SHORT).show();
                         } else {
-
 
                             if (holder.ll_download_video.getTag() == null) {
                                 Log.d("", "");
@@ -6997,7 +6995,6 @@ public class DetailsActivity extends AppCompatActivity implements CastPlayer.Ses
                             }
 
                         }
-
 
 //                System.out.println("llDownloadVideo.getTag() ==> " + holder.ll_download_video.getTag());
 

@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -46,6 +47,14 @@ import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.SkuDetailsParams;
+import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.appsflyer.AppsFlyerLib;
 import com.appsflyer.attribution.AppsFlyerRequestListener;
 import com.bumptech.glide.Glide;
@@ -67,6 +76,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -130,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String str_register_age = "";
 
     String userEnternewPin = "";
+    private Uri uri;
+    private BillingClient billingClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +195,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+
+
+        uri = getIntent().getData();
+
 
         try {
 
@@ -267,6 +284,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //----external method call--------------
         loadFragment(new MainHomeFragment());
     }
+
+    private final PurchasesUpdatedListener purchasesUpdatedListener = (billingResult, purchases) -> {
+        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
+            for (Purchase purchase : purchases) {
+                handlePurchase(purchase);
+            }
+        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+            // Handle user-cancelled case
+        } else {
+            // Handle other error cases
+        }
+    };
+
+    private void handlePurchase(Purchase purchase) {
+        // Handle the purchase, e.g., unlock content or grant the user a subscription
+    }
+
+
+    private void queryProductsAndSubscriptions() {
+       // List<String> productIds = Arrays.asList("product_1", "product_2");
+        List<String> subscriptionIds = Arrays.asList("subscription_1", "subscription_2");
+
+        SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+
+        params.setSkusList(subscriptionIds).setType(BillingClient.SkuType.SUBS);
+        billingClient.querySkuDetailsAsync(params.build(), (billingResult, skuDetailsList) -> {
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && skuDetailsList != null) {
+                for (SkuDetails skuDetails : skuDetailsList) {
+                    // Display the subscriptions to the user for purchase
+                }
+            }
+        });
+    }
+
 
 
     private void check_pin() {

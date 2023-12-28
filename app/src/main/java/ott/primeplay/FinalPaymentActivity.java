@@ -75,7 +75,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
             price;
     CardView card_paytm,
             card_payuMoney,
-            card_cashfree, card_razorpay, card_gpay, card_autoupi, card_oneupi, card_stripe, card_aggrepay, card_onepay;
+            card_cashfree, card_razorpay, card_gpay, card_autoupi, card_oneupi, card_stripe, card_aggrepay, card_onepay,card_phonepay;
     ImageView close_iv;
     private Package aPackage;
     CleverTapAPI clevertapPaymentStartedInstance, clevertapscreenviewd;
@@ -335,6 +335,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
         card_stripe = findViewById(R.id.card_stripe);
         card_aggrepay = findViewById(R.id.card_agrrepay);
         card_onepay = findViewById(R.id.card_onepay);
+        card_phonepay = findViewById(R.id.card_phonepay);
 
         package_name.setText(aPackage.getName());
         package_validity.setText(aPackage.getDay() + " Days");
@@ -583,7 +584,14 @@ public class FinalPaymentActivity extends AppCompatActivity {
 
         });
 
+        card_phonepay.setOnClickListener(view -> {
+            Intent intent = new Intent(FinalPaymentActivity.this, PhonepayKotlineactivity.class);
+            intent.putExtra("package", aPackage);
+            intent.putExtra("currency", "currency");
+            intent.putExtra("from", "payu");
+            startActivity(intent);
 
+        });
         card_razorpay.setOnClickListener(view -> {
             Intent intent = new Intent(FinalPaymentActivity.this, RazorPayActivity.class);
             intent.putExtra("package", aPackage);
@@ -653,6 +661,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
         getPaymentGatewayStatus();
     }
 
+
     private void getPaymentGatewayStatus() {
         // dialog.show();
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();
@@ -672,7 +681,6 @@ public class FinalPaymentActivity extends AppCompatActivity {
                         String oneupi = jsonObject.getString("oneupi");
                         String stripe = jsonObject.getString("stripe");
                         String aggrepay = jsonObject.getString("aggrepay");
-
 
                         if (payUMoney.equals("1")) {
                             card_payuMoney.setVisibility(View.VISIBLE);
@@ -725,6 +733,7 @@ public class FinalPaymentActivity extends AppCompatActivity {
             }
 
 
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 new ToastMsg(FinalPaymentActivity.this).toastIconError("Something went wrong." + t.getMessage());
@@ -752,6 +761,8 @@ public class FinalPaymentActivity extends AppCompatActivity {
 
         }
     }
+
+
 
 
     public void saveChargeData(String token, String from) {

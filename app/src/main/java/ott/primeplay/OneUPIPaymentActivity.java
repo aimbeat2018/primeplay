@@ -17,6 +17,10 @@ import android.widget.Toast;
 
 import com.clevertap.android.sdk.CleverTapAPI;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -24,6 +28,7 @@ import dev.android.oneupi.OneUPIPayment;
 import dev.android.oneupi.listener.PaymentStatusListener;
 import dev.android.oneupi.model.PaymentApp;
 import dev.android.oneupi.model.TransactionDetails;
+import ott.primeplay.network.apis.PaymentGatewayApi;
 import ott.primeplay.network.model.Package;
 import okhttp3.ResponseBody;
 import ott.primeplay.network.RetrofitClient;
@@ -37,6 +42,7 @@ import ott.primeplay.utils.PreferenceUtils;
 import ott.primeplay.utils.ToastMsg;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentStatusListener {
@@ -69,6 +75,8 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
     private OneUPIPayment easyUpiPayment;
     Float float_plan_amount;
     String str_user_age="";
+    String from = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,8 +98,10 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
 
         CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
 
+
         if (getIntent() != null) {
             aPackage = (Package) getIntent().getSerializableExtra("package");
+            from = getIntent().getStringExtra("from");
             databaseHelper = new ott.primeplay.database.DatabaseHelper(this);
         }
 
@@ -122,28 +132,81 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
 
         //getToken(order_id, "1");
 
-        payWithUpi();
+        getPaymentData();
+
+
+       // payWithUpi();
 
     }
 
 
-    private void payWithUpi() {
+    private void getPaymentData() {
+        // dialog.show();
+
+        Retrofit retrofit = RetrofitClient.getRetrofitInstance();
+        PaymentGatewayApi apiInterface = retrofit.create(PaymentGatewayApi.class);
+        Call<ResponseBody> call = apiInterface.googlePayData(AppConfig.API_KEY, "");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        String pa = jsonObject.getString("oneupi_upi_id");
+                        String pn = jsonObject.getString("oneupi_merchant_name");
+                        String mc = jsonObject.getString("oneupi_merchant_code");
+                        payWithUpi(pa, pn, mc);
+
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                new ToastMsg(OneUPIPaymentActivity.this).toastIconError("Something went wrong." + t.getMessage());
+                // dialog.cancel();
+                t.printStackTrace();
+            }
+        });
+
+    }
+
+
+    private void payWithUpi(String pa, String pn, String mc) {
 
         transactionId = "TID" + System.currentTimeMillis();
 
         PaymentApp paymentApp = PaymentApp.ALL;
+        switch (from) {
+            case "google":
+                paymentApp = PaymentApp.GOOGLE_PAY;
+                break;
+            case "phonepe":
+                paymentApp = PaymentApp.PHONE_PE;
+                break;
+            case "paytm":
+                paymentApp = PaymentApp.PAYTM;
+                break;
+        }
+
+
+
 
         // START PAYMENT INITIALIZATION
         OneUPIPayment.Builder builder = new OneUPIPayment.Builder(this)
                 .with(paymentApp)
               //  .setPayeeVpa("WEBWORLD7.09@cmsidfc")
-                .setPayeeVpa("eazypay.2q3bqj0hfyl3m3m@icici")
-                .setPayeeName("Webworld Multimedia LLP")
+                .setPayeeVpa(pa)
+                .setPayeeName(pn)
                 .setTransactionId(transactionId)
                 .setTransactionRefId(transactionId)
-                .setPayeeMerchantCode("c67e12f3-aaff-49ae-aecf-7a971a060e2d")//one upi marchant key
+                .setPayeeMerchantCode(mc)//one upi marchant key
+                //.setPayeeMerchantCode("c67e12f3-aaff-49ae-aecf-7a971a060e2d")//one upi marchant key
                 .setDescription(aPackage.getName())
-                //.setAmount("1.00");
+               // .setAmount("1.00");
                 .setAmount(String.valueOf(float_plan_amount));
         // END INITIALIZATION
 
@@ -162,9 +225,6 @@ public class OneUPIPaymentActivity extends AppCompatActivity implements PaymentS
 
         }
     }
-
-
-
 
 
     @Override

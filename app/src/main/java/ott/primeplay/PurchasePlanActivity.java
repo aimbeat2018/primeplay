@@ -31,6 +31,11 @@ import ott.primeplay.network.model.Package;
 import ott.primeplay.network.model.User;
 import ott.primeplay.network.model.config.PaymentConfig;
 
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.SkuDetailsParams;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -107,6 +112,7 @@ public class PurchasePlanActivity extends AppCompatActivity implements PackageAd
     ProgressDialog dialog;
 
     CleverTapAPI clevertapscreenviewd;
+    private BillingClient billingClient;
 
 
 
@@ -158,7 +164,54 @@ public class PurchasePlanActivity extends AppCompatActivity implements PackageAd
         } catch (CFException e) {
             e.printStackTrace();
         }
+
+
+        billingClient = BillingClient.newBuilder(PurchasePlanActivity.this)
+                .setListener(purchasesUpdatedListener)
+                .enablePendingPurchases()
+                .build();
+
+        queryProductsAndSubscriptions();
+
+
     }
+
+    private final PurchasesUpdatedListener purchasesUpdatedListener = (billingResult, purchases) -> {
+        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && purchases != null) {
+            for (Purchase purchase : purchases) {
+                handlePurchase(purchase);
+            }
+        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+            // Handle user-cancelled case
+        } else {
+            // Handle other error cases
+        }
+    };
+
+    private void handlePurchase(Purchase purchase) {
+        // Handle the purchase, e.g., unlock content or grant the user a subscription
+    }
+
+
+    private void queryProductsAndSubscriptions() {
+        // List<String> productIds = Arrays.asList("product_1", "product_2");
+        List<String> subscriptionIds = Arrays.asList("subscription_1", "subscription_2");
+
+        SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+
+        params.setSkusList(subscriptionIds).setType(BillingClient.SkuType.SUBS);
+        billingClient.querySkuDetailsAsync(params.build(), (billingResult, skuDetailsList) -> {
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && skuDetailsList != null) {
+                for (SkuDetails skuDetails : skuDetailsList) {
+                    // Display the subscriptions to the user for purchase
+                    //getPurchasePlanInfo();
+
+                }
+            }
+        });
+    }
+
+    
 
     private void getPurchasePlanInfo() {
         Retrofit retrofit = RetrofitClient.getRetrofitInstance();

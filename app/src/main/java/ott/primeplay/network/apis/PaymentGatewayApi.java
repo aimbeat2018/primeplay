@@ -23,6 +23,10 @@ public interface PaymentGatewayApi {
 
 
     @FormUrlEncoded
+    @POST("merchant_details")
+    Call<ResponseBody> googlePayData(@Header("API-KEY") String apiKey, @Field("userId") String userId);
+
+    @FormUrlEncoded
     @POST("paymentgatway_status")
     Call<ResponseBody> paymentgatway_status(@Header("API-KEY") String apiKey,
                                             @Field("userId") String userId);

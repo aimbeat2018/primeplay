@@ -185,7 +185,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
 
-
     public static void printHashKey(Context pContext) {
         try {
             PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
@@ -201,7 +200,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             Log.e(TAG, "printHashKey()", e);
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

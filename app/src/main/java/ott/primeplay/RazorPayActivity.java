@@ -6,51 +6,27 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.os.SystemClock;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.cashfree.pg.core.api.CFSession;
-import com.cashfree.pg.core.api.callback.CFCheckoutResponseCallback;
-import com.cashfree.pg.core.api.utils.CFErrorResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.wallet.IsReadyToPayRequest;
-import com.google.android.gms.wallet.PaymentsClient;
-import com.google.android.gms.wallet.Wallet;
-import com.google.android.gms.wallet.WalletConstants;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.common.base.Charsets;
 import com.google.gson.Gson;
-import com.paytm.pgsdk.PaytmOrder;
-import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
-import com.paytm.pgsdk.TransactionManager;
 import com.payu.base.models.ErrorResponse;
-import com.payu.base.models.PayUBillingCycle;
 import com.payu.base.models.PayUPaymentParams;
-import com.payu.base.models.PayUSIParams;
 import com.payu.base.models.PaymentMode;
 import com.payu.base.models.PaymentType;
-import com.payu.base.models.PayuBillingLimit;
-import com.payu.base.models.PayuBillingRule;
 import com.payu.checkoutpro.PayUCheckoutPro;
 import com.payu.checkoutpro.models.PayUCheckoutProConfig;
 import com.payu.checkoutpro.utils.PayUCheckoutProConstants;
@@ -61,18 +37,14 @@ import com.razorpay.Order;
 import com.razorpay.PaymentResultListener;
 import com.razorpay.RazorpayClient;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
@@ -80,7 +52,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import okhttp3.ResponseBody;
-import ott.primeplay.constant.AppEnvironment;
 import ott.primeplay.database.DatabaseHelper;
 import ott.primeplay.network.RetrofitClient;
 import ott.primeplay.network.apis.OrderEntryResponse;
@@ -90,12 +61,10 @@ import ott.primeplay.network.apis.PaymentGatewayApi;
 import ott.primeplay.network.apis.SubscriptionApi;
 import ott.primeplay.network.model.ActiveStatus;
 import ott.primeplay.network.model.Package;
-import ott.primeplay.network.model.PayuMoneyModel;
 import ott.primeplay.network.model.User;
 import ott.primeplay.network.model.config.PaymentConfig;
 import ott.primeplay.utils.ApiResources;
 import ott.primeplay.utils.Constants;
-import ott.primeplay.utils.MyAppClass;
 import ott.primeplay.utils.PreferenceUtils;
 import ott.primeplay.utils.ToastMsg;
 import retrofit2.Call;
@@ -114,7 +83,7 @@ public class RazorPayActivity extends AppCompatActivity implements PaymentResult
     TextView package_name, package_validity, price, txt_txn_id, txt_falied_reason;
     CardView card_paytm, card_payuMoney, card_cashfree;
     LinearLayout lnr_success, lnr_failed;
-    String str_user_age="";
+    String str_user_age = "";
     private long mLastClickTime;
     User user;
     String hashServer = "";
@@ -141,8 +110,7 @@ public class RazorPayActivity extends AppCompatActivity implements PaymentResult
             SharedPreferences sharedPreferences = RazorPayActivity.this.getSharedPreferences(Constants.USER_AGE, MODE_PRIVATE);
             str_user_age = sharedPreferences.getString("user_age", "20");
 
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -168,9 +136,48 @@ public class RazorPayActivity extends AppCompatActivity implements PaymentResult
         else if (from.equals("razor"))
             startPayment();
         else if (from.equals("gpay"))
-            startGPayPayment();
+            //startGPayPayment();
+
+            getGooglePayData();
+
 
     }
+
+
+    private void getGooglePayData() {
+        // dialog.show();
+
+        Retrofit retrofit = RetrofitClient.getRetrofitInstance();
+        PaymentGatewayApi apiInterface = retrofit.create(PaymentGatewayApi.class);
+        Call<ResponseBody> call = apiInterface.googlePayData(AppConfig.API_KEY, "");
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        String pa = jsonObject.getString("upi_id");
+                        String pn = jsonObject.getString("merchant_name");
+                        String mc = jsonObject.getString("merchant_code");
+                        startGPayPayment(pa, pn, mc);
+
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                new ToastMsg(RazorPayActivity.this).toastIconError("Something went wrong." + t.getMessage());
+                // dialog.cancel();
+                t.printStackTrace();
+            }
+        });
+
+    }
+
 
     private void init() {
         package_name = findViewById(R.id.package_name);
@@ -191,23 +198,28 @@ public class RazorPayActivity extends AppCompatActivity implements PaymentResult
         getPaymentGatewayStatus();
     }
 
+
     public void onClick() {
         card_payuMoney.setOnClickListener(view -> payUMoneyGateway());
     }
 
-    public void startGPayPayment(){
+
+
+    public void startGPayPayment(String pa, String pn, String mc) {
         Uri uri = new Uri.Builder()
-                        .scheme("upi")
-                        .authority("pay")
-                       // .appendQueryParameter("pa", "webworld7.09@cmsidfc")
-                        .appendQueryParameter("pa", "eazypay.2q3bqj0hfyl3m3m@icici")
-                        .appendQueryParameter("pn", "WEBWORLD MULTIMEDIA LLP")
-                        .appendQueryParameter("tr", paytmOrderId)
-                        .appendQueryParameter("tn", aPackage.getName())
-                        .appendQueryParameter("am", aPackage.getPrice())
-                        .appendQueryParameter("cu", "INR")
-                        .appendQueryParameter("url", "https://primeplay.co.in")
-                        .build();
+                .scheme("upi")
+                .authority("pay")
+               // .appendQueryParameter("pa", "eazypay.2q3bqj0hfyl3m3m@icici")
+               // .appendQueryParameter("pn", "WEBWORLD MULTIMEDIA LLP")
+
+                .appendQueryParameter("pa", pa)
+                .appendQueryParameter("pn", pn)
+                .appendQueryParameter("tr", paytmOrderId)
+                .appendQueryParameter("tn", aPackage.getName())
+               .appendQueryParameter("am", aPackage.getPrice())
+                .appendQueryParameter("cu", "INR")
+                .appendQueryParameter("url", "https://primeplay.co.in")
+                .build();
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(uri);
         intent.setPackage(GOOGLE_TEZ_PACKAGE_NAME);
@@ -225,21 +237,21 @@ public class RazorPayActivity extends AppCompatActivity implements PaymentResult
                     /*failure*/
                     String status = data.getStringExtra("Status");
 
-                    if(status.equals("FAILURE")){
+                    if (status.equals("FAILURE")) {
                         lnr_failed.setVisibility(View.VISIBLE);
                         lnr_success.setVisibility(View.GONE);
                         txt_txn_id.setText(status);
 
-                        new Handler().postDelayed(this::finish,1000);
+                        new Handler().postDelayed(this::finish, 1000);
 
-                    }else if(status.equals("COMPLETED") || status.equals("SUCCESS")){
+                    } else if (status.equals("COMPLETED") || status.equals("SUCCESS")) {
                         lnr_success.setVisibility(View.VISIBLE);
                         lnr_failed.setVisibility(View.GONE);
 
                         txt_txn_id.setText("Transaction Id : " + paytmOrderId);
                         saveChargeData(paytmOrderId, "googlepay");
                     }
-                    Toast.makeText(RazorPayActivity.this, "payment status = "+status, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RazorPayActivity.this, "payment status = " + status, Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -652,7 +664,7 @@ public class RazorPayActivity extends AppCompatActivity implements PaymentResult
         Call<ResponseBody> call = paymentApi.savePayment(AppConfig.API_KEY, aPackage.getPlanId(),
                 databaseHelper.getUserData().getUserId(),
                 aPackage.getPrice(),
-                token,str_user_age, from);
+                token, str_user_age, from);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
